@@ -16,7 +16,6 @@
                 </div>
                 <div class="name">
                   <h3 class="title">Carla Hortensia</h3>
-
                   <md-button class="md-info">Message</md-button> <br />
                   <md-button
                     href="javascript:void(0)"
@@ -90,6 +89,9 @@ export default {
 </script>
 
 <style scoped>
+.page-header {
+  height: 250px !important  ;
+}
 #listings h3 {
   text-align: center;
   margin-bottom: 100px;

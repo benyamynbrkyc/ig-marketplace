@@ -11,7 +11,7 @@
 
 <script>
 export default {
-  name: 'nav-tabs-card',
+  name: 'NavTabsCard',
   props: {
     noLabel: Boolean,
     tabsPlain: Boolean

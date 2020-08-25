@@ -186,7 +186,7 @@ export default {
       this.bodyClick();
     },
     handleScroll() {
-      if (this.$route.name !== 'profile') {
+      if (this.$route.name !== 'profile' || this.$route.name !== 'product') {
         let scrollValue =
           document.body.scrollTop || document.documentElement.scrollTop;
         let navbarColor = document.getElementById('toolbar');
@@ -213,10 +213,12 @@ export default {
     }
   },
   mounted() {
-    document.addEventListener('scroll', this.scrollListener);
-
-    let navbarColor = document.getElementById('toolbar');
-    navbarColor.classList.remove('md-transparent');
+    if (this.$route.name !== 'profile' && this.$route.name !== 'product') {
+      document.addEventListener('scroll', this.scrollListener);
+    } else {
+      let navbarColor = document.getElementById('toolbar');
+      navbarColor.classList.remove('md-transparent');
+    }
   },
   beforeDestroy() {
     document.removeEventListener('scroll', this.scrollListener);

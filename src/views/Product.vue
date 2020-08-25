@@ -1,9 +1,6 @@
 <template>
   <div class="wrapper">
-    <parallax
-      class="section page-header header-filter"
-      :style="headerStyle"
-    ></parallax>
+    <parallax class="page-header" :style="headerStyle"></parallax>
     <div class="main main-raised">
       <div class="section profile-content">
         <div class="container">
@@ -18,83 +15,59 @@
                   />
                 </div>
                 <div class="name">
-                  <h3 class="title">Carla Hortensia</h3>
-                  <h6>Designer</h6>
-                  <md-button
-                    href="javascript:void(0)"
-                    class="md-just-icon md-simple md-dribbble"
-                    ><i class="fab fa-dribbble"></i
-                  ></md-button>
-                  <md-button
-                    href="javascript:void(0)"
-                    class="md-just-icon md-simple md-twitter"
-                    ><i class="fab fa-twitter"></i
-                  ></md-button>
-                  <md-button
-                    href="javascript:void(0)"
-                    class="md-just-icon md-simple md-pinterest"
-                    ><i class="fab fa-pinterest"></i
-                  ></md-button>
+                  <h3 class="titleName">@carlahortensia</h3>
+                  <h6>{ niche }</h6>
+                  <md-button class="md-simple"
+                    ><i class="fab fa-instagram"></i>Visit Page</md-button
+                  ><br />
+                  <md-button class="md-info">Contact Seller</md-button>
                 </div>
               </div>
             </div>
           </div>
           <div class="description text-center">
-            <p>
-              An artist of considerable range, Chet Faker — the name taken by
-              Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs
-              and records all of his own music, giving it a warm, intimate feel
-              with a solid groove structure.
-            </p>
+            <h1 id="price">$$$</h1>
+            <h6>Original Mail:</h6>
           </div>
-          <div class="profile-tabs">
-            <tabs
-              :tab-name="['Studio', 'Work', 'Favorite']"
-              :tab-icon="['camera', 'palette', 'favorite']"
-              plain
-              nav-pills-icons
-              color-button="success"
-            >
-              <!-- here you can add your content for tab-content -->
-              <template slot="tab-pane-1">
-                <div class="md-layout">
-                  <div class="md-layout-item md-size-25 ml-auto">
-                    <img :src="tabPane1[0].image" class="rounded" />
-                    <img :src="tabPane1[1].image" class="rounded" />
-                  </div>
-                  <div class="md-layout-item md-size-25 mr-auto">
-                    <img :src="tabPane1[3].image" class="rounded" />
-                    <img :src="tabPane1[2].image" class="rounded" />
+          <div class="features features-1 text-center">
+            <div class="md-layout">
+              <div class="md-layout-item md-medium">
+                <div class="backG">
+                  <div class="info">
+                    <h4 class="info">Followers</h4>
+                    <h2 class="title">{ numOfFollowers }</h2>
                   </div>
                 </div>
-              </template>
-              <template slot="tab-pane-2">
-                <div class="md-layout">
-                  <div class="md-layout-item md-size-25 ml-auto">
-                    <img :src="tabPane2[0].image" class="rounded" />
-                    <img :src="tabPane2[1].image" class="rounded" />
-                    <img :src="tabPane2[2].image" class="rounded" />
-                  </div>
-                  <div class="md-layout-item md-size-25 mr-auto">
-                    <img :src="tabPane2[3].image" class="rounded" />
-                    <img :src="tabPane2[4].image" class="rounded" />
+              </div>
+              <div class="md-layout-item md-medium">
+                <div class="backG">
+                  <div class="info">
+                    <h4 class="info">Posts</h4>
+                    <h2 class="title">{ numOfPosts }</h2>
                   </div>
                 </div>
-              </template>
-              <template slot="tab-pane-3">
-                <div class="md-layout">
-                  <div class="md-layout-item md-size-25 ml-auto">
-                    <img :src="tabPane3[0].image" class="rounded" />
-                    <img :src="tabPane3[1].image" class="rounded" />
-                  </div>
-                  <div class="md-layout-item md-size-25 mr-auto">
-                    <img :src="tabPane3[2].image" class="rounded" />
-                    <img :src="tabPane3[3].image" class="rounded" />
-                    <img :src="tabPane3[4].image" class="rounded" />
+              </div>
+            </div>
+          </div>
+          <div class="features features-2 text-center">
+            <div class="md-layout">
+              <div class="md-layout-item md-medium">
+                <div class="backG">
+                  <div class="info">
+                    <h4 class="info">Average Likes</h4>
+                    <h2 class="title">{ numOfAvgLikes }</h2>
                   </div>
                 </div>
-              </template>
-            </tabs>
+              </div>
+              <div class="md-layout-item md-medium">
+                <div class="backG">
+                  <div class="info">
+                    <h4 class="info">Average Comments</h4>
+                    <h2 class="title">{ numOfAvgComms }</h2>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -103,11 +76,8 @@
 </template>
 
 <script>
-import { Tabs } from '@/components';
 export default {
-  components: {
-    Tabs
-  },
+  components: {},
   bodyClass: 'profile-page',
   data() {
     return {
@@ -146,7 +116,7 @@ export default {
   computed: {
     headerStyle() {
       return {
-        backgroundImage: `url(${this.header})`
+        background: `radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%)`
       };
     }
   }
@@ -154,6 +124,66 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+#price {
+  margin-top: 80px;
+}
+
+.features-1 {
+  margin-top: 100px;
+  margin-bottom: 40px;
+}
+
+.features-2 {
+  margin-bottom: 100px;
+}
+#listingInfo {
+  display: inline-block;
+  text-align: center;
+}
+
+.row > * {
+  display: inline-block;
+}
+
+.info {
+  padding-top: 20px;
+  padding-bottom: 1px;
+}
+
+.info h3,
+.info h2,
+.info h5,
+.info h6,
+.info h4 {
+  margin-top: 0px !important;
+}
+
+.info h5,
+.info h6,
+.info h4 {
+  padding-top: 0px;
+  padding-bottom: 20px;
+}
+
+@media only screen and (max-width: 768px) {
+  .titleName {
+    font-size: 1.2em;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .titleName {
+    font-size: 1em;
+  }
+}
+
+.backG {
+  background: #ffffff;
+  border-radius: 25px;
+  box-shadow: 0 4px 18px 0px rgba(0, 0, 0, 0.171),
+    0 7px 10px -5px rgba(0, 0, 0, 0.15);
+}
+
 .section {
   padding: 0;
 }

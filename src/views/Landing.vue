@@ -397,7 +397,7 @@ export default {
   computed: {
     headerStyle() {
       return {
-        background: '#2e715e'
+        background: '#3a7571'
       };
     }
   }

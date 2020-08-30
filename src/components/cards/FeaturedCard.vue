@@ -32,7 +32,7 @@ md-card #featuredCard > * {
   display: inline-block !important;
 }
 .card-header-wrapper {
-  background-color: #2e715e !important;
+  background-color: #3a7571 !important;
   color: white;
   /* border-top: 4.5px solid black; */
 }

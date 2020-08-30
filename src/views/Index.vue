@@ -316,10 +316,10 @@ export default {
       type: String,
       default: require('@/assets/img/city.jpg')
     },
-    landing: {
-      type: String,
-      default: require('@/assets/img/landing.jpg')
-    },
+    // landing: {
+    //   type: String,
+    //   default: require('@/assets/img/landing.jpg')
+    // },
     profile: {
       type: String,
       default: require('@/assets/img/profile.jpg')

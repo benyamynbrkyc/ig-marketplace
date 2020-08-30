@@ -90,6 +90,20 @@ export default new Router({
       }
     },
     {
+      path: '/listings',
+      name: 'listings',
+      components: {
+        default: () =>
+          import(/* webpackChunkName: "settings" */ './views/Listings.vue'),
+        header: MainNavbar,
+        footer: MainFooter
+      },
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: 'black' }
+      }
+    },
+    {
       path: '/contact',
       name: 'contact',
       components: {

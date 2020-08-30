@@ -15,7 +15,7 @@
                   />
                 </div>
                 <div class="name">
-                  <h3 class="title">Carla Hortensia</h3>
+                  <h3 class="title">Ime Prezime</h3>
                   <md-button class="md-info">Message</md-button> <br />
                   <md-button
                     href="javascript:void(0)"
@@ -28,10 +28,12 @@
           </div>
           <div class="description text-center">
             <p>
-              An artist of considerable range, Chet Faker — the name taken by
-              Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs
-              and records all of his own music, giving it a warm, intimate feel
-              with a solid groove structure.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
+              sed urna dignissim orci ultricies cursus quis sit amet magna.
+              Vestibulum placerat pharetra felis condimentum lobortis. Nullam
+              nunc felis, lacinia in nulla a, pellentesque placerat nisl. Morbi
+              a lectus in tellus porttitor pulvinar. Nam tempus suscipit nisl,
+              nec aliquam tellus gravida in.
             </p>
           </div>
           <div class="container" id="listings">

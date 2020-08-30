@@ -15,7 +15,7 @@
                   />
                 </div>
                 <div class="name">
-                  <h3 class="titleName">@carlahortensia</h3>
+                  <h3 class="titleName">@username</h3>
                   <h6>{ niche }</h6>
                   <md-button class="md-simple"
                     ><i class="fab fa-instagram"></i>Visit Page</md-button
@@ -104,13 +104,13 @@ export default {
     };
   },
   props: {
-    header: {
-      type: String,
-      default: require('@/assets/img/city-profile.jpg')
-    },
+    // header: {
+    //   type: String,
+    //   default: require('@/assets/img/city-profile.jpg')
+    // },
     img: {
       type: String,
-      default: require('@/assets/img/faces/christian.jpg')
+      default: require('@/assets/img/@symbol.png')
     }
   },
   computed: {

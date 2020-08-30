@@ -1,30 +1,25 @@
 <template>
   <md-card
-    id="listingCard"
+    id="mainCard"
     class="md-card-login"
     :class="{ 'md-card-hidden': cardHidden }"
   >
-    <md-card-header class="card-header-wrapper" :class="getClass(headerColor)">
-      <slot name="title">
-        @{Username} | {category}
-      </slot>
-      <div class="social-line">
-        <slot name="title">{numNum} followers</slot>
+    <div class="container" id="cardContainer">
+      <div class="row" id="cardRow">
+        <div class="col-xs-2 cardCol">1</div>
+        <div class="col-xs-3">2</div>
+        <div class="col-xs-3">3</div>
+        <div class="col-xs-4">4</div>
       </div>
-    </md-card-header>
-
-    <md-card-content>
-      <div class="description">
-        <slot name="description">Listed: dd-mm-yyyy</slot> <br />
-        <slot name="price">Price: $$$</slot>
-      </div>
-    </md-card-content>
+    </div>
   </md-card>
 </template>
 
-<style>
-#listingCard {
+<style scoped>
+#mainCard {
   width: 100%;
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
 .card-header-wrapper {
   background-color: #2e715e !important;
@@ -34,6 +29,7 @@
 .description {
   text-align: center;
   font-size: 1.2em;
+  padding: 0;
 }
 </style>
 

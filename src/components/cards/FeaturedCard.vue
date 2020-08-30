@@ -1,6 +1,6 @@
 <template>
   <md-card
-    id="listingCard"
+    id="featuredCard"
     class="md-card-login"
     :class="{ 'md-card-hidden': cardHidden }"
   >
@@ -22,13 +22,19 @@
   </md-card>
 </template>
 
-<style>
-#listingCard {
-  width: 100%;
+<style scoped>
+md-card #featuredCard {
+  width: unset !important;
+  margin: unset !important;
+  display: inline-block !important;
+}
+md-card #featuredCard > * {
+  display: inline-block !important;
 }
 .card-header-wrapper {
   background-color: #2e715e !important;
   color: white;
+  /* border-top: 4.5px solid black; */
 }
 
 .description {
@@ -39,7 +45,7 @@
 
 <script>
 export default {
-  name: 'ListingCard',
+  name: 'FeaturedCard',
   props: {
     headerColor: {
       type: String,

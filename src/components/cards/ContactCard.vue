@@ -27,6 +27,8 @@
 .card-header-wrapper {
   background-color: #2e715e !important;
   color: white;
+  padding-left: 10px !important;
+  padding-right: 10px !important;
 }
 
 #cardContent {

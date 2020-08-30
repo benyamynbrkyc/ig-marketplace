@@ -17,7 +17,7 @@
 }
 
 @mixin toolbar-colors($variation-color, $text-color) {
-  background-color: #2e715e !important;
+  background-color: #ffffff;
   @include shadow-navbar-color($variation-color);
 
   .md-title,

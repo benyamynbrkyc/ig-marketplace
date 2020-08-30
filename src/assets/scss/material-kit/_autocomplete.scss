@@ -1,6 +1,6 @@
 .md-menu-content:not(.md-select-menu) .md-menu-content-container .md-list {
   .md-list-item {
-    margin: 0 .3125rem;
+    margin: 0 0.3125rem;
 
     &:not(:last-child) {
       margin-bottom: 5px;
@@ -12,9 +12,9 @@
       border-radius: 3px;
 
       &:hover {
-        background-color: $brand-primary !important;
+        background-color: #2e715e !important;
         @include shadow-big-color($brand-primary);
-        color: #FFF !important;
+        color: #fff !important;
       }
 
       .md-list-item-content {

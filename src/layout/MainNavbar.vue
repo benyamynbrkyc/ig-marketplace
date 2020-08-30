@@ -5,6 +5,7 @@
     class="md-transparent md-absolute"
     :class="extraNavClasses"
     :color-on-scroll="colorOnScroll"
+    style="box-shadow: none !important;"
   >
     <div class="md-toolbar-row md-collapse-lateral">
       <div class="md-toolbar-section-start">
@@ -20,6 +21,7 @@
         <md-button
           class="md-just-icon md-simple md-toolbar-toggle"
           :class="{ toggled: toggledClass }"
+          id="mobileHamburger"
           @click="toggleNavbarMobile()"
         >
           <span class="icon-bar"></span>
@@ -33,6 +35,47 @@
               <!-- Here you can add your items from the section-start of your toolbar -->
             </mobile-menu>
             <md-list>
+              <!-- item 1 -->
+              <li class="md-list-item" v-if="!showDownload">
+                <a
+                  href="/landing"
+                  class="md-list-item-router md-list-item-container md-button-clean dropdown"
+                >
+                  <div class="md-list-item-content">
+                    <md-button
+                      slot="title"
+                      class="md-button md-button-link md-simple"
+                      style="color: white !important;"
+                    >
+                      <i class="material-icons" style="color:white !important;"
+                        >home</i
+                      >
+                      <p>Home</p>
+                    </md-button>
+                  </div>
+                </a>
+              </li>
+              <!-- item 2 -->
+              <li class="md-list-item" v-if="!showDownload">
+                <a
+                  href="/listings"
+                  class="md-list-item-router md-list-item-container md-button-clean dropdown"
+                >
+                  <div class="md-list-item-content">
+                    <md-button
+                      slot="title"
+                      class="md-button md-button-link md-simple"
+                      style="color: white !important;"
+                    >
+                      <i class="material-icons" style="color:white !important;"
+                        >shopping_cart</i
+                      >
+                      <p>Listings</p>
+                    </md-button>
+                  </div>
+                </a>
+              </li>
+              <!-- item 3 -->
               <li class="md-list-item" v-if="!showDownload">
                 <a
                   href="javascript:void(0)"
@@ -71,7 +114,7 @@
                   </div>
                 </a>
               </li>
-              <!-- item 2 -->
+              <!-- item 4 -->
               <li class="md-list-item" v-if="!showDownload">
                 <a
                   href="/contact"
@@ -108,6 +151,11 @@
 }
 .md-button {
   color: white !important;
+}
+.md-title img {
+  /* background-color: #1a4136; */
+  padding: 15px 10px;
+  border-radius: 5px;
 }
 </style>
 
@@ -186,17 +234,19 @@ export default {
       this.bodyClick();
     },
     handleScroll() {
-      let scrollValue =
-        document.body.scrollTop || document.documentElement.scrollTop;
-      let navbarColor = document.getElementById('toolbar');
-      this.currentScrollValue = scrollValue;
-      if (this.colorOnScroll > 0 && scrollValue > this.colorOnScroll) {
-        this.extraNavClasses = `md-${this.type}`;
-        navbarColor.classList.remove('md-transparent');
-      } else {
-        if (this.extraNavClasses) {
-          this.extraNavClasses = '';
-          navbarColor.classList.add('md-transparent');
+      if (this.$route.name !== 'profile' || this.$route.name !== 'product') {
+        let scrollValue =
+          document.body.scrollTop || document.documentElement.scrollTop;
+        let navbarColor = document.getElementById('toolbar');
+        this.currentScrollValue = scrollValue;
+        if (this.colorOnScroll > 0 && scrollValue > 0) {
+          this.extraNavClasses = `md-${this.type}`;
+          navbarColor.classList.remove('md-transparent');
+        } else {
+          if (this.extraNavClasses) {
+            this.extraNavClasses = '';
+            navbarColor.classList.add('md-transparent');
+          }
         }
       }
     },
@@ -211,7 +261,20 @@ export default {
     }
   },
   mounted() {
-    document.addEventListener('scroll', this.scrollListener);
+    if (
+      this.$route.name !== 'profile' &&
+      this.$route.name !== 'product' &&
+      this.$route.name !== 'landing' &&
+      this.$route.name !== 'contact' &&
+      this.$route.name !== 'privacy-policy' &&
+      this.$route.name !== 'terms-of-service' &&
+      this.$route.name !== 'listings'
+    ) {
+      document.addEventListener('scroll', this.scrollListener);
+    } else {
+      let navbarColor = document.getElementById('toolbar');
+      navbarColor.classList.remove('md-transparent');
+    }
   },
   beforeDestroy() {
     document.removeEventListener('scroll', this.scrollListener);

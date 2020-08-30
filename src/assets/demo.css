@@ -131,7 +131,7 @@
 }
 .sharing-area .md-button {
   margin: 15px 4px 0;
-  color: #ffffff;
+  color: #2e715e;
 }
 
 #navbar {
@@ -147,11 +147,11 @@
 }
 #navigation .md-toolbar {
   border-radius: 0;
-  background-color: #2e715e !important;
+  background-color: #2e715e;
 }
 
 .md-white {
-  background-color: #2e715e !important;
+  background-color: #ffffff;
 }
 
 #navigation .md-dark,

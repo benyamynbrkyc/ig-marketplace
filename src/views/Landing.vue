@@ -1,27 +1,36 @@
 <template>
   <div class="wrapper">
-    <parallax class="section page-header header-filter" :style="headerStyle">
+    <parallax class="section page-header" :style="headerStyle">
       <div class="container">
         <div class="md-layout">
-          <div
-            class="md-layout-item md-size-50 md-small-size-70 md-xsmall-size-100"
-          >
-            <h1 class="title">
+          <div class="row" id="heroImgRow">
+            <img
+              src="https://nitrocdn.com/oBHBqLgJXZVfCESjGKVwqurKNzgjnxtE/assets/static/optimized/rev-31096c6/wp-content/uploads/2020/05/992-e1589633150167.png"
+              id="heroImg"
+            />
+          </div>
+          <div class="row" id="heroTextRow">
+            <h1 id="heroTitle">
               BS Social Swap
-              <hr />
-              The Safest Online Marketplace
+              <span><img src="@/assets/img/jumping-insta.gif" alt=""/></span>
+              <!-- <hr style="background-color: #40ab57" /> -->
+              <br />
+              <span style="text-transform: uppercase;"
+                >The Safest Online Marketplace</span
+              >
             </h1>
-            <h4>
+            <br />
+            <h4 id="sellText">
               Want to Sell or Buy an account?
             </h4>
-            <br />
-            <md-button
-              href=""
-              class="md-success md-lg"
-              target="_blank"
-              style="margin-right: 10px"
-              >Sign up and start trading</md-button
-            ><md-button href="" class="md-success md-lg" target="_blank"
+          </div>
+          <br />
+          <div class="container" id="heroButtonContainer">
+            <md-button href="" class="md-success md-lg" target="_blank"
+              >Sign up and start selling</md-button
+            >
+            <div class="padding"></div>
+            <md-button href="/listings" class="md-success md-lg"
               >Browse our Marketplace</md-button
             >
           </div>
@@ -35,6 +44,30 @@
             <div
               class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center"
             >
+              <div class="features features-2 text-center">
+                <div class="md-layout">
+                  <div class="md-layout-item md-medium">
+                    <div class="backG">
+                      <div class="info">
+                        <h2 class="info">Last Month We Sold</h2>
+                        <h2 class="title">
+                          <span style="font-weight: 100;">Over&nbsp;</span
+                          >84&nbsp;
+                          <span style="font-weight: 100;">Accounts</span>
+                        </h2>
+                        <h2 class="info" style="font-weight: bold;">
+                          TRUSTPILOT
+                        </h2>
+                        <img
+                          src="@/assets/img/4-5-stars.png"
+                          style="max-height: 50px; margin-bottom: 15px;"
+                          alt=""
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <h2 class="title text-center">
                 Enhance your digital presence with us
               </h2>
@@ -201,7 +234,7 @@
             </div>
           </div>
           <ContactCard></ContactCard>
-          <div class="container" style="display:inline; text-align:center;">
+          <div class="container" style="">
             <md-button
               href=""
               id="linkButton1"
@@ -222,17 +255,109 @@
   </div>
 </template>
 
-<style>
-#linkButton1 {
-  margin-right: 10px;
+<style scoped>
+#heroImgRow {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+#heroTextRow {
+  text-align: center;
+  width: 100%;
+}
+#heroImg {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  max-width: 50px;
+  display: inline;
+}
+#heroTitle {
+  widows: 100%;
+  text-align: center;
+  display: inline;
+  margin: auto;
+  font-weight: bold;
+}
+#sellText {
+  display: inline;
+  width: 100%;
+  text-align: center;
+  margin-top: 70px;
+  text-transform: uppercase;
+  font-weight: bolder;
+}
+
+#heroButtonContainer {
+  width: 100%;
+  display: inline;
+  text-align: center;
+}
+.padding {
+  display: inline-block;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 @media only screen and (max-width: 768px) {
-  #linkButton1 {
-    margin-right: 0px !important;
+  .padding {
+    display: none;
   }
 }
 #limitations {
   padding-left: 10px;
+}
+.features-1 {
+  margin-top: 100px;
+  margin-bottom: 40px;
+}
+
+.features-2 {
+  margin-bottom: 100px;
+}
+#listingInfo {
+  display: inline-block;
+  text-align: center;
+}
+
+.row > * {
+  display: inline-block;
+}
+
+.info {
+  padding-top: 5px;
+  padding-bottom: 1px;
+}
+
+.info h3,
+.info h2,
+.info h5,
+.info h6,
+.info h4 {
+  margin-top: 0px !important;
+}
+
+.info h5,
+.info h6,
+.info h4 {
+  padding-top: 0px;
+  padding-bottom: 20px;
+}
+
+@media only screen and (max-width: 768px) {
+  .titleName {
+    font-size: 1.2em;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .titleName {
+    font-size: 1em;
+  }
+}
+.backG {
+  background: #ffffff;
+  border-radius: 25px;
+  box-shadow: 0 4px 18px 0px rgba(0, 0, 0, 0.171),
+    0 7px 10px -5px rgba(0, 0, 0, 0.15);
 }
 </style>
 
@@ -272,7 +397,7 @@ export default {
   computed: {
     headerStyle() {
       return {
-        backgroundImage: `url(${this.header})`
+        background: '#2e715e'
       };
     }
   }

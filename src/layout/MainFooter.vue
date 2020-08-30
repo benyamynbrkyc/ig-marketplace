@@ -19,12 +19,22 @@
           </li>
           <li>
             <a href="https:///blog.creative-tim.com">
-              Blog
+              Privacy Policy
             </a>
           </li>
           <li>
             <a href="https://www.creative-tim.com/license">
-              Licenses
+              Terms of Service
+            </a>
+          </li>
+          <li>
+            <a href="https://www.creative-tim.com/license">
+              Contact
+            </a>
+          </li>
+          <li>
+            <a href="https://www.creative-tim.com/license">
+              Listings
             </a>
           </li>
         </ul>

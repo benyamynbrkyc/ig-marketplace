@@ -1,9 +1,6 @@
 <template>
   <div class="wrapper">
-    <parallax
-      class="section page-header header-filter"
-      :style="headerStyle"
-    ></parallax>
+    <parallax class="page-header" :style="headerStyle"></parallax>
     <div class="main main-raised">
       <div class="section profile-content">
         <div class="container">
@@ -18,22 +15,12 @@
                   />
                 </div>
                 <div class="name">
-                  <h3 class="title">Carla Hortensia</h3>
-                  <h6>Designer</h6>
+                  <h3 class="title">Ime Prezime</h3>
+                  <md-button class="md-info">Message</md-button> <br />
                   <md-button
                     href="javascript:void(0)"
-                    class="md-just-icon md-simple md-dribbble"
-                    ><i class="fab fa-dribbble"></i
-                  ></md-button>
-                  <md-button
-                    href="javascript:void(0)"
-                    class="md-just-icon md-simple md-twitter"
-                    ><i class="fab fa-twitter"></i
-                  ></md-button>
-                  <md-button
-                    href="javascript:void(0)"
-                    class="md-just-icon md-simple md-pinterest"
-                    ><i class="fab fa-pinterest"></i
+                    class="md-just-icon md-simple md-instagram"
+                    ><i class="fab fa-instagram"></i
                   ></md-button>
                 </div>
               </div>
@@ -41,60 +28,17 @@
           </div>
           <div class="description text-center">
             <p>
-              An artist of considerable range, Chet Faker — the name taken by
-              Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs
-              and records all of his own music, giving it a warm, intimate feel
-              with a solid groove structure.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
+              sed urna dignissim orci ultricies cursus quis sit amet magna.
+              Vestibulum placerat pharetra felis condimentum lobortis. Nullam
+              nunc felis, lacinia in nulla a, pellentesque placerat nisl. Morbi
+              a lectus in tellus porttitor pulvinar. Nam tempus suscipit nisl,
+              nec aliquam tellus gravida in.
             </p>
           </div>
-          <div class="profile-tabs">
-            <tabs
-              :tab-name="['Studio', 'Work', 'Favorite']"
-              :tab-icon="['camera', 'palette', 'favorite']"
-              plain
-              nav-pills-icons
-              color-button="success"
-            >
-              <!-- here you can add your content for tab-content -->
-              <template slot="tab-pane-1">
-                <div class="md-layout">
-                  <div class="md-layout-item md-size-25 ml-auto">
-                    <img :src="tabPane1[0].image" class="rounded" />
-                    <img :src="tabPane1[1].image" class="rounded" />
-                  </div>
-                  <div class="md-layout-item md-size-25 mr-auto">
-                    <img :src="tabPane1[3].image" class="rounded" />
-                    <img :src="tabPane1[2].image" class="rounded" />
-                  </div>
-                </div>
-              </template>
-              <template slot="tab-pane-2">
-                <div class="md-layout">
-                  <div class="md-layout-item md-size-25 ml-auto">
-                    <img :src="tabPane2[0].image" class="rounded" />
-                    <img :src="tabPane2[1].image" class="rounded" />
-                    <img :src="tabPane2[2].image" class="rounded" />
-                  </div>
-                  <div class="md-layout-item md-size-25 mr-auto">
-                    <img :src="tabPane2[3].image" class="rounded" />
-                    <img :src="tabPane2[4].image" class="rounded" />
-                  </div>
-                </div>
-              </template>
-              <template slot="tab-pane-3">
-                <div class="md-layout">
-                  <div class="md-layout-item md-size-25 ml-auto">
-                    <img :src="tabPane3[0].image" class="rounded" />
-                    <img :src="tabPane3[1].image" class="rounded" />
-                  </div>
-                  <div class="md-layout-item md-size-25 mr-auto">
-                    <img :src="tabPane3[2].image" class="rounded" />
-                    <img :src="tabPane3[3].image" class="rounded" />
-                    <img :src="tabPane3[4].image" class="rounded" />
-                  </div>
-                </div>
-              </template>
-            </tabs>
+          <div class="container" id="listings">
+            <h3 class="title">Listings</h3>
+            <ListingCard></ListingCard>
           </div>
         </div>
       </div>
@@ -103,10 +47,10 @@
 </template>
 
 <script>
-import { Tabs } from '@/components';
+import ListingCard from '../components/cards/ListingCard.vue';
 export default {
   components: {
-    Tabs
+    ListingCard
   },
   bodyClass: 'profile-page',
   data() {
@@ -134,24 +78,31 @@ export default {
     };
   },
   props: {
-    header: {
-      type: String,
-      default: require('@/assets/img/city-profile.jpg')
-    },
     img: {
       type: String,
       default: require('@/assets/img/faces/christian.jpg')
-    }
-  },
-  computed: {
-    headerStyle() {
-      return {
-        backgroundImage: `url(${this.header})`
-      };
+    },
+    headerStyle: {
+      type: String,
+      default: '#EEEEEE'
     }
   }
 };
 </script>
+
+<style scoped>
+.page-header {
+  height: 250px !important  ;
+}
+#listings h3 {
+  text-align: center;
+  margin-bottom: 100px;
+}
+
+#listings {
+  padding-bottom: 100px;
+}
+</style>
 
 <style lang="scss" scoped>
 .section {

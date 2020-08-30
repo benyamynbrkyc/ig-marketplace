@@ -4,6 +4,7 @@ import Index from './views/Index.vue';
 import Landing from './views/Landing.vue';
 import Login from './views/Login.vue';
 import Profile from './views/Profile.vue';
+import Product from './views/Product.vue';
 import MainNavbar from './layout/MainNavbar.vue';
 import MainFooter from './layout/MainFooter.vue';
 
@@ -48,6 +49,15 @@ export default new Router({
       }
     },
     {
+      path: '/product',
+      name: 'product',
+      components: { default: Product, header: MainNavbar, footer: MainFooter },
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: 'black' }
+      }
+    },
+    {
       path: '/terms-of-service',
       name: 'terms-of-service',
       components: {
@@ -71,6 +81,20 @@ export default new Router({
           import(
             /* webpackChunkName: "settings" */ './views/PrivacyPolicy.vue'
           ),
+        header: MainNavbar,
+        footer: MainFooter
+      },
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: 'black' }
+      }
+    },
+    {
+      path: '/listings',
+      name: 'listings',
+      components: {
+        default: () =>
+          import(/* webpackChunkName: "settings" */ './views/Listings.vue'),
         header: MainNavbar,
         footer: MainFooter
       },

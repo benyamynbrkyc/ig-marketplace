@@ -11,243 +11,180 @@
           </div>
           <div class="row" id="heroTextRow">
             <h1 id="heroTitle">
-              BS Social Swap
-              <span><img src="@/assets/img/jumping-insta.gif" alt=""/></span>
-              <!-- <hr style="background-color: #40ab57" /> -->
+              <span id="socialSwap">BS Social Swap</span>
               <br />
-              <span style="text-transform: uppercase;"
-                >The Safest Online Marketplace</span
+              <span id="onlineMarket" style="text-transform: uppercase;"
+                >The Safest Online Marketplace &nbsp;</span
               >
+              <img id="checkmark" src="@/assets/img/checkmark.png" alt="" />
             </h1>
             <br />
             <h4 id="sellText">
-              Want to Sell or Buy an account?
+              Buy and Sell Virtual Items
             </h4>
           </div>
           <br />
-          <div class="container" id="heroButtonContainer">
-            <md-button href="" class="md-success md-lg" target="_blank"
-              >Sign up and start selling</md-button
-            >
-            <div class="padding"></div>
-            <md-button href="/listings" class="md-success md-lg"
-              >Browse our Marketplace</md-button
-            >
-          </div>
         </div>
       </div>
     </parallax>
+    <!-- first section -->
     <div class="main main-raised">
-      <div class="section">
-        <div class="container">
-          <div class="md-layout">
-            <div
-              class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center"
-            >
-              <div class="features features-2 text-center">
-                <div class="md-layout">
-                  <div class="md-layout-item md-medium">
-                    <div class="backG">
-                      <div class="info">
-                        <h2 class="info">Last Month We Sold</h2>
-                        <h2 class="title">
-                          <span style="font-weight: 100;">Over&nbsp;</span
-                          >84&nbsp;
-                          <span style="font-weight: 100;">Accounts</span>
-                        </h2>
-                        <h2 class="info" style="font-weight: bold;">
-                          TRUSTPILOT
-                        </h2>
-                        <img
-                          src="@/assets/img/4-5-stars.png"
-                          style="max-height: 50px; margin-bottom: 15px;"
-                          alt=""
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <h2 class="title text-center">
-                Enhance your digital presence with us
-              </h2>
-              <h5 class="description">
-                BS Social Swap was created to offer a way for people to trade
-                their social media entities. There are certain limitations to
-                what you can expect from us and they are:
-                <div class="container">
-                  <ul style="text-align: justify;" id="limitations">
-                    <li>
-                      BS Social Swap does not guarantee any claims or promises
-                      made by sellers.
-                    </li>
-                    <li>
-                      BS Social Swap monitors the authenticity of any users or
-                      members of our site.
-                    </li>
-                    <li>
-                      BS Social Swap is not liable for what happens after the
-                      listing ends.
-                    </li>
-                    <li>
-                      If we catch you trying to spam or scam our users, we will
-                      ban you without notice.
-                    </li>
-                  </ul>
-                </div>
-              </h5>
-            </div>
-          </div>
-          <div class="features text-center">
-            <div class="md-layout">
-              <div class="md-layout-item md-small-size-33 md-small-size-100">
+      <div class="section" id="intro">
+        <div class="container-fluid" id="flexContainer">
+          <div class="row" id="introRow">
+            <div class="col-6" id="backG1">
+              <div class="backG">
                 <div class="info">
-                  <div class="icon ">
-                    <md-icon>settings</md-icon>
-                  </div>
-                  <h4 class="info-title">24/7 Support</h4>
+                  <h2 class="info" style="font-weight: bold;">
+                    TRUSTPILOT
+                  </h2>
+                  <img
+                    src="@/assets/img/trustpilot.png"
+                    style="max-height: 50px; margin-bottom:30px;"
+                    alt=""
+                  />
+
+                  <h3 class="info">WhatsApp</h3>
+                  <h4 class="info">+387 64 44 25 098</h4>
+
+                  <h3 class="info">Email</h3>
+                  <h4 class="info">support@socialswapbs.com</h4>
                 </div>
               </div>
-              <div class="md-layout-item md-small-size-33 md-small-size-100">
+            </div>
+            <div class="padding"></div>
+
+            <div class="col-6" id="backG2">
+              <div class="row" id="featureRow">
                 <div class="info">
                   <div class="icon">
-                    <md-icon>timeline</md-icon>
+                    <img src="@/assets/img/featureRow/1.png" alt="" />
                   </div>
-                  <h4 class="info-title">Experience</h4>
+                  <h4 class="info">24/7 Support</h4>
+                </div>
+                <div class="info">
+                  <div class="icon">
+                    <img src="@/assets/img/featureRow/2.png" alt="" />
+                  </div>
+
+                  <h4 class="info">Experience</h4>
+                </div>
+                <div class="info">
+                  <div class="icon">
+                    <img src="@/assets/img/featureRow/3.png" alt="" />
+                  </div>
+
+                  <h4 class="info">Escrow</h4>
+                </div>
+                <div class="info">
+                  <div class="icon">
+                    <img src="@/assets/img/featureRow/4.png" id="deliveryImg" />
+                  </div>
+
+                  <h4 class="info">Fast Delivery</h4>
                 </div>
               </div>
-              <div class="md-layout-item md-small-size-33 md-small-size-100">
-                <div class="info">
-                  <div class="icon ">
-                    <md-icon>account_balance</md-icon>
+              <div class="backG">
+                <div class="info" id="aboutText">
+                  <h2 class="info">About Us</h2>
+                  <div id="aboutTextWrapper">
+                    <p class="info">
+                      BS Social Swap was created to offer a way for people to
+                      trade their virtual items. There are certain limitations
+                      to what you can expect from us and they are: <br />
+                    </p>
+                    <p class="info">
+                      BS Social Swap does guarantee any claims or promises made
+                      by sellers. <br />
+                    </p>
+                    <p class="info">
+                      BS Social Swap does monitor the authenticity of any users
+                      or members of our site.
+                    </p>
+
+                    <p class="info">
+                      BS Social Swap is not liable for what happens after the
+                      listing ends.
+                    </p>
+                    <p class="info">
+                      If we catch you trying to spam or scam our users, we will
+                      ban you without notice.
+                    </p>
                   </div>
-                  <h4 class="info-title">Escrow</h4>
-                </div>
-              </div>
-              <div class="md-layout-item md-small-size-33 md-small-size-100">
-                <div class="info">
-                  <div class="icon ">
-                    <md-icon>shopping_cart</md-icon>
-                  </div>
-                  <h4 class="info-title">Fast Delivery</h4>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="section text-center">
-        <div class="container">
-          <h2 class="title">Testimonials</h2>
-          <div class="team">
-            <div class="md-layout">
-              <div class="md-layout-item md-medium-size-33 md-small-size-100">
-                <div class="team-player">
-                  <md-card class="md-card-plain">
-                    <div class="md-layout-item md-size-50 mx-auto">
-                      <img
-                        :src="teamImg1"
-                        alt="Thumbnail Image"
-                        class="img-raised rounded-circle img-fluid"
-                      />
-                    </div>
-                    <h4 class="card-title">
-                      Carl Wilson
-                      <br />
-                      <small class="card-description text-muted">Client</small>
-                    </h4>
-
-                    <md-card-content>
-                      <p class="card-description">
-                        I am very pleased with the service. I’d recommend your
-                        service to anyone. Great job 😉
-                      </p>
-                    </md-card-content>
-                  </md-card>
-                </div>
+      <!-- second section -->
+    </div>
+    <div class="section" id="listingHome">
+      <div class="container-fluid" id="flexContainer">
+        <div class="row" id="introRow">
+          <div class="col-6" id="backG2Listing">
+            <div class="row" id="featureRow">
+              <div class="icon">
+                <img
+                  src="https://www.socialswapbs.com/wp-content/uploads/2020/08/instagram-sketched-1.png"
+                  alt=""
+                />
               </div>
-              <div class="md-layout-item md-medium-size-33 md-small-size-100">
-                <div class="team-player">
-                  <md-card class="md-card-plain">
-                    <div class="md-layout-item md-size-50 mx-auto">
-                      <img
-                        :src="teamImg2"
-                        alt="Thumbnail Image"
-                        class="img-raised rounded-circle img-fluid"
-                      />
-                    </div>
-                    <h4 class="card-title">
-                      Robert Soprano
-                      <br />
-                      <small class="card-description text-muted">Client</small>
-                    </h4>
+              <h4 class="info">
+                <span class="listingBuy">Buy Instagram Accounts</span>
+              </h4>
 
-                    <md-card-content>
-                      <p class="card-description">
-                        Very good sellers, and most of all I can trust them. You
-                        don't find many sellers that you can trust in this
-                        business. Very Good.
-                      </p>
-                    </md-card-content>
-                  </md-card>
-                </div>
-              </div>
-              <div class="md-layout-item md-medium-size-33 md-small-size-100">
-                <div class="team-player">
-                  <md-card class="md-card-plain">
-                    <div class="md-layout-item md-size-50 mx-auto">
-                      <img
-                        :src="teamImg3"
-                        alt="Thumbnail Image"
-                        class="img-raised rounded-circle img-fluid"
-                      />
-                    </div>
-                    <h4 class="card-title">
-                      Amanda Park
-                      <br />
-                      <small class="card-description text-muted">Client</small>
-                    </h4>
+              <div class="padding"></div>
 
-                    <md-card-content>
-                      <p class="card-description">
-                        My dream was to become a popular model. These guys made
-                        it possible for me by finding the ideal profile. I
-                        recommend them to everyone.
-                      </p>
-                    </md-card-content>
-                  </md-card>
-                </div>
+              <div class="icon">
+                <img
+                  src="https://www.socialswapbs.com/wp-content/uploads/2020/06/tiktok.png"
+                  alt=""
+                />
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="section section-contacts">
-        <div class="container">
-          <div class="md-layout">
-            <div class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto">
-              <h2 class="text-center title">Talk To Us</h2>
-              <h4 class="text-center description">
-                Don't worry, we will find the best option for you and secure a
-                fast transfer.
+              <h4 class="info">
+                <span class="listingBuy">Buy TikTok Accounts</span>
+              </h4>
+
+              <div class="padding"></div>
+
+              <div class="icon">
+                <img
+                  src="https://www.socialswapbs.com/wp-content/uploads/2020/07/icons8-twitter-52.png"
+                  alt=""
+                />
+              </div>
+              <h4 class="info">
+                <span class="listingBuy" id="twitterAcc"
+                  >Buy Twitter Accounts</span
+                >
+              </h4>
+
+              <div class="padding"></div>
+
+              <div class="icon">
+                <img
+                  src="https://www.socialswapbs.com/wp-content/uploads/2020/08/delivery.png"
+                  alt=""
+                />
+              </div>
+              <h4 class="info">
+                <span class="listingBuy" id="virtualServ"
+                  >Buy Virtual Services</span
+                >
               </h4>
             </div>
-          </div>
-          <ContactCard></ContactCard>
-          <div class="container" style="">
-            <md-button
-              href=""
-              id="linkButton1"
-              class="md-success md-lg"
-              target="_blank"
-              >Sign up and start trading</md-button
-            ><md-button
-              href=""
-              id="linkButton2"
-              class="md-success md-lg"
-              target="_blank"
-              >Browse our Marketplace</md-button
-            >
+            <div class="backG">
+              <div class="info" id="aboutText">
+                <div id="recentInstaWrapper">
+                  <p class="info">
+                    Recent Instagram listings
+                  </p>
+                </div>
+              </div>
+            </div>
+            <br />
+            <ListingCardMain></ListingCardMain>
           </div>
         </div>
       </div>
@@ -256,6 +193,112 @@
 </template>
 
 <style scoped>
+#backG1 {
+  max-width: 324px;
+  width: 100%;
+  text-align: center;
+  background-color: #d9e1e0;
+}
+#backG1 h3,
+h4 {
+  font-weight: bold;
+}
+#backG2 {
+  max-width: 900px;
+  width: 100%;
+}
+#backG2Listing {
+  max-width: 1200px;
+  width: 100%;
+}
+#backG2 .info {
+  width: 100%;
+  max-width: none !important;
+}
+#backG2Listing .info {
+  width: 100%;
+  max-width: none !important;
+}
+.backG {
+  width: 100%;
+  display: inline-block;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+#intro {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+.main {
+  box-shadow: none !important;
+}
+#introRow {
+  margin: auto;
+  width: 95%;
+  display: flex;
+  justify-content: space-around;
+}
+
+#flexContainer {
+  max-width: 1500px;
+}
+
+@media only screen and (max-width: 768px) {
+  #introRow {
+    display: block;
+  }
+  #featureRow {
+    display: block !important;
+  }
+  #backG1 {
+    max-width: unset !important;
+  }
+}
+
+#featureRow {
+  display: flex;
+  width: 100%;
+  text-align: center;
+}
+#featureRow .info {
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+#featureRow img {
+  max-width: 35px;
+}
+
+#deliveryImg {
+  height: auto !important;
+  width: 45px !important;
+}
+
+#aboutText h2 {
+  text-align: center;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 1.4rem;
+  color: #3a7571;
+}
+#aboutTextWrapper {
+  padding-left: 5px;
+  padding-right: 5px;
+  background-color: #d9e1e0 !important;
+  border-radius: 5px !important;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.377);
+  line-height: 1.2rem;
+}
+
+#aboutTextWrapper p {
+  color: #4d5554;
+  font-weight: bold;
+  font-size: 1rem;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
 #heroImgRow {
   display: block;
   width: 100%;
@@ -264,19 +307,33 @@
 #heroTextRow {
   text-align: center;
   width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 #heroImg {
   margin-top: 20px;
   margin-bottom: 10px;
-  max-width: 50px;
+  max-width: 100px;
   display: inline;
 }
 #heroTitle {
   widows: 100%;
   text-align: center;
-  display: inline;
+  display: inline-block;
   margin: auto;
   font-weight: bold;
+  line-height: 70px;
+}
+
+#socialSwap {
+  text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.359);
+}
+#onlineMarket {
+  font-size: 1.8rem;
+  color: aquamarine;
+  font-weight: bolder;
+  text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.359);
+  letter-spacing: 0.3rem;
 }
 #sellText {
   display: inline;
@@ -284,7 +341,9 @@
   text-align: center;
   margin-top: 70px;
   text-transform: uppercase;
-  font-weight: bolder;
+  font-weight: bold;
+  text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.359);
+  letter-spacing: 0.6rem;
 }
 
 #heroButtonContainer {
@@ -300,6 +359,8 @@
 @media only screen and (max-width: 768px) {
   .padding {
     display: none;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
   }
 }
 #limitations {
@@ -359,14 +420,91 @@
   box-shadow: 0 4px 18px 0px rgba(0, 0, 0, 0.171),
     0 7px 10px -5px rgba(0, 0, 0, 0.15);
 }
+/* bottom half */
+#listingHome {
+  background-color: #3a7571;
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}
+#listingHome #featureRow {
+  padding-top: 10px;
+}
+
+#listingHome #featureRow h4 {
+  color: white;
+  font-size: 0.9rem;
+  text-align: left;
+  margin-left: 15px;
+  text-transform: capitalize;
+}
+@media only screen and (max-width: 768px) {
+  #listingHome #featureRow h4 {
+    text-align: center;
+    margin-left: 0px;
+  }
+}
+.listingBuy {
+  border: 2px solid black;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.788);
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  cursor: pointer;
+  text-align: center;
+  display: inline-block;
+}
+.listingBuy:hover {
+  background-color: #252d2c;
+}
+@media only screen and (max-width: 768px) {
+  #listingHome #featureRow div {
+    margin-top: 20px;
+  }
+  #listingHome #featureRow h4 {
+    margin-top: 5px;
+  }
+}
+#recentInstaWrapper {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 7px;
+  padding-top: 7px;
+  background-color: #1d3a38 !important;
+  border: 1px solid black;
+  letter-spacing: 0.3rem;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.377);
+  line-height: 1.2rem;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+#recentInstaWrapper p {
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 0px !important;
+}
+#twitterAcc,
+#virtualServ {
+  background-color: black;
+}
+#twitterAcc:hover,
+#virtualServ:hover {
+  background-color: #252d2c;
+}
 </style>
 
 <script>
-import ContactCard from '../components/cards/ContactCard';
+import ListingCardMain from '../components/cards/ListingCardMain';
 
 export default {
   components: {
-    ContactCard
+    ListingCardMain
   },
   bodyClass: 'landing-page',
   props: {

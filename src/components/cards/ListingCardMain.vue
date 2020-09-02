@@ -4,61 +4,93 @@
     class="md-card-login"
     :class="{ 'md-card-hidden': cardHidden }"
   >
-    <div class="container-fluid" id="outerWrapper">
-      <div class="section" id="intro">
-        <div class="container-fluid" id="flexContainer">
-          <div class="row" id="introRow">
-            <div class="col-6" id="backG1">
-              <img
-                src="https://scontent-frx5-1.cdninstagram.com/v/t51.2885-19/s150x150/118284985_354124242280580_9210287956944691765_n.jpg?_nc_ht=scontent-frx5-1.cdninstagram.com&_nc_ohc=SrW7ppYlqU8AX8hkFCS&oh=7e1b52c0553427bac4f98e596a2f445a&oe=5F71FED9"
-                alt=""
-              />
-            </div>
-            <div class="padding"></div>
-
-            <div class="col-6" id="backG2">
-              <div class="row" id="featureRow">
-                <div class="info">
+    <div class="section" id="intro">
+      <div class="container-fluid" id="flexContainer">
+        <div class="row" id="introRow">
+          <div class="col-6" id="backG1">
+            <img
+              src="https://scontent-frx5-1.cdninstagram.com/v/t51.2885-19/s150x150/118284985_354124242280580_9210287956944691765_n.jpg?_nc_ht=scontent-frx5-1.cdninstagram.com&_nc_ohc=SrW7ppYlqU8AX8hkFCS&oh=7e1b52c0553427bac4f98e596a2f445a&oe=5F71FED9"
+              alt=""
+            />
+          </div>
+          <div class="col-6" id="backG2">
+            <div class="row" id="featureRow" style="margin-bottom: 10px;">
+              <div class="info">
+                <div class="row innerListingItem">
                   <div class="icon">
-                    <img src="@/assets/img/featureRow/1.png" alt="" />
+                    <img
+                      src="@/assets/img/listingSubIcons/followers.png"
+                      alt=""
+                    />
                   </div>
-                  <h4 class="info">24/7 Support</h4>
-                </div>
-                <div class="info">
-                  <div class="icon">
-                    <img src="@/assets/img/featureRow/2.png" alt="" />
-                  </div>
-
-                  <h4 class="info">Experience</h4>
-                </div>
-                <div class="info">
-                  <div class="icon">
-                    <img src="@/assets/img/featureRow/3.png" alt="" />
-                  </div>
-
-                  <h4 class="info">Escrow</h4>
+                  <h4 class="info" style="line-height: 1rem !important;">
+                    10.000 <br />
+                    <span class="listingSubTextTitle">Followers</span>
+                  </h4>
                 </div>
               </div>
-              <div class="row" id="featureRow">
-                <div class="info">
+              <div class="info">
+                <div class="row innerListingItem">
                   <div class="icon">
-                    <img src="@/assets/img/featureRow/1.png" alt="" />
+                    <img src="@/assets/img/listingSubIcons/posts.png" alt="" />
                   </div>
-                  <h4 class="info">24/7 Support</h4>
+                  <h4 class="info" style="line-height: 1rem !important;">
+                    15 <br />
+                    <span class="listingSubTextTitle">Posts</span>
+                  </h4>
                 </div>
-                <div class="info">
+              </div>
+              <div class="info" id="categoryTag">
+                <div class="row innerListingItem lastFeatureItem">
                   <div class="icon">
-                    <img src="@/assets/img/featureRow/2.png" alt="" />
+                    <img
+                      src="@/assets/img/listingSubIcons/category.png"
+                      alt=""
+                    />
                   </div>
-
-                  <h4 class="info">Experience</h4>
+                  <h4 class="info" style="line-height: 1rem !important; ">
+                    Entertainment <br />
+                    <span class="listingSubTextTitle">Category</span>
+                  </h4>
                 </div>
-                <div class="info">
+              </div>
+            </div>
+            <!-- SECOND ROW -->
+            <div class="row secondRow" id="featureRow">
+              <div class="info">
+                <div class="row innerListingItem">
                   <div class="icon">
-                    <img src="@/assets/img/featureRow/3.png" alt="" />
+                    <img src="@/assets/img/listingSubIcons/price.png" alt="" />
                   </div>
-
-                  <h4 class="info">Escrow</h4>
+                  <h4 class="info" style="line-height: 1rem !important;">
+                    $800 <br />
+                    <span class="listingSubTextTitle">Price</span>
+                  </h4>
+                </div>
+              </div>
+              <div class="info">
+                <div class="row innerListingItem">
+                  <div class="icon">
+                    <img
+                      src="@/assets/img/listingSubIcons/likeperpost.png"
+                      alt=""
+                    />
+                  </div>
+                  <h4 class="info" style="line-height: 1rem !important;">
+                    155 <br />
+                    <span class="listingSubTextTitle">Likes Per Post</span>
+                  </h4>
+                </div>
+              </div>
+              <div class="info" id="categoryTag">
+                <div class="row innerListingItem lastFeatureItem">
+                  <div class="icon">
+                    <img src="@/assets/img/listingSubIcons/author.png" alt="" />
+                  </div>
+                  <h4 class="info" style="line-height: 1rem !important; ">
+                    @username <br />
+                    <span class="listingSubTextTitle">Author</span>
+                  </h4>
                 </div>
               </div>
             </div>
@@ -74,9 +106,10 @@
   width: 100%;
   padding-left: 0px !important;
   padding-right: 0px !important;
+  display: block;
 }
 #backG1 {
-  max-width: 324px;
+  max-width: 100px;
   width: 100%;
   text-align: center;
   position: relative;
@@ -89,16 +122,30 @@
   right: 0;
   margin: auto;
   max-width: 75px;
+  border-radius: 50%;
+}
+@media only screen and (max-width: 768px) {
+  #backG1 img {
+    margin-bottom: 10px;
+  }
 }
 @media only screen and (max-width: 768px) {
   #introRow {
-    display: block;
+    display: unset !important;
   }
   #backG1 {
     position: initial !important;
     display: block;
     max-width: unset !important;
     width: 100% !important;
+  }
+
+  #backG1 img {
+    position: unset !important;
+    top: unset !important;
+    bottom: unset !important;
+    left: unset !important;
+    right: unset !important;
   }
 
   #backG2 {
@@ -113,6 +160,7 @@
 #backG1 h3,
 h4 {
   font-weight: bold;
+  font-size: 1rem;
 }
 #backG2 {
   max-width: 900px;
@@ -123,11 +171,11 @@ h4 {
   width: 100%;
 }
 #backG2 .info {
-  width: 100%;
+  /* width: 100%; */
   max-width: none !important;
 }
 #backG2Listing .info {
-  width: 100%;
+  /* width: 100%; */
   max-width: none !important;
 }
 .backG {
@@ -153,6 +201,8 @@ h4 {
 
 #flexContainer {
   max-width: 1500px;
+  padding-right: 0px !important;
+  padding-left: 0px !important;
 }
 
 #featureRow {
@@ -169,10 +219,31 @@ h4 {
   padding-left: 10px !important;
 }
 
-#featureRow img {
-  max-width: 35px;
+@media only screen and (min-width: 768px) {
 }
 
+@media only screen and (min-width: 768px) {
+  #featureRow .info {
+    min-width: 129px !important;
+    max-width: 200px !important;
+  }
+}
+@media only screen and (max-width: 768px) {
+}
+
+#featureRow img {
+  max-height: 25px;
+  width: auto;
+}
+@media only screen and (min-width: 768px) {
+  div.secondRow > .info {
+    min-width: 129px !important;
+    max-width: 200px !important;
+  }
+  .lastFeatureItem {
+    min-width: 170px !important;
+  }
+}
 #deliveryImg {
   height: auto !important;
   width: 45px !important;
@@ -205,8 +276,9 @@ h4 {
   width: 100%;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 50px;
   margin-bottom: 50px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .card-header-wrapper {
@@ -219,7 +291,19 @@ h4 {
   font-size: 1.2em;
   padding: 0;
 }
-#noPadding {
+.innerListingItem > * {
+  display: inline-block !important;
+}
+.innerListingItem img {
+  margin-top: -20px;
+}
+.listingSubTextTitle {
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  color: #3fa1b8;
+}
+#featureRow > * {
+  text-align: left;
 }
 </style>
 

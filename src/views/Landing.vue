@@ -184,7 +184,10 @@
               </div>
             </div>
             <br />
-            <ListingCardMain></ListingCardMain>
+            <ListingCardMain></ListingCardMain
+            ><ListingCardMain></ListingCardMain
+            ><ListingCardMain></ListingCardMain
+            ><ListingCardMain></ListingCardMain>
           </div>
         </div>
       </div>
@@ -242,6 +245,8 @@ h4 {
 
 #flexContainer {
   max-width: 1500px;
+  padding-right: 0px !important;
+  padding-left: 0px !important;
 }
 
 @media only screen and (max-width: 768px) {
@@ -466,8 +471,8 @@ h4 {
   }
 }
 #recentInstaWrapper {
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 30px;
+  margin-bottom: 30px;
   padding-left: 10px;
   padding-right: 10px;
   padding-bottom: 7px;

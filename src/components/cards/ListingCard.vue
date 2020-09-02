@@ -27,7 +27,7 @@
   width: 100%;
 }
 .card-header-wrapper {
-  background-color: #2e715e !important;
+  background-color: #3a7571 !important;
   color: white;
 }
 

@@ -8,7 +8,7 @@
   // overflow: unset;
 
   @include box-shadow($bmd-shadow-2dp);
-  border-radius: $border-radius-base + 3;
+  border-radius: 3px;
   color: $mdb-card-body-text;
   background: $mdb-card-body-background;
 

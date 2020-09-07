@@ -116,6 +116,20 @@ export default new Router({
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: 'black' }
       }
+    },
+    {
+      path: '/chat',
+      name: 'chat',
+      components: {
+        default: () =>
+          import(/* webpackChunkName: "settings" */ './views/Chat.vue'),
+        header: MainNavbar,
+        footer: MainFooter
+      },
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: 'black' }
+      }
     }
   ],
   scrollBehavior: to => {

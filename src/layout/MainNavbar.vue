@@ -268,7 +268,8 @@ export default {
       this.$route.name !== 'contact' &&
       this.$route.name !== 'privacy-policy' &&
       this.$route.name !== 'terms-of-service' &&
-      this.$route.name !== 'listings'
+      this.$route.name !== 'listings' &&
+      this.$route.name !== 'chat'
     ) {
       document.addEventListener('scroll', this.scrollListener);
     } else {

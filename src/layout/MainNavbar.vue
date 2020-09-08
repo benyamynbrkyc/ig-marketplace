@@ -10,7 +10,7 @@
     <div class="md-toolbar-row md-collapse-lateral">
       <div class="md-toolbar-section-start">
         <h3 class="md-title">
-          <a href="/landing"
+          <a href="/"
             ><img
               src="https://nitrocdn.com/oBHBqLgJXZVfCESjGKVwqurKNzgjnxtE/assets/static/optimized/rev-31096c6/wp-content/uploads/2020/05/sajtpng-e1589632975136-min.png"
               alt=""
@@ -38,7 +38,7 @@
               <!-- item 1 -->
               <li class="md-list-item" v-if="!showDownload">
                 <a
-                  href="/landing"
+                  href="/"
                   class="md-list-item-router md-list-item-container md-button-clean dropdown"
                 >
                   <div class="md-list-item-content">
@@ -269,7 +269,8 @@ export default {
       this.$route.name !== 'privacy-policy' &&
       this.$route.name !== 'terms-of-service' &&
       this.$route.name !== 'listings' &&
-      this.$route.name !== 'chat'
+      this.$route.name !== 'chat' &&
+      this.$route.name !== 'login'
     ) {
       document.addEventListener('scroll', this.scrollListener);
     } else {

@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Index from './views/Index.vue';
 import Landing from './views/Landing.vue';
 import Login from './views/Login.vue';
+import Signup from './views/Signup.vue';
 import Profile from './views/Profile.vue';
 import Product from './views/Product.vue';
 import MainNavbar from './layout/MainNavbar.vue';
@@ -10,33 +10,42 @@ import MainFooter from './layout/MainFooter.vue';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   routes: [
     {
       path: '/',
       name: 'index',
-      components: { default: Index, header: MainNavbar, footer: MainFooter },
-      props: {
-        header: { colorOnScroll: 400 },
-        footer: { backgroundColor: 'black' }
-      }
-    },
-    {
-      path: '/landing',
-      name: 'landing',
       components: { default: Landing, header: MainNavbar, footer: MainFooter },
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: 'black' }
+      },
+      meta: {
+        title: 'BS Social Swap | Home'
       }
     },
+
     {
       path: '/login',
       name: 'login',
       components: { default: Login, header: MainNavbar, footer: MainFooter },
       props: {
         header: { colorOnScroll: 400 }
+      },
+      meta: {
+        title: 'BS Social Swap | Login'
+      }
+    },
+    {
+      path: '/signup',
+      name: 'signup',
+      components: { default: Signup, header: MainNavbar, footer: MainFooter },
+      props: {
+        header: { colorOnScroll: 400 }
+      },
+      meta: {
+        title: 'BS Social Swap | Sign Up'
       }
     },
     {
@@ -46,6 +55,9 @@ export default new Router({
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: 'black' }
+      },
+      meta: {
+        title: 'BS Social Swap | Profile'
       }
     },
     {
@@ -55,6 +67,9 @@ export default new Router({
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: 'black' }
+      },
+      meta: {
+        title: 'BS Social Swap | Product'
       }
     },
     {
@@ -71,6 +86,9 @@ export default new Router({
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: 'black' }
+      },
+      meta: {
+        title: 'BS Social Swap | Terms Of Service'
       }
     },
     {
@@ -87,6 +105,9 @@ export default new Router({
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: 'black' }
+      },
+      meta: {
+        title: 'BS Social Swap | Privacy Policy'
       }
     },
     {
@@ -101,6 +122,9 @@ export default new Router({
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: 'black' }
+      },
+      meta: {
+        title: 'BS Social Swap | Listings'
       }
     },
     {
@@ -115,6 +139,9 @@ export default new Router({
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: 'black' }
+      },
+      meta: {
+        title: 'BS Social Swap | Contact'
       }
     },
     {
@@ -129,6 +156,9 @@ export default new Router({
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: 'black' }
+      },
+      meta: {
+        title: 'BS Social Swap | Chat'
       }
     }
   ],
@@ -140,3 +170,13 @@ export default new Router({
     }
   }
 });
+
+router.afterEach((to, from) => {
+  // Use next tick to handle router history correctly
+  // see: https://github.com/vuejs/vue-router/issues/914#issuecomment-384477609
+  Vue.nextTick(() => {
+    document.title = to.meta.title || 'BS Social Swap';
+  });
+});
+
+export default router;

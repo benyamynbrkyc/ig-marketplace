@@ -1,6 +1,6 @@
 <template>
   <md-card class="md-card-login" :class="{ 'md-card-hidden': cardHidden }">
-    <md-card-header :class="getClass(headerColor)">
+    <md-card-header style="background-color: #252d2c !important;">
       <slot name="title"></slot>
       <div class="social-line">
         <slot name="buttons"></slot>
@@ -21,12 +21,7 @@
 <script>
 export default {
   name: 'login-card',
-  props: {
-    headerColor: {
-      type: String,
-      default: ''
-    }
-  },
+  props: {},
   data() {
     return {
       cardHidden: true
@@ -38,12 +33,16 @@ export default {
   methods: {
     showCard: function() {
       this.cardHidden = false;
-    },
-    getClass: function(headerColor) {
-      return 'md-card-header-' + headerColor + '';
     }
   }
 };
 </script>
 
-<style lang="css"></style>
+<style lang="css" scoped>
+md-card-header {
+  background-color: #346966 !important;
+}
+.md-card-content {
+  padding-top: 0px;
+}
+</style>

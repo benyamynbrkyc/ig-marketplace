@@ -5,7 +5,7 @@
         <button @click="resetData">Clear Data</button>
         <button @click="addData" :disabled="updatingData">Add Data</button>
       </div>
-      <span class="user-logged">Logged as</span>
+      <span class="user-logged">Logged as {{ currentUserId }}</span>
       <select v-model="currentUserId">
         <option v-for="user in users" :key="user._id" :value="user._id">
           {{ user.username }}
@@ -43,24 +43,7 @@ export default {
     return {
       theme: 'light',
       showChat: true,
-      users: [
-        {
-          _id: '6R0MijpK6M4AIrwaaCY2',
-          username: 'Luke',
-          avatar: 'https://66.media.tumblr.com/avatar_c6a8eae4303e_512.pnj'
-        },
-        {
-          _id: 'SGmFnBZB4xxMv9V4CVlW',
-          username: 'Leia',
-          avatar: 'https://avatarfiles.alphacoders.com/184/thumb-184913.jpg'
-        },
-        {
-          _id: '6jMsIXUrBHBj7o2cRlau',
-          username: 'Yoda',
-          avatar:
-            'https://vignette.wikia.nocookie.net/teamavatarone/images/4/45/Yoda.jpg/revision/latest?cb=20130224160049'
-        }
-      ],
+      users: [],
       currentUserId: '6R0MijpK6M4AIrwaaCY2',
       updatingData: false
     };
@@ -113,6 +96,20 @@ export default {
 
       this.updatingData = false;
     }
+  },
+  mounted() {
+    usersRef
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          // doc.data() is never undefined for query doc snapshots
+          console.log(doc.id, ' => ', doc.data());
+          this.users.push(doc.data());
+        });
+      })
+      .catch(function(error) {
+        console.log('Error getting documents: ', error);
+      });
   }
 };
 </script>
@@ -125,6 +122,7 @@ body {
 .app-container {
   font-family: 'Quicksand', sans-serif;
   padding: 10px 20px 20px;
+  padding-top: 100px !important;
 
   @media only screen and (max-width: 768px) {
     padding: 0;

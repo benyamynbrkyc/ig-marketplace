@@ -19,17 +19,31 @@
                 <i class="fab fa-facebook-square"></i>
               </md-button> -->
               <md-field class="md-form-group" slot="inputs">
+                <md-icon>person</md-icon>
+                <label>Username</label>
+                <md-input v-model="username" type="text"></md-input>
+              </md-field>
+              <md-field class="md-form-group" slot="inputs">
                 <md-icon>email</md-icon>
-                <label>Email...</label>
+                <label>Email</label>
                 <md-input v-model="email" type="email"></md-input>
               </md-field>
               <md-field class="md-form-group" slot="inputs">
                 <md-icon>lock_outline</md-icon>
-                <label>Password...</label>
-                <md-input v-model="password"></md-input>
+                <label>Password</label>
+                <md-input v-model="password" type="password"></md-input>
               </md-field>
-              <md-button slot="footer" class="md-simple md-success md-lg">
-                Login
+              <md-field class="md-form-group" slot="inputs">
+                <md-icon>image</md-icon>
+                <label>Profile Picture - Paste URL</label>
+                <md-input v-model="avatar"></md-input>
+              </md-field>
+              <md-button
+                @click="signup()"
+                slot="footer"
+                class="md-simple md-success md-lg"
+              >
+                Sign Up
               </md-button>
             </login-card>
           </div>
@@ -49,9 +63,10 @@ export default {
   bodyClass: 'login-page',
   data() {
     return {
-      firstname: null,
+      username: null,
       email: null,
-      password: null
+      password: null,
+      avatar: null
     };
   },
   props: {
@@ -65,6 +80,16 @@ export default {
       return {
         backgroundColor: `#3a7571`
       };
+    }
+  },
+  methods: {
+    signup() {
+      this.$store.dispatch('signup', {
+        email: this.email,
+        password: this.password,
+        username: this.username,
+        avatar: this.avatar
+      });
     }
   }
 };

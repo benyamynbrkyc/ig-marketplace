@@ -132,6 +132,7 @@ export default {
     messagesRef(roomId) {
       return roomsRef.doc(roomId).collection('messages');
     },
+    // RESETS
     resetRooms() {
       this.loadingRooms = true;
       this.rooms = [];
@@ -147,15 +148,17 @@ export default {
       this.listeners.forEach(listener => listener());
       this.listeners = [];
     },
+    // RESETS
 
     async fetchRooms() {
       this.resetRooms();
+      let query;
 
-      const query = roomsRef.where(
-        'users',
-        'array-contains',
-        this.currentUserId
-      );
+      if (this.currentUserId !== 'Admin') {
+        query = roomsRef.where('users', 'array-contains', this.currentUserId);
+      } else {
+        query = roomsRef;
+      }
 
       const rooms = await query.get();
 

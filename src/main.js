@@ -1,6 +1,9 @@
 import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
+import store from './store/store';
+
+import { auth } from './views/firestore/index';
 
 import MaterialKit from './plugins/material-kit';
 
@@ -20,7 +23,12 @@ Vue.mixin({
   }
 });
 
-new Vue({
-  router,
-  render: h => h(App)
-}).$mount('#app');
+auth.onAuthStateChanged(user => {
+  new Vue({
+    store,
+    router,
+    render: h => h(App)
+  }).$mount('#app');
+
+  if (user) store.dispatch('fetchUserProfile', user);
+});

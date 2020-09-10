@@ -134,6 +134,77 @@
                   </div>
                 </a>
               </li>
+              <!-- item 5 -->
+              <li class="md-list-item" v-if="!showDownload">
+                <a
+                  href="/chat"
+                  class="md-list-item-router md-list-item-container md-button-clean dropdown"
+                >
+                  <div class="md-list-item-content">
+                    <md-button
+                      slot="title"
+                      class="md-button md-button-link md-simple"
+                      style="color: white !important;"
+                    >
+                      <i class="material-icons" style="color:white !important;"
+                        >chat</i
+                      >
+                      <p>Chat</p>
+                    </md-button>
+                  </div>
+                </a>
+              </li>
+              <!-- item 6 / profile -->
+              <li class="md-list-item" v-if="!showDownload">
+                <a
+                  href="javascript:void(0)"
+                  class="md-list-item-router md-list-item-container md-button-clean dropdown"
+                >
+                  <div class="md-list-item-content">
+                    <drop-down direction="down">
+                      <md-button
+                        slot="title"
+                        class="md-button md-button-link md-simple dropdown-toggle"
+                        data-toggle="dropdown"
+                        style="color:white !important;"
+                      >
+                        <i
+                          class="material-icons"
+                          style="color:white !important;"
+                          >person</i
+                        >
+                        <p>Profile</p>
+                      </md-button>
+                      <ul class="dropdown-menu dropdown-with-icons">
+                        <li>
+                          <a href="/login">
+                            <i class="material-icons">privacy_tip</i>
+                            <p>Log In</p>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="/signup">
+                            <i class="material-icons">perm_device_info</i>
+                            <p>Sign Up</p>
+                          </a>
+                        </li>
+                        <li>
+                          <a @click="logout()">
+                            <i class="material-icons">perm_device_info</i>
+                            <p>Log Out</p>
+                          </a>
+                        </li>
+                        <li>
+                          <a @click="logCurrentUser()">
+                            <i class="material-icons">perm_device_info</i>
+                            <p>logCurrentUser()</p>
+                          </a>
+                        </li>
+                      </ul>
+                    </drop-down>
+                  </div>
+                </a>
+              </li>
             </md-list>
           </div>
         </div>
@@ -258,6 +329,13 @@ export default {
       if (element_id) {
         element_id.scrollIntoView({ block: 'end', behavior: 'smooth' });
       }
+    },
+    logout() {
+      console.log('Logging out', this.$store.getters.getUserProfile.username);
+      this.$store.dispatch('logout');
+    },
+    logCurrentUser() {
+      console.log(this.$store.getters.getUserProfile);
     }
   },
   mounted() {

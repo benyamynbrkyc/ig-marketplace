@@ -34,7 +34,8 @@ const store = new Vuex.Store({
 
         dispatch('fetchUserProfile', user);
       } catch (error) {
-        console.log(error);
+        // BUILD CHANGE
+        // console.log(error);
 
         if (error.code == 'auth/argument-error')
           alert('All fields must be populated.');
@@ -53,7 +54,8 @@ const store = new Vuex.Store({
         // fetch user profile and set in state
         dispatch('fetchUserProfile', user);
       } catch (error) {
-        console.log(error);
+        // BUILD CHANGE
+        // console.log(error);
         if (error.code == 'auth/argument-error')
           alert('Email and password cannot be empty.');
 

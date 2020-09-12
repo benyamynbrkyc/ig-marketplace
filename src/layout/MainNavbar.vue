@@ -317,7 +317,8 @@ export default {
       return false;
     },
     pathToAvatar() {
-      console.log(this.$store.getters.getUserProfile.avatar);
+      // BUILD CHANGE
+      // console.log(this.$store.getters.getUserProfile.avatar);
       if (this.$store.getters.getUserProfile.avatar !== null)
         return `${this.$store.getters.getUserProfile.avatar}`;
       else
@@ -372,7 +373,8 @@ export default {
       }
     },
     logout() {
-      console.log('Logging out', this.$store.getters.getUserProfile.username);
+      // BUILD CHANGE
+      // console.log('Logging out', this.$store.getters.getUserProfile.username);
       this.$store.dispatch('logout');
     },
     logCurrentUser() {
@@ -384,8 +386,9 @@ export default {
       //   'Email Verified?',
       //   this.$store.getters.getCurrentUser.emailVerified
       // );
-      console.log('Full User:\n', fb.auth.currentUser);
-      console.log('Email verified:\n', fb.auth.currentUser.emailVerified);
+      // BUILD CHANGE
+      // console.log('Full User:\n', fb.auth.currentUser);
+      // console.log('Email verified:\n', fb.auth.currentUser.emailVerified);
     },
     sell() {
       if (fb.auth.currentUser.emailVerified) {

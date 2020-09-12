@@ -9,13 +9,13 @@
               <div class="profile">
                 <div class="avatar">
                   <img
-                    :src="img"
+                    :src="pathToAvatar"
                     alt="Circle Image"
                     class="img-raised rounded-circle img-fluid"
                   />
                 </div>
                 <div class="name">
-                  <h3 class="title">Ime Prezime</h3>
+                  <h3 class="title">{{ username }}</h3>
                   <md-button class="md-info">Message</md-button> <br />
                   <md-button
                     href="javascript:void(0)"
@@ -38,7 +38,7 @@
           </div>
           <div class="container" id="listings">
             <h3 class="title">Listings</h3>
-            <ListingCard></ListingCard>
+            <ListingCardMain></ListingCardMain>
           </div>
         </div>
       </div>
@@ -47,44 +47,44 @@
 </template>
 
 <script>
-import ListingCard from '../components/cards/ListingCard.vue';
+// import ListingCard from '../components/cards/ListingCard.vue';
+import ListingCardMain from '../components/cards/ListingCardMain.vue';
 export default {
   components: {
-    ListingCard
+    // ListingCard,
+    ListingCardMain
   },
   bodyClass: 'profile-page',
   data() {
     return {
-      tabPane1: [
-        { image: require('@/assets/img/examples/studio-1.jpg') },
-        { image: require('@/assets/img/examples/studio-2.jpg') },
-        { image: require('@/assets/img/examples/studio-4.jpg') },
-        { image: require('@/assets/img/examples/studio-5.jpg') }
-      ],
-      tabPane2: [
-        { image: require('@/assets/img/examples/olu-eletu.jpg') },
-        { image: require('@/assets/img/examples/clem-onojeghuo.jpg') },
-        { image: require('@/assets/img/examples/cynthia-del-rio.jpg') },
-        { image: require('@/assets/img/examples/mariya-georgieva.jpg') },
-        { image: require('@/assets/img/examples/clem-onojegaw.jpg') }
-      ],
-      tabPane3: [
-        { image: require('@/assets/img/examples/mariya-georgieva.jpg') },
-        { image: require('@/assets/img/examples/studio-3.jpg') },
-        { image: require('@/assets/img/examples/clem-onojeghuo.jpg') },
-        { image: require('@/assets/img/examples/olu-eletu.jpg') },
-        { image: require('@/assets/img/examples/studio-1.jpg') }
-      ]
+      profileData: {}
     };
   },
   props: {
-    img: {
-      type: String,
-      default: require('@/assets/img/faces/christian.jpg')
-    },
+    // img: {
+    //   type: String,
+    //   default: require('@/assets/img/faces/christian.jpg')
+    // },
     headerStyle: {
       type: String,
       default: '#EEEEEE'
+    }
+  },
+  watch: {
+    $route(to, from) {
+      // react to route changes...
+    }
+  },
+  computed: {
+    username() {
+      return this.$store.getters.getUserProfile.username;
+    },
+    pathToAvatar() {
+      console.log(this.$store.getters.getUserProfile.avatar);
+      if (this.$store.getters.getUserProfile.avatar !== null)
+        return `${this.$store.getters.getUserProfile.avatar}`;
+      else
+        return 'https://ladyinredthefilm.files.wordpress.com/2014/04/facebook-anonymous-silhouette.png?w=696';
     }
   }
 };

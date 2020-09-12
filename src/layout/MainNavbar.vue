@@ -75,6 +75,26 @@
                   </div>
                 </a>
               </li>
+              <!-- item sell -->
+              <li class="md-list-item" v-if="!showDownload">
+                <a
+                  @click="sell()"
+                  class="md-list-item-router md-list-item-container md-button-clean dropdown"
+                >
+                  <div class="md-list-item-content">
+                    <md-button
+                      slot="title"
+                      class="md-button md-button-link md-simple"
+                      style="color: white !important;"
+                    >
+                      <i class="material-icons" style="color:white !important;"
+                        >monetization_on</i
+                      >
+                      <p>Sell</p>
+                    </md-button>
+                  </div>
+                </a>
+              </li>
               <!-- item 3 -->
               <li class="md-list-item" v-if="!showDownload">
                 <a
@@ -200,6 +220,14 @@
                             <p>logCurrentUser()</p>
                           </a>
                         </li>
+                        <li>
+                          <a href="/profile">
+                            <i class=""
+                              ><img class="navAvatar" :src="pathToAvatar"
+                            /></i>
+                            <p>Profile</p>
+                          </a>
+                        </li>
                       </ul>
                     </drop-down>
                   </div>
@@ -213,7 +241,7 @@
   </md-toolbar>
 </template>
 
-<style>
+<style scoped>
 .md-simple p {
   color: white !important;
 }
@@ -227,6 +255,10 @@
   /* background-color: #1a4136; */
   padding: 15px 10px;
   border-radius: 5px;
+}
+.navAvatar {
+  width: 24px;
+  height: 20px;
 }
 </style>
 
@@ -245,6 +277,8 @@ function resizeThrottler(actualResizeHandler) {
 }
 
 import MobileMenu from '@/layout/MobileMenu';
+import router from '../router';
+import * as fb from '../views/firestore/index';
 export default {
   components: {
     MobileMenu
@@ -281,6 +315,13 @@ export default {
       // const excludedRoutes = ['login', 'landing', 'profile'];
       // return excludedRoutes.every(r => r !== this.$route.name);
       return false;
+    },
+    pathToAvatar() {
+      console.log(this.$store.getters.getUserProfile.avatar);
+      if (this.$store.getters.getUserProfile.avatar !== null)
+        return `${this.$store.getters.getUserProfile.avatar}`;
+      else
+        return 'https://ladyinredthefilm.files.wordpress.com/2014/04/facebook-anonymous-silhouette.png?w=696';
     }
   },
   methods: {
@@ -335,10 +376,29 @@ export default {
       this.$store.dispatch('logout');
     },
     logCurrentUser() {
-      console.log(this.$store.getters.getUserProfile);
+      // console.log(
+      //   'UserProfile set in state',
+      //   this.$store.getters.getUserProfile
+      // );
+      // console.log(
+      //   'Email Verified?',
+      //   this.$store.getters.getCurrentUser.emailVerified
+      // );
+      console.log('Full User:\n', fb.auth.currentUser);
+      console.log('Email verified:\n', fb.auth.currentUser.emailVerified);
+    },
+    sell() {
+      if (fb.auth.currentUser.emailVerified) {
+        router.push('/sell');
+      } else {
+        alert(
+          'You must verify your email before you can start selling on BS Social Swap.'
+        );
+      }
     }
   },
   mounted() {
+    this.$forceUpdate();
     if (
       this.$route.name !== 'profile' &&
       this.$route.name !== 'product' &&
@@ -348,7 +408,8 @@ export default {
       this.$route.name !== 'terms-of-service' &&
       this.$route.name !== 'listings' &&
       this.$route.name !== 'chat' &&
-      this.$route.name !== 'login'
+      this.$route.name !== 'login' &&
+      this.$route.name !== 'sell'
     ) {
       document.addEventListener('scroll', this.scrollListener);
     } else {

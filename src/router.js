@@ -7,6 +7,7 @@ import Profile from './views/Profile.vue';
 import Product from './views/Product.vue';
 import MainNavbar from './layout/MainNavbar.vue';
 import MainFooter from './layout/MainFooter.vue';
+import { auth } from './views/firestore/index';
 
 Vue.use(Router);
 
@@ -51,6 +52,18 @@ const router = new Router({
     {
       path: '/profile',
       name: 'profile',
+      components: { default: Profile, header: MainNavbar, footer: MainFooter },
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: 'black' }
+      },
+      meta: {
+        title: 'BS Social Swap | Profile'
+      }
+    },
+    {
+      path: '/profile/:id',
+      name: 'profile-page',
       components: { default: Profile, header: MainNavbar, footer: MainFooter },
       props: {
         header: { colorOnScroll: 400 },
@@ -158,7 +171,9 @@ const router = new Router({
         footer: { backgroundColor: 'black' }
       },
       meta: {
-        title: 'BS Social Swap | Chat'
+        title: 'BS Social Swap | Chat',
+        requiresAuth: true,
+        requiresAuthMessage: 'You have to log in to access the chat.'
       }
     }
   ],
@@ -169,6 +184,14 @@ const router = new Router({
       return { x: 0, y: 0 };
     }
   }
+});
+
+router.beforeEach((to, from, next) => {
+  const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
+
+  // the email verification for specific routes can be handled here
+  if (requiresAuth && !auth.currentUser) next('/login');
+  else next();
 });
 
 router.afterEach((to, from) => {

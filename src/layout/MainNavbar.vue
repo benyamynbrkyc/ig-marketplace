@@ -75,6 +75,26 @@
                   </div>
                 </a>
               </li>
+              <!-- item sell -->
+              <li class="md-list-item" v-if="!showDownload">
+                <a
+                  @click="sell()"
+                  class="md-list-item-router md-list-item-container md-button-clean dropdown"
+                >
+                  <div class="md-list-item-content">
+                    <md-button
+                      slot="title"
+                      class="md-button md-button-link md-simple"
+                      style="color: white !important;"
+                    >
+                      <i class="material-icons" style="color:white !important;"
+                        >monetization_on</i
+                      >
+                      <p>Sell</p>
+                    </md-button>
+                  </div>
+                </a>
+              </li>
               <!-- item 3 -->
               <li class="md-list-item" v-if="!showDownload">
                 <a
@@ -134,6 +154,85 @@
                   </div>
                 </a>
               </li>
+              <!-- item 5 -->
+              <li class="md-list-item" v-if="!showDownload">
+                <a
+                  href="/chat"
+                  class="md-list-item-router md-list-item-container md-button-clean dropdown"
+                >
+                  <div class="md-list-item-content">
+                    <md-button
+                      slot="title"
+                      class="md-button md-button-link md-simple"
+                      style="color: white !important;"
+                    >
+                      <i class="material-icons" style="color:white !important;"
+                        >chat</i
+                      >
+                      <p>Chat</p>
+                    </md-button>
+                  </div>
+                </a>
+              </li>
+              <!-- item 6 / profile -->
+              <li class="md-list-item" v-if="!showDownload">
+                <a
+                  href="javascript:void(0)"
+                  class="md-list-item-router md-list-item-container md-button-clean dropdown"
+                >
+                  <div class="md-list-item-content">
+                    <drop-down direction="down">
+                      <md-button
+                        slot="title"
+                        class="md-button md-button-link md-simple dropdown-toggle"
+                        data-toggle="dropdown"
+                        style="color:white !important;"
+                      >
+                        <i
+                          class="material-icons"
+                          style="color:white !important;"
+                          >person</i
+                        >
+                        <p>Profile</p>
+                      </md-button>
+                      <ul class="dropdown-menu dropdown-with-icons">
+                        <li>
+                          <a href="/login">
+                            <i class="material-icons">privacy_tip</i>
+                            <p>Log In</p>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="/signup">
+                            <i class="material-icons">perm_device_info</i>
+                            <p>Sign Up</p>
+                          </a>
+                        </li>
+                        <li>
+                          <a @click="logout()">
+                            <i class="material-icons">perm_device_info</i>
+                            <p>Log Out</p>
+                          </a>
+                        </li>
+                        <li>
+                          <a @click="logCurrentUser()">
+                            <i class="material-icons">perm_device_info</i>
+                            <p>logCurrentUser()</p>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="/profile">
+                            <i class=""
+                              ><img class="navAvatar" :src="pathToAvatar"
+                            /></i>
+                            <p>Profile</p>
+                          </a>
+                        </li>
+                      </ul>
+                    </drop-down>
+                  </div>
+                </a>
+              </li>
             </md-list>
           </div>
         </div>
@@ -142,7 +241,7 @@
   </md-toolbar>
 </template>
 
-<style>
+<style scoped>
 .md-simple p {
   color: white !important;
 }
@@ -156,6 +255,10 @@
   /* background-color: #1a4136; */
   padding: 15px 10px;
   border-radius: 5px;
+}
+.navAvatar {
+  width: 24px;
+  height: 20px;
 }
 </style>
 
@@ -174,6 +277,8 @@ function resizeThrottler(actualResizeHandler) {
 }
 
 import MobileMenu from '@/layout/MobileMenu';
+import router from '../router';
+import * as fb from '../views/firestore/index';
 export default {
   components: {
     MobileMenu
@@ -210,6 +315,13 @@ export default {
       // const excludedRoutes = ['login', 'landing', 'profile'];
       // return excludedRoutes.every(r => r !== this.$route.name);
       return false;
+    },
+    pathToAvatar() {
+      console.log(this.$store.getters.getUserProfile.avatar);
+      if (this.$store.getters.getUserProfile.avatar !== null)
+        return `${this.$store.getters.getUserProfile.avatar}`;
+      else
+        return 'https://ladyinredthefilm.files.wordpress.com/2014/04/facebook-anonymous-silhouette.png?w=696';
     }
   },
   methods: {
@@ -258,9 +370,35 @@ export default {
       if (element_id) {
         element_id.scrollIntoView({ block: 'end', behavior: 'smooth' });
       }
+    },
+    logout() {
+      console.log('Logging out', this.$store.getters.getUserProfile.username);
+      this.$store.dispatch('logout');
+    },
+    logCurrentUser() {
+      // console.log(
+      //   'UserProfile set in state',
+      //   this.$store.getters.getUserProfile
+      // );
+      // console.log(
+      //   'Email Verified?',
+      //   this.$store.getters.getCurrentUser.emailVerified
+      // );
+      console.log('Full User:\n', fb.auth.currentUser);
+      console.log('Email verified:\n', fb.auth.currentUser.emailVerified);
+    },
+    sell() {
+      if (fb.auth.currentUser.emailVerified) {
+        router.push('/sell');
+      } else {
+        alert(
+          'You must verify your email before you can start selling on BS Social Swap.'
+        );
+      }
     }
   },
   mounted() {
+    this.$forceUpdate();
     if (
       this.$route.name !== 'profile' &&
       this.$route.name !== 'product' &&
@@ -270,7 +408,8 @@ export default {
       this.$route.name !== 'terms-of-service' &&
       this.$route.name !== 'listings' &&
       this.$route.name !== 'chat' &&
-      this.$route.name !== 'login'
+      this.$route.name !== 'login' &&
+      this.$route.name !== 'sell'
     ) {
       document.addEventListener('scroll', this.scrollListener);
     } else {

@@ -45,7 +45,7 @@
                       <p class="hidden-lg hidden-md">Profile</p>
                     </md-list-item> -->
                     <!-- price item -->
-                    <li class="md-list-item" v-if="!showDownload">
+                    <li class="md-list-item">
                       <a
                         href="javascript:void(0)"
                         class="md-list-item-router md-list-item-container md-button-clean dropdown"
@@ -84,7 +84,7 @@
                       </a>
                     </li>
                     <!-- followers item -->
-                    <li class="md-list-item" v-if="!showDownload">
+                    <li class="md-list-item">
                       <a
                         href="javascript:void(0)"
                         class="md-list-item-router md-list-item-container md-button-clean dropdown"
@@ -123,7 +123,7 @@
                       </a>
                     </li>
                     <!-- niche item -->
-                    <li class="md-list-item" v-if="!showDownload">
+                    <li class="md-list-item">
                       <a
                         href="javascript:void(0)"
                         class="md-list-item-router md-list-item-container md-button-clean dropdown"

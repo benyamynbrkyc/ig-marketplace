@@ -20,15 +20,20 @@
               </md-button> -->
               <md-field class="md-form-group" slot="inputs">
                 <md-icon>email</md-icon>
-                <label>Email...</label>
-                <md-input v-model="email" type="email"></md-input>
+                <label>Email</label>
+                <md-input v-model="email" type="email"></md-input> <br />
               </md-field>
               <md-field class="md-form-group" slot="inputs">
                 <md-icon>lock_outline</md-icon>
-                <label>Password...</label>
-                <md-input v-model="password"></md-input>
+                <label>Password</label>
+                <md-input v-model="password" type="password"></md-input>
               </md-field>
-              <md-button slot="footer" class="md-simple md-success md-lg">
+
+              <md-button
+                @click="login()"
+                slot="footer"
+                class="md-simple md-success md-lg"
+              >
                 Login
               </md-button>
             </login-card>
@@ -49,7 +54,6 @@ export default {
   bodyClass: 'login-page',
   data() {
     return {
-      firstname: null,
       email: null,
       password: null
     };
@@ -65,6 +69,14 @@ export default {
       return {
         backgroundColor: `#3a7571`
       };
+    }
+  },
+  methods: {
+    login() {
+      this.$store.dispatch('login', {
+        email: this.email,
+        password: this.password
+      });
     }
   }
 };

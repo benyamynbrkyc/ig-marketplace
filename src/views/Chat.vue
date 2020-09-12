@@ -74,7 +74,8 @@ export default {
       usersRef.get().then(val => {
         val.forEach(val => {
           if (val.id !== 'Admin') usersRef.doc(val.id).delete();
-          console.log(val.id);
+          // BUILD CHANGE
+          // console.log(val.id);
         });
       });
     },
@@ -122,12 +123,15 @@ export default {
       .then(querySnapshot => {
         querySnapshot.forEach(doc => {
           // doc.data() is never undefined for query doc snapshots
-          console.log(doc.id, ' => ', doc.data());
+          // BUILD CHANGE
+          // console.log(doc.id, ' => ', doc.data());
           this.users.push(doc.data());
         });
       })
       .catch(function(error) {
-        console.log('Error getting documents: ', error);
+        // BUILD CHANGE
+        // console.log('Error getting documents: ', error);
+        alert('error getting documents');
       });
   }
 };

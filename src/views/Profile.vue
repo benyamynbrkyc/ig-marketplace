@@ -80,7 +80,8 @@ export default {
       return this.$store.getters.getUserProfile.username;
     },
     pathToAvatar() {
-      console.log(this.$store.getters.getUserProfile.avatar);
+      // BUILD CHANGE
+      // console.log(this.$store.getters.getUserProfile.avatar);
       if (this.$store.getters.getUserProfile.avatar !== null)
         return `${this.$store.getters.getUserProfile.avatar}`;
       else

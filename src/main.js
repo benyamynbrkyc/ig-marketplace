@@ -39,10 +39,13 @@ auth.onAuthStateChanged(user => {
           alert(
             'You have been sent a verification email. You must verify your account before you can fully experience BS Social Swap. Check your email for the verification link.'
           );
-          console.log('Sent verification email');
+          // BUILD CHANGE
+          // console.log('Sent verification email');
         })
         .catch(err => {
-          console.log(err);
+          // BUILD CHANGE
+          alert(err);
+          // console.log(err);
         });
     }
   }

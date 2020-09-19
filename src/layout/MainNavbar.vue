@@ -378,17 +378,17 @@ export default {
       this.$store.dispatch('logout');
     },
     logCurrentUser() {
-      // console.log(
-      //   'UserProfile set in state',
-      //   this.$store.getters.getUserProfile
-      // );
-      // console.log(
-      //   'Email Verified?',
-      //   this.$store.getters.getCurrentUser.emailVerified
-      // );
-      // BUILD CHANGE
-      // console.log('Full User:\n', fb.auth.currentUser);
-      // console.log('Email verified:\n', fb.auth.currentUser.emailVerified);
+      console.log(
+        'UserProfile set in state',
+        this.$store.getters.getUserProfile
+      );
+      console.log(
+        'Email Verified?',
+        this.$store.getters.getCurrentUser.emailVerified
+      );
+
+      console.log('Full User:\n', fb.auth.currentUser);
+      console.log('Email verified:\n', fb.auth.currentUser.emailVerified);
     },
     sell() {
       if (fb.auth.currentUser.emailVerified) {

@@ -26,7 +26,6 @@ const router = new Router({
         title: 'BS Social Swap | Home'
       }
     },
-
     {
       path: '/login',
       name: 'login',
@@ -138,6 +137,22 @@ const router = new Router({
       },
       meta: {
         title: 'BS Social Swap | Listings'
+      }
+    },
+    {
+      path: '/sell',
+      name: 'sell',
+      components: {
+        default: () =>
+          import(/* webpackChunkName: "settings" */ './views/Sell.vue'),
+        header: MainNavbar,
+        footer: MainFooter
+      },
+      props: {
+        header: { colorOnScroll: 400 }
+      },
+      meta: {
+        title: 'BS Social Swap | Sell'
       }
     },
     {

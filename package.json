@@ -12,6 +12,7 @@
     "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm run dev"
   },
   "dependencies": {
+    "axios": "^0.20.0",
     "core-js": "3.5.0",
     "firebase": "^7.19.1",
     "nouislider": "14.1.0",

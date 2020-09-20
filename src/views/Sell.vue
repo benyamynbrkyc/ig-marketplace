@@ -1,6 +1,10 @@
 <template>
   <div class="wrapper">
-    <div class="section page-header" :style="headerStyle">
+    <div
+      class="section page-header"
+      :style="headerStyle"
+      style="height: unset !important;"
+    >
       <div class="container">
         <div class="md-layout">
           <div
@@ -36,7 +40,45 @@
               >
                 Account successfully linked to Facebook
               </h6>
-              <h6 class="description" slot="title" v-else style="color:red;">
+
+              <h6
+                v-if="facebookAuthStatus && !pageChosen"
+                class="description"
+                slot="title"
+              >
+                Choose the Facebook Page your Instagram Account is connected to:
+                <a id="authController" @click="choosePage()">{{
+                  pageNameHeader || 'Choose Page'
+                }}</a>
+              </h6>
+
+              <md-radio
+                v-if="facebookAuthStatus && !pageChosen"
+                v-for="pageName in pageNames"
+                :key="pageName"
+                class="categoryOption"
+                v-model="pageNameHeader"
+                slot="title"
+                :value="pageName"
+                style="color: white !important;"
+                >{{ pageName }}</md-radio
+              >
+
+              <h6
+                v-if="facebookAuthStatus && pageChosen"
+                class="description"
+                slot="title"
+              >
+                Page Chosen:
+                <a id="authController">Page</a>
+              </h6>
+
+              <h6
+                v-if="!facebookAuthStatus"
+                class="description"
+                slot="title"
+                style="color:red;"
+              >
                 Account isn't linked to Facebook
                 <a id="authController" @click="sendInstaInfo()">Link</a>
               </h6>
@@ -47,9 +89,150 @@
                 slot="inputs"
               >
                 <md-icon>account_circle</md-icon>
-                <label>@username</label>
+                <label id="usernameLabel">@username</label>
                 <md-input v-model="username" type="text"></md-input>
                 <br />
+              </md-field>
+
+              <md-field
+                v-if="facebookAuthStatus"
+                class="md-form-group"
+                slot="inputs"
+              >
+                <md-icon>attach_money</md-icon>
+                <label id="usernameLabel">Price</label>
+                <md-input v-model="price" type="number" min="1"></md-input>
+                <br />
+              </md-field>
+
+              <md-field
+                v-if="facebookAuthStatus"
+                class="md-form-group"
+                slot="inputs"
+                id="categoryRadio"
+                style="flex-wrap: wrap;"
+                ><md-icon>category</md-icon>
+                <md-radio
+                  class="categoryOption"
+                  v-model="radio"
+                  value="Architecture & Interior"
+                  >Architecture & Interior</md-radio
+                >
+                <md-radio
+                  class="categoryOption"
+                  v-model="radio"
+                  value="Art & Design"
+                  >Art & Design</md-radio
+                >
+                <md-radio
+                  class="categoryOption"
+                  v-model="radio"
+                  value="Blog & Lifestyle"
+                  >Blog & Lifestyle</md-radio
+                >
+                <md-radio
+                  class="categoryOption"
+                  v-model="radio"
+                  value="Business & Brand"
+                  >Business & Brand</md-radio
+                >
+                <md-radio
+                  class="categoryOption"
+                  v-model="radio"
+                  value="Cars & Bikes"
+                  >Cars & Bikes</md-radio
+                >
+                <md-radio
+                  class="categoryOption"
+                  v-model="radio"
+                  value="City & Country"
+                  >City & Country</md-radio
+                >
+                <md-radio
+                  class="categoryOption"
+                  v-model="radio"
+                  value="Educational & QA"
+                  >Educational & QA</md-radio
+                >
+                <md-radio
+                  class="categoryOption"
+                  v-model="radio"
+                  value="Fashion & Style"
+                  >Fashion & Style</md-radio
+                >
+                <md-radio
+                  class="categoryOption"
+                  v-model="radio"
+                  value="Fitness & Sports"
+                  >Fitness & Sports</md-radio
+                >
+                <md-radio
+                  class="categoryOption"
+                  v-model="radio"
+                  value="Food & Nutrition"
+                  >Food & Nutrition</md-radio
+                >
+                <md-radio
+                  class="categoryOption"
+                  v-model="radio"
+                  value="Gaming & Entertainment"
+                  >Gaming & Entertainment</md-radio
+                >
+                <md-radio
+                  class="categoryOption"
+                  v-model="radio"
+                  value="Health & Beauty"
+                  >Health & Beauty</md-radio
+                >
+                <md-radio
+                  class="categoryOption"
+                  v-model="radio"
+                  value="Humor & Memes"
+                  >Humor & Memes</md-radio
+                >
+                <md-radio
+                  class="categoryOption"
+                  v-model="radio"
+                  value="Luxury & Motivation"
+                  >Luxury & Motivation</md-radio
+                >
+                <md-radio
+                  class="categoryOption"
+                  v-model="radio"
+                  value="Movies, TV & Fan Pages"
+                  >Movies, TV & Fan Pages</md-radio
+                >
+                <md-radio
+                  class="categoryOption"
+                  v-model="radio"
+                  value="Pets & Animals"
+                  style="color: black !important;"
+                  >Pets & Animals</md-radio
+                >
+                <md-radio
+                  class="categoryOption"
+                  v-model="radio"
+                  value="Quotes & Text"
+                  >Quotes & Text</md-radio
+                >
+                <md-radio
+                  class="categoryOption"
+                  v-model="radio"
+                  value="Reviews & Tutorials"
+                  >Reviews & Tutorials</md-radio
+                >
+                <md-radio
+                  class="categoryOption"
+                  v-model="radio"
+                  value="Tech & Computers"
+                  >Tech & Computers</md-radio
+                >
+                <md-radio
+                  class="categoryOption"
+                  v-model="radio"
+                  value="Travel & Nature"
+                  >Travel & Nature</md-radio
+                >
               </md-field>
 
               <md-button
@@ -77,6 +260,7 @@ import { auth } from 'firebase';
 import SellCard from '../components/cards/SellCard';
 import * as fb from '../views/firestore/index';
 import firebase from 'firebase';
+import axios from 'axios';
 
 export default {
   components: {
@@ -86,8 +270,14 @@ export default {
   data() {
     return {
       username: null,
+      price: 0,
+      radio: null,
       facebookAuthUser: null,
-      facebookAuthStatus: false
+      facebookAuthStatus: false,
+      pageChosen: false,
+      pageNameHeader: null,
+      pageNames: [],
+      FB_ACCESS_TOKEN: ''
     };
   },
   computed: {
@@ -101,7 +291,9 @@ export default {
     async sendInstaInfo() {
       console.log('Logging in user using firebase facebook auth');
       let facebookProvider = new firebase.auth.FacebookAuthProvider();
-      facebookProvider.addScope('pages_show_list', 'instagram_basic');
+      facebookProvider.addScope('pages_show_list');
+      facebookProvider.addScope('instagram_basic');
+      facebookProvider.addScope('business_management');
 
       // this could work better for mobile
       // provider.setCustomParameters({
@@ -110,8 +302,9 @@ export default {
 
       fb.auth.signInWithRedirect(facebookProvider);
     },
-    setFBAuthStatus(result) {
+    async setFBAuthStatus(result) {
       this.facebookAuthUser = result;
+      this.FB_ACCESS_TOKEN = result.credential.accessToken;
       console.log('result user', result.user);
       console.log('1', this.facebookAuthStatus);
 
@@ -123,6 +316,15 @@ export default {
       }
       console.log('2', this.facebookAuthStatus);
       console.log('this facebook auth user', this.facebookAuthUser);
+
+      let pagesOfUser = await axios.get(
+        `https://graph.facebook.com/v8.0/me/accounts?access_token=${this.FB_ACCESS_TOKEN}`
+      );
+      let pages = pagesOfUser.data.data;
+
+      pages.forEach(page => {
+        this.pageNames.push(page.name);
+      });
     },
     addListing() {
       let username = this.username
@@ -132,13 +334,22 @@ export default {
 
       if (username[0] == '@') username.splice(0, 1);
       let usernameMod = username.join('');
-      console.log(usernameMod);
 
       const regexInstaUser = /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/gim.test(
         usernameMod
       );
-      console.log(regexInstaUser, usernameMod);
-    }
+
+      if (regexInstaUser) {
+        usernameMod = '@' + usernameMod;
+        const newListingData = {
+          username: usernameMod,
+          price: this.price,
+          category: this.radio
+        };
+        console.log(newListingData);
+      }
+    },
+    async choosePage() {}
   },
   created() {
     fb.auth
@@ -154,6 +365,12 @@ export default {
           this.setFBAuthStatus(err);
         }
       });
+  },
+  watch: {
+    radio(val) {
+      console.log(val);
+      console.log(this.radio);
+    }
   }
 };
 </script>
@@ -208,7 +425,7 @@ body {
 }
 @media only screen and (max-width: 487px) {
   .md-card {
-    width: 300px;
+    width: 350px;
     margin-top: 50px !important;
   }
 }
@@ -258,5 +475,15 @@ p.description {
 }
 #graphAPILink {
   text-decoration: underline;
+}
+.md-select-value {
+  margin-left: 5px;
+}
+.categoryOption {
+  margin-left: 10px;
+  color: black !important;
+}
+md-radio {
+  color: black !important;
 }
 </style>

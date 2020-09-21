@@ -42,18 +42,16 @@
               </h6>
 
               <h6
-                v-if="facebookAuthStatus && !pageChosen"
+                v-if="facebookAuthStatus && !isPageChosen"
                 class="description"
                 slot="title"
               >
                 Choose the Facebook Page your Instagram Account is connected to:
-                <a id="authController" @click="choosePage()">{{
-                  pageNameHeader || 'Choose Page'
-                }}</a>
+                <a id="authController">{{ pageNameHeader || 'Choose Page' }}</a>
               </h6>
 
               <md-radio
-                v-if="facebookAuthStatus && !pageChosen"
+                v-if="facebookAuthStatus && !isPageChosen"
                 v-for="pageName in pageNames"
                 :key="pageName"
                 class="categoryOption"
@@ -65,7 +63,37 @@
               >
 
               <h6
-                v-if="facebookAuthStatus && pageChosen"
+                v-if="facebookAuthStatus && foundInstagramAcc"
+                class="description"
+                slot="title"
+              >
+                BS Social Swap is connected to this Instagram Account:
+                <a id="authController">{{
+                  '@' + instagramAccUsername || 'No Account Found'
+                }}</a>
+              </h6>
+
+              <h6
+                v-if="ERROR !== null"
+                class="description"
+                slot="title"
+                style="color: red;"
+              >
+                This Facebook Page doesn't have an Instagram Account connected
+                to it:
+                <a id="authController">{{ 'NO ACCOUNT FOUND' }}</a> <br />
+                <span
+                  ><a
+                    id="learnToConnect"
+                    href="https://www.facebook.com/business/help/898752960195806"
+                    >To learn how to connect your Instagram Account, visit this
+                    link.</a
+                  ></span
+                >
+              </h6>
+
+              <h6
+                v-if="facebookAuthStatus && isPageChosen"
                 class="description"
                 slot="title"
               >
@@ -84,18 +112,7 @@
               </h6>
 
               <md-field
-                v-if="facebookAuthStatus"
-                class="md-form-group"
-                slot="inputs"
-              >
-                <md-icon>account_circle</md-icon>
-                <label id="usernameLabel">@username</label>
-                <md-input v-model="username" type="text"></md-input>
-                <br />
-              </md-field>
-
-              <md-field
-                v-if="facebookAuthStatus"
+                v-if="facebookAuthStatus && foundInstagramAcc"
                 class="md-form-group"
                 slot="inputs"
               >
@@ -106,7 +123,7 @@
               </md-field>
 
               <md-field
-                v-if="facebookAuthStatus"
+                v-if="facebookAuthStatus && foundInstagramAcc"
                 class="md-form-group"
                 slot="inputs"
                 id="categoryRadio"
@@ -236,7 +253,7 @@
               </md-field>
 
               <md-button
-                v-if="facebookAuthStatus"
+                v-if="facebookAuthStatus && foundInstagramAcc"
                 @click="addListing()"
                 slot="footer"
                 class="md-simple md-success md-lg"
@@ -269,15 +286,21 @@ export default {
   bodyClass: 'login-page',
   data() {
     return {
-      username: null,
       price: 0,
       radio: null,
       facebookAuthUser: null,
       facebookAuthStatus: false,
-      pageChosen: false,
+      isPageChosen: false,
+      chosenPage: '',
       pageNameHeader: null,
       pageNames: [],
-      FB_ACCESS_TOKEN: ''
+      pages: [],
+      FB_ACCESS_TOKEN: '',
+      FB_PAGE_ID: null,
+      IG_USER: null,
+      foundInstagramAcc: false,
+      instagramAccUsername: null,
+      ERROR: null
     };
   },
   computed: {
@@ -305,8 +328,7 @@ export default {
     async setFBAuthStatus(result) {
       this.facebookAuthUser = result;
       this.FB_ACCESS_TOKEN = result.credential.accessToken;
-      console.log('result user', result.user);
-      console.log('1', this.facebookAuthStatus);
+      console.log(result.credential.accessToken);
 
       if (result.user == null) {
         this.facebookAuthStatus = false;
@@ -314,17 +336,34 @@ export default {
       if (result.user === undefined) {
         this.facebookAuthStatus = true;
       }
-      console.log('2', this.facebookAuthStatus);
-      console.log('this facebook auth user', this.facebookAuthUser);
+      console.log('this facebook auth user\n', this.facebookAuthUser);
 
       let pagesOfUser = await axios.get(
         `https://graph.facebook.com/v8.0/me/accounts?access_token=${this.FB_ACCESS_TOKEN}`
       );
       let pages = pagesOfUser.data.data;
+      this.pages = pagesOfUser.data.data;
 
       pages.forEach(page => {
+        console.log('page', page);
         this.pageNames.push(page.name);
       });
+    },
+    setPageID(name) {
+      if (
+        this.pageNameHeader !== 'Choose page' &&
+        this.pageNameHeader !== null
+      ) {
+        this.pages.some(page => {
+          if (page.name === name) {
+            this.chosenPage = page;
+            console.log('chosen page', this.chosenPage);
+          }
+        });
+      } else {
+        console.error('No value in pageNameHeader');
+      }
+      console.log(this.facebookAuthStatus, this.foundInstagramAcc);
     },
     addListing() {
       let username = this.username
@@ -349,7 +388,32 @@ export default {
         console.log(newListingData);
       }
     },
-    async choosePage() {}
+    async findInstagramAcc(page) {
+      console.log('page with ID', page);
+
+      this.IG_USER = await axios.get(
+        `https://graph.facebook.com/v8.0/${page.id}?fields=instagram_business_account&access_token=${page.access_token}`
+      );
+
+      console.log(this.IG_USER);
+
+      try {
+        const instaBusinessAccountID = this.IG_USER.data
+          .instagram_business_account.id;
+
+        console.log(instaBusinessAccountID);
+
+        const username = await axios.get(
+          `https://graph.facebook.com/v8.0/${instaBusinessAccountID}?fields=username&access_token=${page.access_token}`
+        );
+
+        this.instagramAccUsername = username.data.username;
+        this.foundInstagramAcc = true;
+        this.console.log('username', username.data.username);
+      } catch (error) {
+        this.ERROR = 'No Instagram account is connected to this Facebook Page.';
+      }
+    }
   },
   created() {
     fb.auth
@@ -368,8 +432,13 @@ export default {
   },
   watch: {
     radio(val) {
-      console.log(val);
       console.log(this.radio);
+    },
+    pageNameHeader(val) {
+      this.setPageID(val);
+    },
+    chosenPage(val) {
+      this.findInstagramAcc(val);
     }
   }
 };
@@ -485,5 +554,8 @@ p.description {
 }
 md-radio {
   color: black !important;
+}
+#learnToConnect {
+  text-decoration: underline;
 }
 </style>

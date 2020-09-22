@@ -12,6 +12,7 @@ const store = new Vuex.Store({
   mutations: {
     setUserProfile(state, val) {
       state.userProfile = val;
+      console.log('user prof from store.js', state.userProfile);
     }
     //   setPosts maybe it can help with posting listings
   },

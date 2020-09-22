@@ -85,6 +85,7 @@
                 <span
                   ><a
                     id="learnToConnect"
+                    target="_blank"
                     href="https://www.facebook.com/business/help/898752960195806"
                     >To learn how to connect your Instagram Account, visit this
                     link.</a
@@ -330,12 +331,13 @@ export default {
       this.FB_ACCESS_TOKEN = result.credential.accessToken;
       console.log(result.credential.accessToken);
 
-      if (result.user == null) {
-        this.facebookAuthStatus = false;
-      }
-      if (result.user === undefined) {
+      if (
+        result.credential.accessToken !== null &&
+        result.credential.accessToken !== undefined
+      ) {
         this.facebookAuthStatus = true;
       }
+
       console.log('this facebook auth user\n', this.facebookAuthUser);
 
       let pagesOfUser = await axios.get(
@@ -412,6 +414,7 @@ export default {
         this.console.log('username', username.data.username);
       } catch (error) {
         this.ERROR = 'No Instagram account is connected to this Facebook Page.';
+        console.log('error', this.ERROR);
       }
     }
   },
@@ -419,7 +422,7 @@ export default {
     fb.auth
       .getRedirectResult()
       .then(result => {
-        // console.log('RESULT:\n', result);
+        console.log('RESULT:\n', result);
 
         this.setFBAuthStatus(result);
       })
@@ -557,5 +560,6 @@ md-radio {
 }
 #learnToConnect {
   text-decoration: underline;
+  text-transform: none;
 }
 </style>

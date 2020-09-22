@@ -30,7 +30,8 @@ const store = new Vuex.Store({
           username: form.username,
           email: form.email,
           avatar: form.avatar,
-          dateCreated: new Date()
+          dateCreated: new Date(),
+          password: form.password
         });
 
         dispatch('fetchUserProfile', user);
@@ -98,7 +99,9 @@ const store = new Vuex.Store({
     // MAIN DRIVER
   },
   getters: {
-    getUserProfile: state => state.userProfile,
+    getUserProfile(state) {
+      return state.userProfile;
+    },
     getCurrentUser: () => fb.auth.currentUser
   }
 });

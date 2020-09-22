@@ -81,7 +81,10 @@
               >
                 This Facebook Page doesn't have an Instagram Account connected
                 to it:
-                <a id="authController">{{ 'NO ACCOUNT FOUND' }}</a> <br />
+                <a @click="logBackIn()" id="authController">{{
+                  'NO ACCOUNT FOUND'
+                }}</a>
+                <br />
                 <span
                   ><a
                     id="learnToConnect"
@@ -314,6 +317,7 @@ export default {
   methods: {
     async sendInstaInfo() {
       console.log('Logging in user using firebase facebook auth');
+      console.log('Current user from firebase.currentUser', auth().currentUser);
       let facebookProvider = new firebase.auth.FacebookAuthProvider();
       facebookProvider.addScope('pages_show_list');
       facebookProvider.addScope('instagram_basic');
@@ -323,6 +327,14 @@ export default {
       // provider.setCustomParameters({
       //   display: 'popup'
       // });
+
+      localStorage.setItem(
+        'tempCred',
+        JSON.stringify({
+          email: this.$store.getters.getUserProfile.email,
+          password: this.$store.getters.getUserProfile.password
+        })
+      );
 
       fb.auth.signInWithRedirect(facebookProvider);
     },
@@ -411,18 +423,27 @@ export default {
 
         this.instagramAccUsername = username.data.username;
         this.foundInstagramAcc = true;
-        this.console.log('username', username.data.username);
+        console.log('username', username.data.username);
       } catch (error) {
         this.ERROR = 'No Instagram account is connected to this Facebook Page.';
         console.log('error', this.ERROR);
       }
+    },
+    logBackIn() {
+      const tempCred = JSON.parse(localStorage.getItem('tempCred'));
+      this.$store.dispatch('login', {
+        email: tempCred.email,
+        password: tempCred.password
+      });
+      console.log(tempCred);
     }
   },
   created() {
+    console.log('created hook, current fb.auth user', fb.auth.currentUser);
     fb.auth
       .getRedirectResult()
       .then(result => {
-        console.log('RESULT:\n', result);
+        console.log('REDIRECT RESULT:\n', result);
 
         this.setFBAuthStatus(result);
       })

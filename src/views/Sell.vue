@@ -120,8 +120,22 @@
                 class="md-form-group"
                 slot="inputs"
               >
+                <md-icon style="right:unset !important;">article</md-icon>
+
+                <md-textarea
+                  style="padding-left:25px !important;"
+                  v-model="description"
+                ></md-textarea>
+                <br />
+              </md-field>
+
+              <md-field
+                v-if="facebookAuthStatus && foundInstagramAcc"
+                class="md-form-group"
+                slot="inputs"
+              >
                 <md-icon>attach_money</md-icon>
-                <label id="usernameLabel">Price</label>
+                <!-- <label id="usernameLabel">Price</label> -->
                 <md-input v-model="price" type="number" min="1"></md-input>
                 <br />
               </md-field>
@@ -133,6 +147,7 @@
                 id="categoryRadio"
                 style="flex-wrap: wrap;"
                 ><md-icon>category</md-icon>
+
                 <md-radio
                   class="categoryOption"
                   v-model="radio"
@@ -282,6 +297,7 @@ import SellCard from '../components/cards/SellCard';
 import * as fb from '../views/firestore/index';
 import firebase from 'firebase';
 import axios from 'axios';
+import getData from './utils/batchPromises';
 
 export default {
   components: {
@@ -292,6 +308,7 @@ export default {
     return {
       price: 0,
       radio: null,
+      description: null,
       facebookAuthUser: null,
       facebookAuthStatus: false,
       isPageChosen: false,
@@ -304,7 +321,16 @@ export default {
       IG_USER: null,
       foundInstagramAcc: false,
       instagramAccUsername: null,
-      ERROR: null
+      ERROR: null,
+      instagramAccountData: {
+        username: null,
+        noOfFollowers: null,
+        price: null,
+        category: null,
+        noOfPosts: null,
+        reach: null,
+        description: null
+      }
     };
   },
   computed: {
@@ -322,6 +348,8 @@ export default {
       facebookProvider.addScope('pages_show_list');
       facebookProvider.addScope('instagram_basic');
       facebookProvider.addScope('business_management');
+      facebookProvider.addScope('instagram_manage_insights');
+      facebookProvider.addScope('read_insights');
 
       // this could work better for mobile
       // provider.setCustomParameters({
@@ -380,27 +408,16 @@ export default {
       console.log(this.facebookAuthStatus, this.foundInstagramAcc);
     },
     addListing() {
-      let username = this.username
-        .toLowerCase()
-        .trim()
-        .split('');
+      this.instagramAccountData.price = this.price;
+      this.instagramAccountData.category = this.radio;
+      this.instagramAccountData.description = this.description;
+      this.instagramAccountData.owner = {
+        username: this.$store.getters.getUserProfile.username,
+        email: this.$store.getters.getUserProfile.email,
+        avatar: this.$store.getters.avatar
+      };
 
-      if (username[0] == '@') username.splice(0, 1);
-      let usernameMod = username.join('');
-
-      const regexInstaUser = /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/gim.test(
-        usernameMod
-      );
-
-      if (regexInstaUser) {
-        usernameMod = '@' + usernameMod;
-        const newListingData = {
-          username: usernameMod,
-          price: this.price,
-          category: this.radio
-        };
-        console.log(newListingData);
-      }
+      console.log(this.instagramAccountData);
     },
     async findInstagramAcc(page) {
       console.log('page with ID', page);
@@ -423,7 +440,49 @@ export default {
 
         this.instagramAccUsername = username.data.username;
         this.foundInstagramAcc = true;
-        console.log('username', username.data.username);
+
+        // get # of posts
+        let mediaObjIDs = [];
+        const posts = await axios.get(
+          `https://graph.facebook.com/v8.0/${instaBusinessAccountID}/media?access_token=${page.access_token}`
+        );
+        this.instagramAccountData.noOfPosts = posts.data.data.length;
+        const postIDs = posts.data.data;
+        const numOfPosts = posts.data.data.length;
+
+        for (let i = 0; i < numOfPosts; i++) {
+          mediaObjIDs.push(postIDs[i].id);
+        }
+
+        // average reach
+        let reachData = await axios.get(
+          `https://graph.facebook.com/v8.0/${instaBusinessAccountID}/insights?metric=reach&period=days_28&access_token=${page.access_token}`
+        );
+        let reachVals = reachData.data.data[0].values;
+        let reachValsSum = 0;
+
+        for (let i = 0; i < reachVals.length; i++) {
+          reachValsSum += reachVals[i].value;
+        }
+
+        let avgReach = reachValsSum / reachVals.length;
+        console.log('average reach', avgReach);
+
+        // get followers
+        let businessDiscoveryInsights = await axios.get(
+          `https://graph.facebook.com/v8.0/${instaBusinessAccountID}?fields=business_discovery.username(${username.data.username}){followers_count,media_count}&access_token=${page.access_token}`
+        );
+
+        let followers =
+          businessDiscoveryInsights.data.business_discovery.followers_count;
+        let mediaCount =
+          businessDiscoveryInsights.data.business_discovery.media_count;
+
+        this.instagramAccountData.username = username.data.username;
+        this.instagramAccountData.noOfFollowers = followers;
+        this.instagramAccountData.noOfPosts = mediaCount;
+        this.instagramAccountData.reach = avgReach;
+        console.log(this.instagramAccountData);
       } catch (error) {
         this.ERROR = 'No Instagram account is connected to this Facebook Page.';
         console.log('error', this.ERROR);
@@ -582,5 +641,13 @@ md-radio {
 #learnToConnect {
   text-decoration: underline;
   text-transform: none;
+}
+#usernameLabelCategory {
+  margin-bottom: 20px;
+}
+@media only screen and (max-width: 768px) {
+  .categoryOption {
+    width: 100%;
+  }
 }
 </style>

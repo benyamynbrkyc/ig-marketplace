@@ -22,6 +22,7 @@ export const auth = app.auth();
 
 export const storageRef = app.storage().ref();
 export const usersRef = db.collection('users');
+export const allListingsRef = db.collection('allListings');
 export const roomsRef = db.collection('chatRooms');
 
 export const filesRef = storageRef.child('files');

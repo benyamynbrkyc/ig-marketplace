@@ -72,6 +72,19 @@
                   '@' + instagramAccUsername || 'No Account Found'
                 }}</a>
               </h6>
+              <h6
+                v-if="
+                  facebookAuthStatus &&
+                    foundInstagramAcc &&
+                    usernameAlreadyRegistered
+                "
+                class="description"
+                slot="title"
+                style="color: red;"
+              >
+                This Instagram Account is already registered. Please choose
+                another one.
+              </h6>
 
               <h6
                 v-if="ERROR !== null"
@@ -116,7 +129,11 @@
               </h6>
 
               <md-field
-                v-if="facebookAuthStatus && foundInstagramAcc"
+                v-if="
+                  facebookAuthStatus &&
+                    foundInstagramAcc &&
+                    !usernameAlreadyRegistered
+                "
                 class="md-form-group"
                 slot="inputs"
               >
@@ -130,7 +147,11 @@
               </md-field>
 
               <md-field
-                v-if="facebookAuthStatus && foundInstagramAcc"
+                v-if="
+                  facebookAuthStatus &&
+                    foundInstagramAcc &&
+                    !usernameAlreadyRegistered
+                "
                 class="md-form-group"
                 slot="inputs"
               >
@@ -141,7 +162,11 @@
               </md-field>
 
               <md-field
-                v-if="facebookAuthStatus && foundInstagramAcc"
+                v-if="
+                  facebookAuthStatus &&
+                    foundInstagramAcc &&
+                    !usernameAlreadyRegistered
+                "
                 class="md-form-group"
                 slot="inputs"
                 id="categoryRadio"
@@ -272,7 +297,11 @@
               </md-field>
 
               <md-button
-                v-if="facebookAuthStatus && foundInstagramAcc"
+                v-if="
+                  facebookAuthStatus &&
+                    foundInstagramAcc &&
+                    !usernameAlreadyRegistered
+                "
                 @click="addListing()"
                 slot="footer"
                 class="md-simple md-success md-lg"
@@ -283,6 +312,21 @@
                 You must authorize BS Social Swap to access your Instagram data
                 via Facebook before you can submit an account.
               </h3>
+              <h4
+                v-if="
+                  facebookAuthStatus &&
+                    foundInstagramAcc &&
+                    missingValues !== null
+                "
+                class="description"
+                slot="inputs"
+                style="color: red; font-weight: bold;"
+              >
+                Missing Values:
+                <span v-for="val in missingValues" :key="val">
+                  <br />{{ val }}
+                </span>
+              </h4>
             </SellCard>
           </div>
         </div>
@@ -297,7 +341,9 @@ import SellCard from '../components/cards/SellCard';
 import * as fb from '../views/firestore/index';
 import firebase from 'firebase';
 import axios from 'axios';
-import getData from './utils/batchPromises';
+import router from '../router';
+
+const firestore = firebase.firestore();
 
 export default {
   components: {
@@ -330,7 +376,9 @@ export default {
         noOfPosts: null,
         reach: null,
         description: null
-      }
+      },
+      missingValues: null,
+      usernameAlreadyRegistered: false
     };
   },
   computed: {
@@ -408,16 +456,38 @@ export default {
       console.log(this.facebookAuthStatus, this.foundInstagramAcc);
     },
     addListing() {
-      this.instagramAccountData.price = this.price;
-      this.instagramAccountData.category = this.radio;
       this.instagramAccountData.description = this.description;
-      this.instagramAccountData.owner = {
-        username: this.$store.getters.getUserProfile.username,
-        email: this.$store.getters.getUserProfile.email,
-        avatar: this.$store.getters.avatar
-      };
+      this.instagramAccountData.price = Number(this.price);
+      this.instagramAccountData.category = this.radio;
+      this.instagramAccountData.ownerEmail = this.$store.getters.getUserProfile.email;
+      this.instagramAccountData.ownerUsername = this.$store.getters.getUserProfile.username;
+      this.instagramAccountData.dateCreated = new Date();
+
+      let emptyVals = [];
+      for (let elem in this.instagramAccountData) {
+        if (elem == 'price' && this.instagramAccountData[elem] == 0) {
+          emptyVals.push(
+            elem.charAt(0).toUpperCase() + elem.slice(1) + ': cannot be 0.'
+          );
+        }
+        if (this.instagramAccountData[elem] == null)
+          emptyVals.push(elem.charAt(0).toUpperCase() + elem.slice(1));
+      }
+      if (emptyVals.length > 0) {
+        this.missingValues = emptyVals;
+      } else {
+        this.missingValues = null;
+
+        this.$store.dispatch(
+          'addListingToUserAccount',
+          this.instagramAccountData
+        );
+
+        router.push('/listings');
+      }
 
       console.log(this.instagramAccountData);
+      console.log(emptyVals);
     },
     async findInstagramAcc(page) {
       console.log('page with ID', page);
@@ -438,51 +508,64 @@ export default {
           `https://graph.facebook.com/v8.0/${instaBusinessAccountID}?fields=username&access_token=${page.access_token}`
         );
 
-        this.instagramAccUsername = username.data.username;
-        this.foundInstagramAcc = true;
+        const allListingsDataSearchID = firestore
+          .collection('allListings')
+          .doc(`${username.data.username}`);
+        allListingsDataSearchID.get().then(async docSnapshot => {
+          if (docSnapshot.exists) {
+            this.usernameAlreadyRegistered = true;
+            this.instagramAccUsername = username.data.username;
+            this.foundInstagramAcc = true;
+          } else {
+            this.usernameAlreadyRegistered = false;
 
-        // get # of posts
-        let mediaObjIDs = [];
-        const posts = await axios.get(
-          `https://graph.facebook.com/v8.0/${instaBusinessAccountID}/media?access_token=${page.access_token}`
-        );
-        this.instagramAccountData.noOfPosts = posts.data.data.length;
-        const postIDs = posts.data.data;
-        const numOfPosts = posts.data.data.length;
+            this.instagramAccUsername = username.data.username;
+            this.foundInstagramAcc = true;
 
-        for (let i = 0; i < numOfPosts; i++) {
-          mediaObjIDs.push(postIDs[i].id);
-        }
+            // get # of posts
+            let mediaObjIDs = [];
+            const posts = await axios.get(
+              `https://graph.facebook.com/v8.0/${instaBusinessAccountID}/media?access_token=${page.access_token}`
+            );
+            this.instagramAccountData.noOfPosts = posts.data.data.length;
+            const postIDs = posts.data.data;
+            const numOfPosts = posts.data.data.length;
 
-        // average reach
-        let reachData = await axios.get(
-          `https://graph.facebook.com/v8.0/${instaBusinessAccountID}/insights?metric=reach&period=days_28&access_token=${page.access_token}`
-        );
-        let reachVals = reachData.data.data[0].values;
-        let reachValsSum = 0;
+            for (let i = 0; i < numOfPosts; i++) {
+              mediaObjIDs.push(postIDs[i].id);
+            }
 
-        for (let i = 0; i < reachVals.length; i++) {
-          reachValsSum += reachVals[i].value;
-        }
+            // average reach
+            let reachData = await axios.get(
+              `https://graph.facebook.com/v8.0/${instaBusinessAccountID}/insights?metric=reach&period=days_28&access_token=${page.access_token}`
+            );
+            let reachVals = reachData.data.data[0].values;
+            let reachValsSum = 0;
 
-        let avgReach = reachValsSum / reachVals.length;
-        console.log('average reach', avgReach);
+            for (let i = 0; i < reachVals.length; i++) {
+              reachValsSum += reachVals[i].value;
+            }
 
-        // get followers
-        let businessDiscoveryInsights = await axios.get(
-          `https://graph.facebook.com/v8.0/${instaBusinessAccountID}?fields=business_discovery.username(${username.data.username}){followers_count,media_count}&access_token=${page.access_token}`
-        );
+            let avgReach = reachValsSum / reachVals.length;
+            console.log('average reach', avgReach);
 
-        let followers =
-          businessDiscoveryInsights.data.business_discovery.followers_count;
-        let mediaCount =
-          businessDiscoveryInsights.data.business_discovery.media_count;
+            // get followers
+            let businessDiscoveryInsights = await axios.get(
+              `https://graph.facebook.com/v8.0/${instaBusinessAccountID}?fields=business_discovery.username(${username.data.username}){followers_count,media_count}&access_token=${page.access_token}`
+            );
 
-        this.instagramAccountData.username = username.data.username;
-        this.instagramAccountData.noOfFollowers = followers;
-        this.instagramAccountData.noOfPosts = mediaCount;
-        this.instagramAccountData.reach = avgReach;
-        console.log(this.instagramAccountData);
+            let followers =
+              businessDiscoveryInsights.data.business_discovery.followers_count;
+            let mediaCount =
+              businessDiscoveryInsights.data.business_discovery.media_count;
+
+            this.instagramAccountData.username = username.data.username;
+            this.instagramAccountData.noOfFollowers = followers;
+            this.instagramAccountData.noOfPosts = mediaCount;
+            this.instagramAccountData.reach = avgReach;
+            console.log(this.instagramAccountData);
+          }
+        });
       } catch (error) {
         this.ERROR = 'No Instagram account is connected to this Facebook Page.';
         console.log('error', this.ERROR);

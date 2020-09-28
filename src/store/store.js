@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import * as fb from '../views/firestore/index';
 import router from '../router';
+import firebase from 'firebase';
 
 Vue.use(Vuex);
 
@@ -10,9 +11,17 @@ const store = new Vuex.Store({
     userProfile: {}
   },
   mutations: {
-    setUserProfile(state, val) {
+    SET_USER_PROFILE(state, val) {
       state.userProfile = val;
       console.log('user prof from store.js', state.userProfile);
+    },
+    ADD_NEW_LISTING_TO_STATE(state, listingData) {
+      state.userProfile.listings.push(listingData);
+      console.log(
+        'added new listing to listings array and set in state',
+        listingData
+      );
+      console.log(state.userProfile);
     }
     //   setPosts maybe it can help with posting listings
   },
@@ -77,7 +86,7 @@ const store = new Vuex.Store({
       await fb.auth.signOut();
 
       // clean userProfile and redirect to /login
-      commit('setUserProfile', {});
+      commit('SET_USER_PROFILE', {});
       router.push('/login');
     },
 
@@ -87,7 +96,7 @@ const store = new Vuex.Store({
       const userProfile = await fb.usersRef.doc(user.uid).get();
 
       // set profile in state
-      commit('setUserProfile', userProfile.data());
+      commit('SET_USER_PROFILE', userProfile.data());
 
       // change route to dashboard
       if (
@@ -95,6 +104,45 @@ const store = new Vuex.Store({
         router.currentRoute.fullPath == '/signup'
       )
         router.push('/');
+    },
+    async addListingToUserAccount({ commit }, listingData) {
+      console.log(listingData);
+      let user = await fb.usersRef.doc(fb.auth.currentUser.uid).get();
+
+      const firestore = firebase.firestore();
+      const doc = firestore.doc(`/users/${fb.auth.currentUser.uid}`);
+      const arrayUnion = firebase.firestore.FieldValue.arrayUnion;
+
+      doc.update({
+        listings: arrayUnion({
+          category: listingData.category,
+          description: listingData.description,
+          noOfFollowers: listingData.noOfFollowers,
+          noOfPosts: listingData.noOfPosts,
+          price: listingData.price,
+          reach: listingData.reach,
+          username: listingData.username,
+          ownerEmail: listingData.ownerEmail,
+          ownerUsername: listingData.ownerUsername,
+          dateCreated: listingData.dateCreated
+        })
+      });
+
+      commit('ADD_NEW_LISTING_TO_STATE', listingData);
+
+      // add to collection - all listings
+      firestore.doc(`/allListings/${listingData.username}`).set({
+        category: listingData.category,
+        description: listingData.description,
+        noOfFollowers: listingData.noOfFollowers,
+        noOfPosts: listingData.noOfPosts,
+        price: listingData.price,
+        reach: listingData.reach,
+        username: listingData.username,
+        ownerEmail: listingData.ownerEmail,
+        ownerUsername: listingData.ownerUsername,
+        dateCreated: listingData.dateCreated
+      });
     }
     // MAIN DRIVER
   },

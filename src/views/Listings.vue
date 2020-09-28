@@ -5,19 +5,38 @@
       <div class="section profile-content">
         <div class="container">
           <h1>All Listings</h1>
+          <button @click="loadSampleData()">Load Sample Data</button>
           <br />
           <h3 class="title text-center">Most Recent</h3>
           <br />
-          <div class="row" id="featuredRow">
-            <div class="col">
-              <div class="classWithPad"><FeaturedCard></FeaturedCard></div>
+          <div
+            class="row"
+            id="featuredRow"
+            v-if="mostRecentListings.length !== 0"
+          >
+            <div
+              class="col"
+              v-for="listing in mostRecentListings"
+              :key="listing.idUsername"
+            >
+              <div class="classWithPad">
+                <FeaturedCard
+                  id="colFeaturedCardContainer"
+                  :avatar="listing.avatar"
+                  :followers="listing.noOfFollowers"
+                  :posts="listing.noOfPosts"
+                  :price="listing.price"
+                  :reach="listing.reach"
+                ></FeaturedCard>
+              </div>
             </div>
-            <div class="col">
-              <div class="classWithPad"><FeaturedCard></FeaturedCard></div>
-            </div>
-            <div class="col">
-              <div class="classWithPad"><FeaturedCard></FeaturedCard></div>
-            </div>
+          </div>
+          <div
+            class="row"
+            id="featuredRow"
+            v-if="mostRecentListings.length == 0"
+          >
+            No data found
           </div>
           <br />
           <br />
@@ -258,9 +277,19 @@
               </div>
             </div>
           </md-toolbar>
-          <ListingCardMain></ListingCardMain><ListingCardMain></ListingCardMain
-          ><ListingCardMain></ListingCardMain
-          ><ListingCardMain></ListingCardMain>
+
+          <ListingCardMain
+            v-for="listing in allListings"
+            :key="listing.idUsername"
+            :avatar="listing.avatar"
+            :followers="listing.noOfFollowers"
+            :posts="listing.noOfPosts"
+            :price="listing.price"
+            :reach="listing.reach"
+            :category="listing.category"
+            :author="listing.ownerUsername"
+          ></ListingCardMain>
+
           <Modal v-if="showModal == true"></Modal>
         </div>
       </div>
@@ -268,12 +297,101 @@
   </div>
 </template>
 
+<script>
+import Modal from '@/components/Modal.vue';
+import FeaturedCard from '@/components/cards/FeaturedCard.vue';
+import { eventBus } from '../eventBus';
+import ListingCardMain from '../components/cards/ListingCardMain.vue';
+import loadSampleData from './utils/injectListings';
+import firebase from 'firebase';
+
+const firestore = firebase.firestore();
+
+export default {
+  components: {
+    Modal,
+    FeaturedCard,
+    ListingCardMain
+  },
+  bodyClass: 'profile-page',
+  data() {
+    return {
+      showModal: false,
+      allListings: [],
+      mostRecentListings: []
+    };
+  },
+  methods: {
+    openModal() {
+      this.showModal = true;
+    },
+    loadSampleData() {
+      loadSampleData();
+      console.log('Loaded sample data');
+    },
+    async loadAllListings() {
+      firestore
+        .collection('/allListings')
+        .get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(doc => {
+            // doc.data all data from document
+            this.allListings.push(doc.data());
+          });
+
+          let UNIXDates = [];
+          this.allListings.forEach(listing => {
+            UNIXDates.push(listing.dateCreated);
+          });
+
+          UNIXDates.sort((a, b) => {
+            return b - a;
+          });
+
+          console.log(UNIXDates);
+          console.log(UNIXDates[0], UNIXDates[1], UNIXDates[2]);
+
+          querySnapshot.forEach(doc => {
+            if (
+              doc.data().dateCreated == UNIXDates[0] ||
+              doc.data().dateCreated == UNIXDates[1] ||
+              doc.data().dateCreated == UNIXDates[2]
+            )
+              this.mostRecentListings.push(doc.data());
+          });
+        })
+        .catch(err => {
+          console.log("Couldn't get data", err);
+        });
+
+      console.log('all listings\n', this.allListings);
+      console.log('most recent\n', this.mostRecentListings);
+    }
+  },
+  mounted() {
+    eventBus.$on('closeModal', msg => {
+      this.showModal = false;
+    });
+    this.loadAllListings();
+  },
+  created() {
+    console.log(this.allListings);
+  },
+  computed: {
+    headerStyle() {
+      return {
+        background: `radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%)`
+      };
+    }
+  }
+};
+</script>
 <style>
 #toolbar {
   margin-bottom: 90px;
 }
 .classWithPad {
-  margin: 10px;
+  /* margin: 10px; */
   padding: 10px;
 }
 #featuredRow {
@@ -316,49 +434,6 @@ h1 {
   text-align: center;
 }
 </style>
-
-<script>
-import Modal from '@/components/Modal.vue';
-import FeaturedCard from '@/components/cards/FeaturedCard.vue';
-import { eventBus } from '../eventBus';
-import ListingCardMain from '../components/cards/ListingCardMain.vue';
-export default {
-  components: {
-    Modal,
-    FeaturedCard,
-    ListingCardMain
-  },
-  bodyClass: 'profile-page',
-  //   props: {
-  //     header: {
-  //       type: String,
-  //       default: require('@/assets/img/kifkuf.jpg')
-  //     }
-  //   },
-  data() {
-    return {
-      showModal: false
-    };
-  },
-  methods: {
-    openModal() {
-      this.showModal = true;
-    }
-  },
-  mounted() {
-    eventBus.$on('closeModal', msg => {
-      this.showModal = false;
-    });
-  },
-  computed: {
-    headerStyle() {
-      return {
-        background: `radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%)`
-      };
-    }
-  }
-};
-</script>
 
 <style lang="scss" scoped>
 .section {

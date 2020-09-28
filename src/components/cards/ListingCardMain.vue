@@ -9,7 +9,7 @@
         <div class="row" id="introRow">
           <div class="col-6" id="backG1">
             <img
-              src="https://scontent-frx5-1.cdninstagram.com/v/t51.2885-19/s150x150/118284985_354124242280580_9210287956944691765_n.jpg?_nc_ht=scontent-frx5-1.cdninstagram.com&_nc_ohc=SrW7ppYlqU8AX8hkFCS&oh=7e1b52c0553427bac4f98e596a2f445a&oe=5F71FED9"
+              :src="`${avatar !== undefined ? avatar : getNoAvatarPic()}`"
               alt=""
             />
           </div>
@@ -24,7 +24,7 @@
                     />
                   </div>
                   <h4 class="info" style="line-height: 1rem !important;">
-                    10.000 <br />
+                    {{ followers }} <br />
                     <span class="listingSubTextTitle">Followers</span>
                   </h4>
                 </div>
@@ -35,7 +35,7 @@
                     <img src="@/assets/img/listingSubIcons/posts.png" alt="" />
                   </div>
                   <h4 class="info" style="line-height: 1rem !important;">
-                    15 <br />
+                    {{ posts }} <br />
                     <span class="listingSubTextTitle">Posts</span>
                   </h4>
                 </div>
@@ -49,7 +49,7 @@
                     />
                   </div>
                   <h4 class="info" style="line-height: 1rem !important; ">
-                    Entertainment <br />
+                    {{ category }} <br />
                     <span class="listingSubTextTitle">Category</span>
                   </h4>
                 </div>
@@ -63,7 +63,7 @@
                     <img src="@/assets/img/listingSubIcons/price.png" alt="" />
                   </div>
                   <h4 class="info" style="line-height: 1rem !important;">
-                    $800 <br />
+                    {{ price }} <br />
                     <span class="listingSubTextTitle">Price</span>
                   </h4>
                 </div>
@@ -77,8 +77,8 @@
                     />
                   </div>
                   <h4 class="info" style="line-height: 1rem !important;">
-                    155 <br />
-                    <span class="listingSubTextTitle">Likes Per Post</span>
+                    {{ reach }} <br />
+                    <span class="listingSubTextTitle">Reach</span>
                   </h4>
                 </div>
               </div>
@@ -88,7 +88,7 @@
                     <img src="@/assets/img/listingSubIcons/author.png" alt="" />
                   </div>
                   <h4 class="info" style="line-height: 1rem !important; ">
-                    @username <br />
+                    {{ author }} <br />
                     <span class="listingSubTextTitle">Author</span>
                   </h4>
                 </div>
@@ -100,6 +100,62 @@
     </div>
   </md-card>
 </template>
+
+<script>
+export default {
+  name: 'ListingCard',
+  props: {
+    headerColor: {
+      type: String,
+      default: '2e715e'
+    },
+    avatar: {
+      type: String,
+      required: true
+    },
+    category: {
+      type: String,
+      required: true
+    },
+    followers: {
+      type: Number,
+      required: true
+    },
+    posts: {
+      type: Number,
+      required: true
+    },
+    price: {
+      type: Number,
+      required: true
+    },
+    author: { type: String, required: true },
+    reach: {
+      type: Number,
+      required: true
+    }
+  },
+  data() {
+    return {
+      cardHidden: true
+    };
+  },
+  beforeMount() {
+    setTimeout(this.showCard, 400);
+  },
+  methods: {
+    showCard: function() {
+      this.cardHidden = false;
+    },
+    getClass: function(headerColor) {
+      return 'md-card-header-' + headerColor + '';
+    },
+    getNoAvatarPic() {
+      return require(`${'../../assets/img/faces/no-avatar.jpg'}`);
+    }
+  }
+};
+</script>
 
 <style scoped>
 #outerWrapper {
@@ -220,12 +276,9 @@ h4 {
 }
 
 @media only screen and (min-width: 768px) {
-}
-
-@media only screen and (min-width: 768px) {
   #featureRow .info {
     min-width: 129px !important;
-    max-width: 200px !important;
+    /* max-width: 200px !important; */
   }
 }
 @media only screen and (max-width: 768px) {
@@ -276,9 +329,17 @@ h4 {
   width: 100%;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
   padding-top: 10px;
   padding-bottom: 10px;
+}
+
+#mainCard:hover {
+  cursor: pointer;
+  -webkit-box-shadow: 0px 0px 23px -2px rgba(0, 0, 0, 0.28);
+  -moz-box-shadow: 0px 0px 23px -2px rgba(0, 0, 0, 0.28);
+  box-shadow: 0px 0px 23px -2px rgba(0, 0, 0, 0.28);
+  transition: 0.5s;
 }
 
 .card-header-wrapper {
@@ -306,33 +367,3 @@ h4 {
   text-align: left;
 }
 </style>
-
-<script>
-export default {
-  name: 'ListingCard',
-  props: {
-    headerColor: {
-      type: String,
-      default: '2e715e'
-    }
-  },
-  data() {
-    return {
-      cardHidden: true
-    };
-  },
-  beforeMount() {
-    setTimeout(this.showCard, 400);
-  },
-  methods: {
-    showCard: function() {
-      this.cardHidden = false;
-    },
-    getClass: function(headerColor) {
-      return 'md-card-header-' + headerColor + '';
-    }
-  }
-};
-</script>
-
-<style lang="css"></style>

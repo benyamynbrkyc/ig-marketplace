@@ -132,7 +132,7 @@ const store = new Vuex.Store({
       commit('ADD_NEW_LISTING_TO_STATE', listingData);
 
       // add to collection - all listings
-      firestore.doc(`/allListings/${listingData.username}`).set({
+      firestore.collection(`/allListings`).add({
         category: listingData.category,
         description: listingData.description,
         noOfFollowers: listingData.noOfFollowers,

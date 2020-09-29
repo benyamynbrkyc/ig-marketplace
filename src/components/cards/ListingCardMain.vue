@@ -4,7 +4,7 @@
     class="md-card-login"
     :class="{ 'md-card-hidden': cardHidden }"
   >
-    <div class="section" id="intro">
+    <div class="section" id="intro" @click="openListing()">
       <div class="container-fluid" id="flexContainer">
         <div class="row" id="introRow">
           <div class="col-6" id="backG1">
@@ -153,8 +153,12 @@ export default {
     },
     getNoAvatarPic() {
       return require(`${'../../assets/img/faces/no-avatar.jpg'}`);
+    },
+    openListing() {
+      // console.log(param);
     }
-  }
+  },
+  created() {}
 };
 </script>
 

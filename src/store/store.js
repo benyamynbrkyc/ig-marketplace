@@ -124,7 +124,8 @@ const store = new Vuex.Store({
           username: listingData.username,
           ownerEmail: listingData.ownerEmail,
           ownerUsername: listingData.ownerUsername,
-          dateCreated: listingData.dateCreated
+          dateCreated: listingData.dateCreated,
+          avatar: listingData.avatar
         })
       });
 
@@ -141,7 +142,8 @@ const store = new Vuex.Store({
         username: listingData.username,
         ownerEmail: listingData.ownerEmail,
         ownerUsername: listingData.ownerUsername,
-        dateCreated: listingData.dateCreated
+        dateCreated: listingData.dateCreated,
+        avatar: listingData.avatar
       });
     }
     // MAIN DRIVER

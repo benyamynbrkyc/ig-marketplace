@@ -88,7 +88,8 @@
                     <img src="@/assets/img/listingSubIcons/author.png" alt="" />
                   </div>
                   <h4 class="info" style="line-height: 1rem !important; ">
-                    {{ author }} <br />
+                    {{ author }}
+                    <img src="../../assets/img/verified.jpg" alt="" /> <br />
                     <span class="listingSubTextTitle">Author</span>
                   </h4>
                 </div>
@@ -356,7 +357,7 @@ h4 {
   display: inline-block !important;
 }
 .innerListingItem img {
-  margin-top: -20px;
+  margin-top: -5px;
 }
 .listingSubTextTitle {
   text-transform: uppercase;

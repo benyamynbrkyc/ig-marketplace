@@ -554,12 +554,21 @@ export default {
               `https://graph.facebook.com/v8.0/${instaBusinessAccountID}?fields=business_discovery.username(${username.data.username}){followers_count,media_count}&access_token=${page.access_token}`
             );
 
+            // get profile picture url from insta api
+            let profilePictureResponseObject = await axios.get(
+              `https://graph.facebook.com/v8.0/${instaBusinessAccountID}/?fields=profile_picture_url&access_token=${page.access_token}`
+            );
+
+            console.log(profilePictureResponseObject.data.profile_picture_url);
+
             let followers =
               businessDiscoveryInsights.data.business_discovery.followers_count;
             let mediaCount =
               businessDiscoveryInsights.data.business_discovery.media_count;
 
             this.instagramAccountData.username = username.data.username;
+            this.instagramAccountData.avatar =
+              profilePictureResponseObject.data.profile_picture_url;
             this.instagramAccountData.noOfFollowers = followers;
             this.instagramAccountData.noOfPosts = mediaCount;
             this.instagramAccountData.reach = avgReach;

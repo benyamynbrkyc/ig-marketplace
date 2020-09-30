@@ -110,6 +110,7 @@ export default {
       type: String,
       default: '2e715e'
     },
+    id: { type: String, required: true },
     avatar: {
       type: String,
       required: true
@@ -155,10 +156,9 @@ export default {
       return require(`${'../../assets/img/faces/no-avatar.jpg'}`);
     },
     openListing() {
-      // console.log(param);
+      this.$router.push(`/listing/${this.id}`);
     }
-  },
-  created() {}
+  }
 };
 </script>
 
@@ -170,10 +170,11 @@ export default {
   display: block;
 }
 #backG1 {
-  max-width: 100px;
+  max-width: 220px !important;
   width: 100%;
   text-align: center;
   position: relative;
+  background-color: white !important;
 }
 #backG1 img {
   position: absolute;

@@ -88,7 +88,7 @@ const sampleListings = [
     reach: 900,
     username: 'osmanh',
     avatar:
-      'https://instagram.fsjj2-1.fna.fbcdn.net/v/t51.2885-19/s150x150/39047499_445932895893871_3662294681741426688_n.jpg?_nc_ht=instagram.fsjj2-1.fna.fbcdn.net&_nc_ohc=8nJfJ1bZL68AX8bQnc_&oh=e801b245f028194c3b460c13c6903741&oe=5F98A0DC',
+      'https://instagram.fsjj2-1.fna.fbcdn.net/v/t51.2885-19/s150x150/117688842_315294949589252_9004850249815748147_n.jpg?_nc_ht=instagram.fsjj2-1.fna.fbcdn.net&_nc_ohc=z6ZGCSwpJbsAX-a7xHq&oh=6f7ae4385d77fd243ead93380eae9438&oe=5F9EAB50',
     dateCreated: Date.now() - 6
   },
   {

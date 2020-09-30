@@ -4,7 +4,7 @@ import Landing from './views/Landing.vue';
 import Login from './views/Login.vue';
 import Signup from './views/Signup.vue';
 import Profile from './views/Profile.vue';
-import Product from './views/Product.vue';
+import Listing from './views/Listing.vue';
 import MainNavbar from './layout/MainNavbar.vue';
 import MainFooter from './layout/MainFooter.vue';
 import { auth } from './views/firestore/index';
@@ -73,15 +73,19 @@ const router = new Router({
       }
     },
     {
-      path: '/product',
-      name: 'product',
-      components: { default: Product, header: MainNavbar, footer: MainFooter },
+      path: '/listing/:id',
+      name: 'listing',
+      components: {
+        default: Listing,
+        header: MainNavbar,
+        footer: MainFooter
+      },
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: 'black' }
       },
       meta: {
-        title: 'BS Social Swap | Product'
+        title: 'BS Social Swap | Listing'
       }
     },
     {

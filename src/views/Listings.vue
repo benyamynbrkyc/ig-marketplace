@@ -4,25 +4,21 @@
     <div class="main main-raised">
       <div class="section profile-content">
         <div class="container">
-          <h1>All Listings</h1>
+          <h1>Instagram Accounts for sale</h1>
           <button @click="loadSampleData()">Load Sample Data</button>
           <br />
           <h3 class="title text-center">Most Recent</h3>
           <br />
           <div class="row" id="featuredRow" v-if="recents.length !== 0">
-            <div
-              class="col"
-              v-for="listing in recents"
-              :key="listing.idUsername"
-            >
+            <div class="col" v-for="listing in recents" :key="listing.id">
               <div class="classWithPad">
                 <FeaturedCard
                   id="colFeaturedCardContainer"
-                  :avatar="listing.avatar"
-                  :followers="listing.noOfFollowers"
-                  :posts="listing.noOfPosts"
-                  :price="listing.price"
-                  :reach="listing.reach"
+                  :avatar="listing.data.avatar"
+                  :followers="listing.data.noOfFollowers"
+                  :posts="listing.data.noOfPosts"
+                  :price="listing.data.price"
+                  :reach="listing.data.reach"
                 ></FeaturedCard>
               </div>
             </div>
@@ -33,18 +29,19 @@
           <br />
           <br />
 
-          <FilterCard></FilterCard>
+          <FilterCard @filterData="filterData"></FilterCard>
 
           <ListingCardMain
             v-for="listing in allListings"
-            :key="listing.idUsername"
-            :avatar="listing.avatar"
-            :followers="listing.noOfFollowers"
-            :posts="listing.noOfPosts"
-            :price="listing.price"
-            :reach="listing.reach"
-            :category="listing.category"
-            :author="listing.ownerUsername"
+            :key="listing.id"
+            :avatar="listing.data.avatar"
+            :followers="listing.data.noOfFollowers"
+            :posts="listing.data.noOfPosts"
+            :price="listing.data.price"
+            :reach="listing.data.reach"
+            :category="listing.data.category"
+            :author="listing.data.ownerUsername"
+            :id="listing.id"
           ></ListingCardMain>
 
           <Modal v-if="showModal == true"></Modal>
@@ -78,10 +75,46 @@ export default {
       showModal: false,
       allListings: [],
       recents: [],
-      lastVisible: null
+      lastVisible: null,
+      filterOn: false,
+      filter: null
     };
   },
   methods: {
+    filterData(filterInfoPayload) {
+      this.filterOn = true;
+      console.log('got event');
+      this.allListings = [];
+      firestore
+        .collection('allListings')
+        .orderBy('price')
+        .limit(5)
+        .startAt(filterInfoPayload.minPrice)
+        .endAt(filterInfoPayload.maxPrice)
+        .get()
+        .then(snapshot => {
+          snapshot.forEach(doc => {
+            if (
+              doc.data().noOfFollowers <= filterInfoPayload.maxFollowers &&
+              doc.data().noOfFollowers >= filterInfoPayload.minFollowers
+            ) {
+              let listingData = {
+                data: doc.data(),
+                id: doc.id
+              };
+              console.log('listingDataFIlter', listingData);
+
+              this.allListings.push(listingData);
+            } else {
+              console.log('error', doc.data());
+            }
+          });
+          if (this.allListings.length == 0) this.noDataFound = true;
+
+          this.lastVisible = snapshot.docs[snapshot.docs.length - 1];
+        });
+      this.filter = filterInfoPayload;
+    },
     openModal() {
       this.showModal = true;
     },
@@ -97,9 +130,15 @@ export default {
         .then(querySnapshot => {
           querySnapshot.forEach(doc => {
             // doc.data all data from document
-            this.allListings.push(doc.data());
+            console.log(doc.data().noOfFollowers);
+            let listingData = {
+              data: doc.data(),
+              id: doc.id
+            };
+            this.allListings.push(listingData);
           });
 
+          if (this.allListings.length == 0) this.noDataFound = true;
           this.lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
         })
         .catch(err => {
@@ -114,21 +153,59 @@ export default {
           window.innerHeight + window.scrollY >= document.body.offsetHeight;
 
         if (bottomOfWindow) {
-          firestore
-            .collection('/allListings')
-            .orderBy('username')
-            .startAfter(this.lastVisible)
-            .limit(5)
-            .get()
-            .then(querySnapshot => {
-              querySnapshot.forEach(doc => {
-                this.allListings.push(doc.data());
-              });
+          if (!this.filterOn) {
+            firestore
+              .collection('/allListings')
+              .orderBy('username')
+              .startAfter(this.lastVisible)
+              .limit(5)
+              .get()
+              .then(querySnapshot => {
+                querySnapshot.forEach(doc => {
+                  let listingData = {
+                    data: doc.data(),
+                    id: doc.id
+                  };
+                  this.allListings.push(listingData);
+                });
 
-              this.lastVisible =
-                querySnapshot.docs[querySnapshot.docs.length - 1];
-            });
-          this.$forceUpdate;
+                if (this.allListings.length == 0) this.noDataFound = true;
+
+                this.lastVisible =
+                  querySnapshot.docs[querySnapshot.docs.length - 1];
+              });
+            this.$forceUpdate;
+          } else if (this.filterOn) {
+            try {
+              firestore
+                .collection('allListings')
+                .orderBy('price')
+                .limit(5)
+                .startAfter(this.lastVisible)
+                .endAt(this.filter.maxPrice)
+                .get()
+                .then(snapshot => {
+                  snapshot.forEach(doc => {
+                    if (
+                      doc.data().noOfFollowers <= this.filter.maxFollowers &&
+                      doc.data().noOfFollowers >= this.filter.minFollowers
+                    ) {
+                      let listingData = {
+                        data: doc.data(),
+                        id: doc.id
+                      };
+                      this.allListings.push(listingData);
+                    }
+                  });
+                  if (this.allListings.length == 0) this.noDataFound = true;
+
+                  this.lastVisible = snapshot.docs[snapshot.docs.length - 1];
+                });
+            } catch (error) {
+              console.log('No more data', error);
+              this.noMoreData = true;
+            }
+          }
         }
       };
     },
@@ -140,7 +217,11 @@ export default {
         .then(snapshot => {
           let recents = [];
           snapshot.forEach(doc => {
-            recents.push(doc.data());
+            let listingData = {
+              data: doc.data(),
+              id: doc.id
+            };
+            recents.push(listingData);
           });
 
           for (let i = recents.length - 1; i > recents.length - 4; i--)

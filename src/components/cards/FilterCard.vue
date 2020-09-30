@@ -37,7 +37,7 @@
                     <md-input
                       v-model="maxPrice"
                       type="number"
-                      min="50"
+                      min="1"
                     ></md-input>
                     <br />
                     <span
@@ -177,7 +177,7 @@ export default {
       ],
       minPrice: 1,
       maxPrice: 1000000,
-      minFollowers: 2000,
+      minFollowers: 1, // TODO: change to 2000
       maxFollowers: 100000000,
       minPriceError: null,
       maxPriceError: null,
@@ -201,48 +201,52 @@ export default {
     },
     filter() {
       // check minPrice field
-      if (this.minPrice < 1)
+      if (Number(this.minPrice) < 1)
         this.minPriceError = 'Minimum price cannot be lower than $1.';
-      else if (this.minPrice > this.maxPrice)
+      else if (Number(this.minPrice) > this.maxPrice)
         this.minPriceError =
           'Minimum price cannot be higher than the maximum price.';
       else this.minPriceError = null;
 
       // check maxPrice field
-      if (this.maxPrice > 1000000)
+      if (Number(this.maxPrice) > 1000000)
         this.maxPriceError = 'Maximum price cannot be higher than $1,000,000.';
-      else if (this.maxPrice < this.minPrice)
+      else if (Number(this.maxPrice) < this.minPrice)
         this.maxPriceError =
           'Maximum price cannot be lower than the minimum price.';
       else this.maxPriceError = null;
 
       // check minFollower field
-      if (this.minFollowers < 2000)
-        this.minFollowersError = 'Accounts must have at least 2000 followers.';
-      else if (this.minFollowers > this.maxFollowers)
+      // if (Number(this.minFollowers) < 2)
+      // TODO: change to 2000
+      // this.minFollowersError = 'Accounts must have at least 2000 followers.';
+      if (Number(this.minFollowers) > this.maxFollowers)
         this.minFollowersError =
           'Minimum followers filter cannot be higher than the maximum followers filter.';
       else this.minFollowersError = null;
 
       // check maxFollower field
-      if (this.maxFollowers < this.minFollowers)
+      if (Number(this.maxFollowers) < this.minFollowers)
         this.maxFollowersError =
           'Maximum followers filter cannot be lower than the minimum followers filter.';
       else this.maxFollowersError = null;
 
       if (
-        (this.minPriceError == null && this.maxPrice == null) ||
-        this.minFollowersError == null ||
+        this.minPriceError == null &&
+        this.maxPriceError == null &&
+        this.minFollowersError == null &&
         this.maxFollowersError == null
       ) {
         let filterInfo = {
-          minPrice: this.minPrice,
-          maxPrice: this.maxPrice,
+          minPrice: Number(this.minPrice),
+          maxPrice: Number(this.maxPrice),
           category: this.selectedCategory,
-          minFollowers: this.minFollowers,
-          maxFollowers: this.maxFollowers
+          minFollowers: Number(this.minFollowers),
+          maxFollowers: Number(this.maxFollowers)
         };
         console.log(filterInfo);
+
+        this.$emit('filterData', filterInfo);
       } else {
         this.unknownError = true;
       }

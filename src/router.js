@@ -7,6 +7,7 @@ import Profile from './views/Profile.vue';
 import Listing from './views/Listing.vue';
 import MainNavbar from './layout/MainNavbar.vue';
 import MainFooter from './layout/MainFooter.vue';
+import ListingFooter from './layout/ListingFooter.vue';
 import { auth } from './views/firestore/index';
 
 Vue.use(Router);
@@ -78,7 +79,7 @@ const router = new Router({
       components: {
         default: Listing,
         header: MainNavbar,
-        footer: MainFooter
+        footer: ListingFooter
       },
       props: {
         header: { colorOnScroll: 400 },

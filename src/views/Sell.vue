@@ -142,6 +142,7 @@
                 <md-textarea
                   style="padding-left:25px !important;"
                   v-model="description"
+                  maxlength="512"
                 ></md-textarea>
                 <br />
               </md-field>

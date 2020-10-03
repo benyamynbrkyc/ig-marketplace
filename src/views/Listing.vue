@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <md-card id="mainCard" class="md-card-login">
-      <div class="section" id="intro" @click="openListing()">
+      <div class="section" id="intro">
         <div class="container-fluid" id="flexContainer">
           <div class="row" id="introRow">
             <div class="col-6" id="backG2">
@@ -13,15 +13,12 @@
                 <div class="info itemInfo">
                   <div class="row innerListingItem">
                     <div class="icon">
-                      <img
-                        src="@/assets/img/listingSubIcons/followers.png"
-                        alt=""
-                      />
+                      <img :src="`${getAvatar()}`" alt="" />
                     </div>
                     <h4 class="info" style="line-height: 2rem !important;">
                       <span class="listingSubTextTitle">Username</span>
                       <br />
-                      @***kyc
+                      {{ username }}
                     </h4>
                   </div>
                 </div>
@@ -29,13 +26,13 @@
                   <div class="row innerListingItem">
                     <div class="icon">
                       <img
-                        src="@/assets/img/listingSubIcons/posts.png"
+                        src="@/assets/img/listingSubIcons/followers.png"
                         alt=""
                       />
                     </div>
                     <h4 class="info" style="line-height: 2rem !important;">
                       <span class="listingSubTextTitle">Followers</span> <br />
-                      Username
+                      <!-- {{followers}} -->
                     </h4>
                   </div>
                 </div>
@@ -43,13 +40,13 @@
                   <div class="row innerListingItem lastFeatureItem">
                     <div class="icon">
                       <img
-                        src="@/assets/img/listingSubIcons/category.png"
+                        src="@/assets/img/listingSubIcons/price.png"
                         alt=""
                       />
                     </div>
                     <h4 class="info" style="line-height: 2rem !important;">
-                      <span class="listingSubTextTitle">Followers</span> <br />
-                      Username
+                      <span class="listingSubTextTitle">Price</span> <br />
+                      $111
                     </h4>
                   </div>
                 </div>
@@ -64,13 +61,16 @@
                   <div class="row innerListingItem">
                     <div class="icon">
                       <img
-                        src="@/assets/img/listingSubIcons/price.png"
+                        src="@/assets/img/listingSubIcons/category.png"
                         alt=""
                       />
                     </div>
-                    <h4 class="info" style="line-height: 2rem !important;">
-                      <span class="listingSubTextTitle">Followers</span> <br />
-                      Username
+                    <h4
+                      class="info"
+                      style="line-height: 1.6rem !important; font-size: 1.4rem;"
+                    >
+                      <span class="listingSubTextTitle">Category</span> <br />
+                      Architecture & Interior
                     </h4>
                   </div>
                 </div>
@@ -78,12 +78,12 @@
                   <div class="row innerListingItem">
                     <div class="icon">
                       <img
-                        src="@/assets/img/listingSubIcons/likeperpost.png"
+                        src="@/assets/img/listingSubIcons/posts.png"
                         alt=""
                       />
                     </div>
                     <h4 class="info" style="line-height: 2rem !important;">
-                      <span class="listingSubTextTitle">Followers</span> <br />
+                      <span class="listingSubTextTitle">Posts</span> <br />
                       Username
                     </h4>
                   </div>
@@ -92,14 +92,13 @@
                   <div class="row innerListingItem lastFeatureItem">
                     <div class="icon">
                       <img
-                        src="@/assets/img/listingSubIcons/author.png"
+                        src="@/assets/img/listingSubIcons/likeperpost.png"
                         alt=""
                       />
                     </div>
                     <h4 class="info" style="line-height: 2rem !important; ">
                       <span class="listingSubTextTitle">Reach</span><br />
                       12,000
-                      <img src="../assets/img/verified.jpg" alt="" />
                     </h4>
                   </div>
                 </div>
@@ -115,6 +114,10 @@
                 style="font-size: 1.1rem; margin-top: 0px !important; "
               >
                 SellerName
+                <img
+                  src="../assets/img/verified.jpg"
+                  style="max-width:20px; margin: 0;"
+                />
               </h3>
               <p class="description sellerActions">
                 <md-icon style="margin-right: 7px;">mail</md-icon> Contact
@@ -162,24 +165,14 @@
                   <br />
 
                   <span id="descriptionText"
-                    >Lorem ipsum dolor sit, amet consectetur adipisicing
-                    elit.adhahdvahidvasidvyasiydvayidbahsdbasihdbaisubdui Unde
-                    reiciendis beatae autem hic animi placeat quasi, amet quis
-                    recusandbasihdbaisubdui Unde reiciendis beatae autem hic
-                    animi placeat quasi, amet quis recusandae, tempore face
-                    <br />
-                    elit.adhahdvahidvasidvyasiydvayidbahsdbasihdbaisubdui Unde
-                    reiciendis beatae autem hic animi placeat quasi, amet quis
-                    recusandae, tempore facere nesciuntolor sit, amet
-                    consectetur adipisicing<br /><br />
-                    elit.adhahdvahidvasidvyasiydvayidbahsdbasihdbaisubdui Unde
-                    reiciendis beatae autem hic animi placeat quasi, amet quis
-                    recusandae, tempore facere <br />nesciuntolor sit, amet
-                    consectetur adipisicing<br /><br /><br /><br />
-                    elit.adhahdvahidvasidvyasiydvayidbahsdbasihdbaisubdui Unde
-                    reiciendis beatae autem hic animi placeat quasi, amet quis
-                    recusandae, tempore facere nesciunt cupiditate repellendus
-                    cum, dolorum maxime?</span
+                    >Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                    Ex debitis inventore fuga illo, consequatur esse doloremque,
+                    quam aperiam eligendi nesciunt, quas iste iure. Ex illo
+                    reprehenderit cum dolorem quaerat voluptatibus!Lorem, ipsum
+                    dolor sit amet consectetur adipisicing elit. Ex debitis
+                    inventore fuga illo, consequatur esse doloremque, quam
+                    aperiam eligendi nesciunt, quas iste iure. Ex illo
+                    reprehenderit cum dolorem quaerat voluptatibus!</span
                   >
                 </h4>
               </div>
@@ -214,9 +207,7 @@ export default {
       return this.$route.params.id;
     }
   },
-  mounted() {
-    document.getElementsByTagName('footer')[0].style.paddingTop = '1000px';
-  },
+
   created() {}
 };
 </script>
@@ -513,9 +504,13 @@ h4 {
   text-align: justify;
   text-transform: none;
   padding-bottom: 10px;
+  word-break: break-all;
 }
 #description .info {
   max-width: unset;
   width: 100%;
+}
+footer {
+  padding-top: -1000px;
 }
 </style>

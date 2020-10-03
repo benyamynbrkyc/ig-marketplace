@@ -135,6 +135,56 @@
               </p>
             </div>
           </div>
+          <div
+            data-v-9d51a18c=""
+            id="featureRow"
+            class="row"
+            style="margin-bottom: 10px; margin-top: 30px;"
+          >
+            <div data-v-9d51a18c="" id="description" class="info itemInfo">
+              <div
+                data-v-9d51a18c=""
+                class="row innerListingItem lastFeatureItem"
+              >
+                <div data-v-9d51a18c="" class="icon">
+                  <img
+                    data-v-9d51a18c=""
+                    src="@/assets/img/listingSubIcons/description.png"
+                    alt=""
+                  />
+                </div>
+                <h4
+                  data-v-9d51a18c=""
+                  class="info"
+                  style="line-height: 2rem !important;"
+                >
+                  <span class="listingSubTextTitle">Description</span>
+                  <br />
+
+                  <span id="descriptionText"
+                    >Lorem ipsum dolor sit, amet consectetur adipisicing
+                    elit.adhahdvahidvasidvyasiydvayidbahsdbasihdbaisubdui Unde
+                    reiciendis beatae autem hic animi placeat quasi, amet quis
+                    recusandbasihdbaisubdui Unde reiciendis beatae autem hic
+                    animi placeat quasi, amet quis recusandae, tempore face
+                    <br />
+                    elit.adhahdvahidvasidvyasiydvayidbahsdbasihdbaisubdui Unde
+                    reiciendis beatae autem hic animi placeat quasi, amet quis
+                    recusandae, tempore facere nesciuntolor sit, amet
+                    consectetur adipisicing<br /><br />
+                    elit.adhahdvahidvasidvyasiydvayidbahsdbasihdbaisubdui Unde
+                    reiciendis beatae autem hic animi placeat quasi, amet quis
+                    recusandae, tempore facere <br />nesciuntolor sit, amet
+                    consectetur adipisicing<br /><br /><br /><br />
+                    elit.adhahdvahidvasidvyasiydvayidbahsdbasihdbaisubdui Unde
+                    reiciendis beatae autem hic animi placeat quasi, amet quis
+                    recusandae, tempore facere nesciunt cupiditate repellendus
+                    cum, dolorum maxime?</span
+                  >
+                </h4>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </md-card>
@@ -163,6 +213,9 @@ export default {
     listingID() {
       return this.$route.params.id;
     }
+  },
+  mounted() {
+    document.getElementsByTagName('footer')[0].style.paddingTop = '1000px';
   },
   created() {}
 };
@@ -215,8 +268,9 @@ export default {
   #backG1 {
     position: initial !important;
     display: block;
-    max-width: unset !important;
-    width: 100% !important;
+    width: 220px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   #backG1 img {
@@ -416,5 +470,52 @@ h4 {
   margin-left: 10px !important;
   font-weight: bolder;
   line-height: 2.5rem;
+}
+
+@media only screen and (max-width: 1080px) {
+  #introRow {
+    display: unset !important;
+  }
+  #backG1 {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  #backG2 {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  #description {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: 90% !important;
+  }
+}
+@media only screen and (max-width: 850px) {
+  #featureRow {
+    display: unset !important;
+  }
+  .itemInfo {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+}
+#description {
+  max-width: unset;
+  width: 100%;
+  margin-left: 20px;
+  margin-right: 250px;
+  height: auto;
+}
+#descriptionText {
+  font-weight: normal;
+  line-height: 10px;
+  font-size: 1rem;
+  text-align: justify;
+  text-transform: none;
+  padding-bottom: 10px;
+}
+#description .info {
+  max-width: unset;
+  width: 100%;
 }
 </style>

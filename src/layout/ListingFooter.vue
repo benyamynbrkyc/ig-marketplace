@@ -59,10 +59,10 @@ export default {
   created() {}
 };
 </script>
-<style>
+<style scoped>
 @media only screen and (min-width: 1081px) {
   footer {
-    padding-top: 300px !important;
+    padding-top: 500px !important;
   }
 }
 @media only screen and (max-width: 1080px) {

@@ -58,9 +58,7 @@
                   <div class="icon"></div>
                   <h4 class="info" style="line-height: 1rem !important; ">
                     <select id="selectCategory" v-model="selectedCategory">
-                      <option disabled value="All Categories"
-                        >All Categories</option
-                      >
+                      <option value="All Categories">All Categories</option>
                       <option
                         name="category"
                         id="categorySelectDropdown"
@@ -124,10 +122,13 @@
               </div>
               <div class="info" id="categoryTag">
                 <div class="row innerListingItem">
-                  <h4 class="info" style="line-height: 1rem !important;">
+                  <h4
+                    class="info"
+                    style="line-height: 1rem !important; margin-top: 5px;"
+                  >
                     <button @click="filter()" id="filterButton">Filter</button>
-                    <span class="listingSubTextTitleError" v-if="unknownError"
-                      >An unknown error occurred.</span
+                    <span class="listingSubTextTitleError" v-if="noData == true"
+                      >No accounts found.</span
                     >
                   </h4>
                 </div>
@@ -147,6 +148,12 @@ export default {
     headerColor: {
       type: String,
       default: '2e715e'
+    },
+    allListings: {
+      type: Array,
+      default: () => {
+        return [];
+      }
     }
   },
   data() {
@@ -244,7 +251,7 @@ export default {
           minFollowers: Number(this.minFollowers),
           maxFollowers: Number(this.maxFollowers)
         };
-        console.log(filterInfo);
+        console.log('filter info', filterInfo);
 
         this.$emit('filterData', filterInfo);
       } else {
@@ -476,6 +483,7 @@ h4 {
 }
 #filterButton {
   width: 100%;
+  margin-bottom: 10px;
 }
 select {
   appearance: none;

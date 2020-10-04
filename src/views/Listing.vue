@@ -13,12 +13,15 @@
                 <div class="info itemInfo">
                   <div class="row innerListingItem">
                     <div class="icon">
-                      <img :src="`${getAvatar()}`" alt="" />
+                      <img
+                        :src="`${listingData.avatar}`"
+                        id="userAccountImage"
+                      />
                     </div>
                     <h4 class="info" style="line-height: 2rem !important;">
                       <span class="listingSubTextTitle">Username</span>
                       <br />
-                      {{ username }}
+                      {{ listingData.username }}
                     </h4>
                   </div>
                 </div>
@@ -32,7 +35,7 @@
                     </div>
                     <h4 class="info" style="line-height: 2rem !important;">
                       <span class="listingSubTextTitle">Followers</span> <br />
-                      <!-- {{followers}} -->
+                      {{ listingData.followers }}
                     </h4>
                   </div>
                 </div>
@@ -46,7 +49,7 @@
                     </div>
                     <h4 class="info" style="line-height: 2rem !important;">
                       <span class="listingSubTextTitle">Price</span> <br />
-                      $111
+                      {{ listingData.price }}
                     </h4>
                   </div>
                 </div>
@@ -70,7 +73,7 @@
                       style="line-height: 1.6rem !important; font-size: 1.4rem;"
                     >
                       <span class="listingSubTextTitle">Category</span> <br />
-                      Architecture & Interior
+                      {{ listingData.category }}
                     </h4>
                   </div>
                 </div>
@@ -84,7 +87,7 @@
                     </div>
                     <h4 class="info" style="line-height: 2rem !important;">
                       <span class="listingSubTextTitle">Posts</span> <br />
-                      Username
+                      {{ listingData.posts }}
                     </h4>
                   </div>
                 </div>
@@ -98,22 +101,22 @@
                     </div>
                     <h4 class="info" style="line-height: 2rem !important; ">
                       <span class="listingSubTextTitle">Reach</span><br />
-                      12,000
+                      {{ listingData.reach }}
                     </h4>
                   </div>
                 </div>
               </div>
             </div>
             <div class="col-6" id="backG1" style="text-align: left;">
-              <img src="../assets/img/verified.jpg" alt="" />
+              <img :src="`${listingData.ownerAvatar}`" alt="" />
               <h3 style="font-size: 0.85rem; color: green; margin-bottom: 0px;">
                 Seller
               </h3>
               <h3
                 class="listingSubTextTitle"
-                style="font-size: 1.1rem; margin-top: 0px !important; "
+                style="font-size: 1.1rem; margin-top: 0px !important; margin-right: 10px;"
               >
-                SellerName
+                {{ listingData.sellerName }}
                 <img
                   src="../assets/img/verified.jpg"
                   style="max-width:20px; margin: 0;"
@@ -164,16 +167,9 @@
                   <span class="listingSubTextTitle">Description</span>
                   <br />
 
-                  <span id="descriptionText"
-                    >Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Ex debitis inventore fuga illo, consequatur esse doloremque,
-                    quam aperiam eligendi nesciunt, quas iste iure. Ex illo
-                    reprehenderit cum dolorem quaerat voluptatibus!Lorem, ipsum
-                    dolor sit amet consectetur adipisicing elit. Ex debitis
-                    inventore fuga illo, consequatur esse doloremque, quam
-                    aperiam eligendi nesciunt, quas iste iure. Ex illo
-                    reprehenderit cum dolorem quaerat voluptatibus!</span
-                  >
+                  <span id="descriptionText">{{
+                    listingData.description
+                  }}</span>
                 </h4>
               </div>
             </div>
@@ -185,11 +181,26 @@
 </template>
 
 <script>
+import * as firebase from './firestore/index';
+
 export default {
   components: {},
   bodyClass: 'profile-page',
   data() {
-    return {};
+    return {
+      listingData: {
+        username: null,
+        followers: null,
+        price: null,
+        category: null,
+        posts: null,
+        reach: null,
+        avatar: null,
+        description: null,
+        sellerName: null,
+        ownerAvatar: null
+      }
+    };
   },
   props: {
     img: {
@@ -207,8 +218,54 @@ export default {
       return this.$route.params.id;
     }
   },
+  methods: {
+    loadListingData() {
+      firebase.db
+        .doc(`/allListings/${this.$route.params.id}`)
+        .get()
+        .then(doc => {
+          let docData = doc.data();
+          (this.listingData.username = this.generateUsername(docData.username)),
+            (this.listingData.followers = docData.noOfFollowers),
+            (this.listingData.price = `\$${docData.price}`),
+            (this.listingData.category = docData.category),
+            (this.listingData.posts = docData.noOfPosts),
+            (this.listingData.reach = docData.reach),
+            (this.listingData.avatar = docData.avatar),
+            (this.listingData.description = docData.description),
+            (this.listingData.sellerName = docData.ownerUsername);
 
-  created() {}
+          this.getOwnerAvatar(docData.ownerID);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    getOwnerAvatar(id) {
+      firebase.db
+        .doc(`/users/${id}`)
+        .get()
+        .then(userDoc => {
+          this.listingData.ownerAvatar = userDoc.data().avatar;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    generateUsername(username) {
+      return (
+        '@***' +
+        username
+          .split('')
+          .splice(username.length - 4)
+          .join('')
+      );
+    }
+  },
+
+  mounted() {
+    this.loadListingData();
+  }
 };
 </script>
 
@@ -505,6 +562,7 @@ h4 {
   text-transform: none;
   padding-bottom: 10px;
   word-break: break-all;
+  white-space: pre-wrap;
 }
 #description .info {
   max-width: unset;
@@ -512,5 +570,11 @@ h4 {
 }
 footer {
   padding-top: -1000px;
+}
+#userAccountImage {
+  width: 68px !important;
+  height: 68px !important;
+  max-height: unset !important;
+  border-radius: 50%;
 }
 </style>

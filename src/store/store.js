@@ -8,11 +8,11 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
-    userProfile: {}
+    userProfile: { listings: null }
   },
   mutations: {
     SET_USER_PROFILE(state, val) {
-      state.userProfile = val;
+      state.userProfile = { ...val };
       console.log('user prof from store.js', state.userProfile);
     },
     ADD_NEW_LISTING_TO_STATE(state, listingData) {
@@ -128,6 +128,7 @@ const store = new Vuex.Store({
           username: listingData.username,
           ownerEmail: listingData.ownerEmail,
           ownerUsername: listingData.ownerUsername,
+          ownerID: fb.auth.currentUser.uid,
           dateCreated: listingData.dateCreated,
           avatar: listingData.avatar
         })
@@ -146,6 +147,7 @@ const store = new Vuex.Store({
         username: listingData.username,
         ownerEmail: listingData.ownerEmail,
         ownerUsername: listingData.ownerUsername,
+        ownerID: fb.auth.currentUser.uid,
         dateCreated: listingData.dateCreated,
         avatar: listingData.avatar
       });

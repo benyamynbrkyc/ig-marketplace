@@ -124,36 +124,39 @@
         <div class="row" id="introRow">
           <div class="col-6" id="backG2Listing">
             <div class="row" id="featureRow">
-              <div class="icon">
+              <!-- TODO: get these icons -->
+              <!-- <div class="icon">
                 <img
                   src="https://www.socialswapbs.com/wp-content/uploads/2020/08/instagram-sketched-1.png"
                   alt=""
                 />
-              </div>
+              </div> -->
               <h4 class="info">
                 <span class="listingBuy">Buy Instagram Accounts</span>
               </h4>
 
               <div class="padding"></div>
 
-              <div class="icon">
+              <!-- TODO: get these icons -->
+              <!-- <div class="icon">
                 <img
                   src="https://www.socialswapbs.com/wp-content/uploads/2020/06/tiktok.png"
                   alt=""
                 />
-              </div>
+              </div> -->
               <h4 class="info">
                 <span class="listingBuy">Buy TikTok Accounts</span>
               </h4>
 
               <div class="padding"></div>
 
-              <div class="icon">
+              <!-- TODO: get these icons -->
+              <!-- <div class="icon">
                 <img
                   src="https://www.socialswapbs.com/wp-content/uploads/2020/07/icons8-twitter-52.png"
                   alt=""
                 />
-              </div>
+              </div> -->
               <h4 class="info">
                 <span class="listingBuy" id="twitterAcc"
                   >Buy Twitter Accounts</span
@@ -162,12 +165,13 @@
 
               <div class="padding"></div>
 
-              <div class="icon">
+              <!-- TODO: get these icons -->
+              <!-- <div class="icon">
                 <img
                   src="https://www.socialswapbs.com/wp-content/uploads/2020/08/delivery.png"
                   alt=""
                 />
-              </div>
+              </div> -->
               <h4 class="info">
                 <span class="listingBuy" id="virtualServ"
                   >Buy Virtual Services</span
@@ -184,10 +188,18 @@
               </div>
             </div>
             <br />
-            <ListingCardMain></ListingCardMain
-            ><ListingCardMain></ListingCardMain
-            ><ListingCardMain></ListingCardMain
-            ><ListingCardMain></ListingCardMain>
+            <ListingCardMain
+              v-for="listing in recents"
+              :key="listing.id"
+              :avatar="listing.data.avatar"
+              :followers="listing.data.noOfFollowers"
+              :posts="listing.data.noOfPosts"
+              :price="listing.data.price"
+              :reach="listing.data.reach"
+              :category="listing.data.category"
+              :author="listing.data.ownerUsername"
+              :id="listing.id"
+            ></ListingCardMain>
           </div>
         </div>
       </div>
@@ -195,6 +207,77 @@
   </div>
 </template>
 
+<script>
+import ListingCardMain from '../components/cards/ListingCardMain';
+import * as firebase from './firestore/index';
+
+export default {
+  components: {
+    ListingCardMain
+  },
+  bodyClass: 'landing-page',
+  props: {
+    header: {
+      type: String,
+      default: require('@/assets/img/header-backg.jpeg')
+    }
+  },
+  data() {
+    return {
+      name: null,
+      email: null,
+      message: null,
+      recents: []
+    };
+  },
+  methods: {
+    loadRecents() {
+      firebase.db
+        .collection('/allListings')
+        .orderBy('dateCreated')
+        .get()
+        .then(snapshot => {
+          let recents = [];
+          snapshot.forEach(doc => {
+            let listingData = {
+              data: doc.data(),
+              id: doc.id
+            };
+            console.log(listingData);
+            recents.push(listingData);
+          });
+
+          for (let i = recents.length - 1; i > recents.length - 4; i--)
+            this.recents.push(recents[i]);
+        });
+    }
+  },
+  created() {
+    this.loadRecents();
+  },
+  computed: {
+    headerStyle() {
+      return {
+        background: '#3a7571'
+      };
+    }
+  }
+};
+</script>
+
+<style lang="scss" scoped>
+.md-card-actions.text-center {
+  display: flex;
+  justify-content: center !important;
+}
+.contact-form {
+  margin-top: 30px;
+}
+
+.md-has-textarea + .md-layout {
+  margin-top: 15px;
+}
+</style>
 <style scoped>
 #backG1 {
   max-width: 324px;
@@ -501,62 +584,5 @@ h4 {
 #twitterAcc:hover,
 #virtualServ:hover {
   background-color: #252d2c;
-}
-</style>
-
-<script>
-import ListingCardMain from '../components/cards/ListingCardMain';
-
-export default {
-  components: {
-    ListingCardMain
-  },
-  bodyClass: 'landing-page',
-  props: {
-    header: {
-      type: String,
-      default: require('@/assets/img/header-backg.jpeg')
-    },
-    teamImg1: {
-      type: String,
-      default: require('@/assets/img/faces/testimonials/testimonials-1.png')
-    },
-    teamImg2: {
-      type: String,
-      default: require('@/assets/img/faces/testimonials/testimonials-2.png')
-    },
-    teamImg3: {
-      type: String,
-      default: require('@/assets/img/faces/testimonials/testimonials-3.png')
-    }
-  },
-  data() {
-    return {
-      name: null,
-      email: null,
-      message: null
-    };
-  },
-  computed: {
-    headerStyle() {
-      return {
-        background: '#3a7571'
-      };
-    }
-  }
-};
-</script>
-
-<style lang="scss" scoped>
-.md-card-actions.text-center {
-  display: flex;
-  justify-content: center !important;
-}
-.contact-form {
-  margin-top: 30px;
-}
-
-.md-has-textarea + .md-layout {
-  margin-top: 15px;
 }
 </style>

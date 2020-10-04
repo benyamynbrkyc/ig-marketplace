@@ -122,6 +122,7 @@
                   style="max-width:20px; margin: 0;"
                 />
               </h3>
+              <!-- TODO: get these links -->
               <p class="description sellerActions">
                 <md-icon style="margin-right: 7px;">mail</md-icon> Contact
                 Seller

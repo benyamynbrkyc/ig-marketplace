@@ -76,10 +76,6 @@ form {
 }
 select {
   text-transform: uppercase;
-  margin-left: 10px;
-  margin-bottom: 10px;
-  border: none;
-  border-radius: 5px;
   background-color: #ffffff;
 }
 option {

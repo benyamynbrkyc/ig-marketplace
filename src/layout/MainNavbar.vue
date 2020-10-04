@@ -347,7 +347,7 @@ export default {
       this.bodyClick();
     },
     handleScroll() {
-      if (this.$route.name !== 'profile' || this.$route.name !== 'product') {
+      if (this.$route.name !== 'profile' || this.$route.name !== 'listing') {
         let scrollValue =
           document.body.scrollTop || document.documentElement.scrollTop;
         let navbarColor = document.getElementById('toolbar');
@@ -378,17 +378,17 @@ export default {
       this.$store.dispatch('logout');
     },
     logCurrentUser() {
-      // console.log(
-      //   'UserProfile set in state',
-      //   this.$store.getters.getUserProfile
-      // );
-      // console.log(
-      //   'Email Verified?',
-      //   this.$store.getters.getCurrentUser.emailVerified
-      // );
-      // BUILD CHANGE
-      // console.log('Full User:\n', fb.auth.currentUser);
-      // console.log('Email verified:\n', fb.auth.currentUser.emailVerified);
+      console.log(
+        'UserProfile set in state',
+        this.$store.getters.getUserProfile
+      );
+      console.log(
+        'Email Verified?',
+        this.$store.getters.getCurrentUser.emailVerified
+      );
+
+      console.log('Full User:\n', fb.auth.currentUser);
+      console.log('Email verified:\n', fb.auth.currentUser.emailVerified);
     },
     sell() {
       if (fb.auth.currentUser.emailVerified) {
@@ -404,7 +404,7 @@ export default {
     this.$forceUpdate();
     if (
       this.$route.name !== 'profile' &&
-      this.$route.name !== 'product' &&
+      this.$route.name !== 'listing' &&
       this.$route.name !== 'landing' &&
       this.$route.name !== 'contact' &&
       this.$route.name !== 'privacy-policy' &&

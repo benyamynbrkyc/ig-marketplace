@@ -4,263 +4,50 @@
     <div class="main main-raised">
       <div class="section profile-content">
         <div class="container">
-          <h1>All Listings</h1>
+          <h1>Instagram Accounts for sale</h1>
+          <button @click="loadSampleData()">Load Sample Data</button>
           <br />
           <h3 class="title text-center">Most Recent</h3>
           <br />
-          <div class="row" id="featuredRow">
-            <div class="col">
-              <div class="classWithPad"><FeaturedCard></FeaturedCard></div>
+          <div class="row" id="featuredRow" v-if="recents.length !== 0">
+            <div class="col" v-for="listing in recents" :key="listing.id">
+              <div class="classWithPad" @click="openListing(listing.id)">
+                <FeaturedCard
+                  id="colFeaturedCardContainer"
+                  :avatar="listing.data.avatar"
+                  :followers="listing.data.noOfFollowers"
+                  :posts="listing.data.noOfPosts"
+                  :price="listing.data.price"
+                  :reach="listing.data.reach"
+                ></FeaturedCard>
+              </div>
             </div>
-            <div class="col">
-              <div class="classWithPad"><FeaturedCard></FeaturedCard></div>
-            </div>
-            <div class="col">
-              <div class="classWithPad"><FeaturedCard></FeaturedCard></div>
-            </div>
+          </div>
+          <div class="row" id="featuredRow" v-if="recents.length == 0">
+            No data found
           </div>
           <br />
           <br />
-          <md-toolbar class="md-primary" id="toolbar">
-            <div class="md-toolbar-row">
-              <div class="md-toolbar-section-start">
-                <h3 class="md-title" id="md-title">Filters</h3>
-              </div>
-              <div class="md-toolbar-section-end">
-                <md-button
-                  class="md-just-icon md-simple md-toolbar-toggle"
-                  id="mobileHamburgerListing"
-                  @click="openModal()"
-                  style="background-color: white !important; "
-                >
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                </md-button>
 
-                <div class="md-collapse">
-                  <md-list>
-                    <!-- <md-list-item href="#user">
-                      <i class="material-icons">person</i>
-                      <p class="hidden-lg hidden-md">Profile</p>
-                    </md-list-item> -->
-                    <!-- price item -->
-                    <li class="md-list-item">
-                      <a
-                        href="javascript:void(0)"
-                        class="md-list-item-router md-list-item-container md-button-clean dropdown"
-                      >
-                        <div class="md-list-item-content">
-                          <drop-down direction="down">
-                            <md-button
-                              slot="title"
-                              class="md-button md-button-link md-simple dropdown-toggle"
-                              data-toggle="dropdown"
-                              style="color:black !important;"
-                            >
-                              <i
-                                class="material-icons"
-                                style="color:black !important;"
-                                >attach_money</i
-                              >
-                              <p>Price: {High to Low - Default}</p>
-                            </md-button>
-                            <ul class="dropdown-menu">
-                              <li>
-                                <a href="javascript:void(0)">
-                                  <p class="dropdownP">
-                                    High to Low
-                                  </p>
-                                </a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">
-                                  <p class="dropdownP">Low to High</p>
-                                </a>
-                              </li>
-                            </ul>
-                          </drop-down>
-                        </div>
-                      </a>
-                    </li>
-                    <!-- followers item -->
-                    <li class="md-list-item">
-                      <a
-                        href="javascript:void(0)"
-                        class="md-list-item-router md-list-item-container md-button-clean dropdown"
-                      >
-                        <div class="md-list-item-content">
-                          <drop-down direction="down">
-                            <md-button
-                              slot="title"
-                              class="md-button md-button-link md-simple dropdown-toggle"
-                              data-toggle="dropdown"
-                              style="color:black !important;"
-                            >
-                              <i
-                                class="material-icons"
-                                style="color:black !important;"
-                                >people_alt</i
-                              >
-                              <p>Followers: {High to Low - Default}</p>
-                            </md-button>
-                            <ul class="dropdown-menu">
-                              <li>
-                                <a href="javascript:void(0)">
-                                  <p class="dropdownP">
-                                    High to Low
-                                  </p>
-                                </a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">
-                                  <p class="dropdownP">Low to High</p>
-                                </a>
-                              </li>
-                            </ul>
-                          </drop-down>
-                        </div>
-                      </a>
-                    </li>
-                    <!-- niche item -->
-                    <li class="md-list-item">
-                      <a
-                        href="javascript:void(0)"
-                        class="md-list-item-router md-list-item-container md-button-clean dropdown"
-                      >
-                        <div class="md-list-item-content">
-                          <drop-down direction="down">
-                            <md-button
-                              slot="title"
-                              class="md-button md-button-link md-simple dropdown-toggle"
-                              data-toggle="dropdown"
-                              style="color:black !important;"
-                            >
-                              <i
-                                class="material-icons"
-                                style="color:black !important;"
-                                >category</i
-                              >
-                              <p>Niche</p>
-                            </md-button>
-                            <ul class="dropdown-menu">
-                              <li>
-                                <a href="javascript:void(0)">
-                                  <p class="dropdownP">
-                                    Architecture & Interior
-                                  </p>
-                                </a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">
-                                  <p class="dropdownP">Art & Design</p>
-                                </a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">
-                                  <p class="dropdownP">Blog & Lifestyle</p>
-                                </a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">
-                                  <p class="dropdownP">Business & Brand</p>
-                                </a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">
-                                  <p class="dropdownP">Cars & Bikes</p>
-                                </a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">
-                                  <p class="dropdownP">City & Country</p>
-                                </a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">
-                                  <p class="dropdownP">Educational & QA</p>
-                                </a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">
-                                  <p class="dropdownP">Fashion & Style</p>
-                                </a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">
-                                  <p class="dropdownP">Fitness & Sports</p>
-                                </a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">
-                                  <p class="dropdownP">Food & Nutrition</p>
-                                </a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">
-                                  <p class="dropdownP">
-                                    Gaming & Entertainment
-                                  </p>
-                                </a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">
-                                  <p class="dropdownP">Health & Beauty</p>
-                                </a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">
-                                  <p class="dropdownP">Humor & Memes</p>
-                                </a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">
-                                  <p class="dropdownP">Luxury & Motivation</p>
-                                </a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">
-                                  <p class="dropdownP">Movies TV & Fan Pages</p>
-                                </a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">
-                                  <p class="dropdownP">Pets & Animals</p>
-                                </a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">
-                                  <p class="dropdownP">Quotes & Text</p>
-                                </a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">
-                                  <p class="dropdownP">Reviews & Tutorials</p>
-                                </a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">
-                                  <p class="dropdownP">Tech & Computers</p>
-                                </a>
-                              </li>
-                              <li>
-                                <a href="javascript:void(0)">
-                                  <p class="dropdownP">Travel & Nature</p>
-                                </a>
-                              </li>
-                            </ul>
-                          </drop-down>
-                        </div>
-                      </a>
-                    </li>
-                  </md-list>
-                </div>
-              </div>
-            </div>
-          </md-toolbar>
-          <ListingCardMain></ListingCardMain><ListingCardMain></ListingCardMain
-          ><ListingCardMain></ListingCardMain
-          ><ListingCardMain></ListingCardMain>
+          <FilterCard :noData="noData" @filterData="filterData"></FilterCard>
+
+          <ListingCardMain
+            v-for="listing in allListings"
+            :key="listing.id"
+            :avatar="listing.data.avatar"
+            :followers="listing.data.noOfFollowers"
+            :posts="listing.data.noOfPosts"
+            :price="listing.data.price"
+            :reach="listing.data.reach"
+            :category="listing.data.category"
+            :author="listing.data.ownerUsername"
+            :id="listing.id"
+          ></ListingCardMain>
+
+          <h3 v-if="noData == true" class="title" id="noDataTitle">
+            No Data Found
+          </h3>
+
           <Modal v-if="showModal == true"></Modal>
         </div>
       </div>
@@ -268,12 +55,316 @@
   </div>
 </template>
 
+<script>
+import Modal from '@/components/Modal.vue';
+import FeaturedCard from '@/components/cards/FeaturedCard.vue';
+import ListingCardMain from '../components/cards/ListingCardMain.vue';
+import FilterCard from '../components/cards/FilterCard';
+import { eventBus } from '../eventBus';
+import loadSampleData from './utils/injectListings';
+import firebase from 'firebase';
+
+const firestore = firebase.firestore();
+
+export default {
+  components: {
+    Modal,
+    FeaturedCard,
+    ListingCardMain,
+    FilterCard
+  },
+  bodyClass: 'profile-page',
+  data() {
+    return {
+      showModal: false,
+      allListings: [],
+      recents: [],
+      lastVisible: null,
+      filterOn: false,
+      filter: null,
+      noData: false
+    };
+  },
+  methods: {
+    filterData(filterInfoPayload) {
+      this.filterOn = true;
+      console.log('got event');
+      this.allListings = [];
+
+      if (filterInfoPayload.category == 'All Categories') {
+        this.allListings = [];
+
+        firestore
+          .collection('allListings')
+          .orderBy('price')
+          .limit(5)
+          .startAt(filterInfoPayload.minPrice)
+          .endAt(filterInfoPayload.maxPrice)
+          .get()
+          .then(snapshot => {
+            snapshot.forEach(doc => {
+              if (
+                doc.data().noOfFollowers <= filterInfoPayload.maxFollowers &&
+                doc.data().noOfFollowers >= filterInfoPayload.minFollowers
+              ) {
+                let listingData = {
+                  data: doc.data(),
+                  id: doc.id
+                };
+                console.log('listingDataFIlter', listingData);
+
+                this.allListings.push(listingData);
+              } else {
+                console.log('error', doc.data());
+              }
+            });
+            if (this.allListings.length == 0) {
+              this.noData = true;
+            } else {
+              this.noData = false;
+              this.$forceUpdate();
+            }
+
+            this.lastVisible = snapshot.docs[snapshot.docs.length - 1];
+          });
+      } else {
+        this.allListings = [];
+
+        firestore
+          .collection('allListings')
+          .orderBy('price')
+          // .limit(5)
+          .startAt(filterInfoPayload.minPrice)
+          .endAt(filterInfoPayload.maxPrice)
+          .get()
+          .then(snapshot => {
+            this.allListings = [];
+
+            snapshot.forEach(doc => {
+              console.log(doc.data().category == filterInfoPayload.category);
+              if (
+                doc.data().noOfFollowers <= filterInfoPayload.maxFollowers &&
+                doc.data().noOfFollowers >= filterInfoPayload.minFollowers
+              ) {
+                if (doc.data().category == filterInfoPayload.category) {
+                  let listingData = {
+                    data: doc.data(),
+                    id: doc.id
+                  };
+                  this.allListings.push(listingData);
+                  console.log('listingDataFIlter', listingData);
+                }
+              } else {
+                console.log('error', doc.data());
+              }
+            });
+            if (this.allListings.length == 0) {
+              this.noData = true;
+            } else {
+              this.noData = false;
+              this.$forceUpdate();
+            }
+
+            this.lastVisible = snapshot.docs[snapshot.docs.length - 1];
+          });
+      }
+
+      this.filter = filterInfoPayload;
+    },
+    openModal() {
+      this.showModal = true;
+    },
+    loadSampleData() {
+      loadSampleData();
+      console.log('Loaded sample data');
+    },
+    async loadAllListings() {
+      this.allListings = [];
+      firestore
+        .collection('/allListings')
+        .limit(5)
+        .get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(doc => {
+            // doc.data all data from document
+            console.log(doc.data().noOfFollowers);
+            let listingData = {
+              data: doc.data(),
+              id: doc.id
+            };
+            this.allListings.push(listingData);
+          });
+
+          if (this.allListings.length == 0) {
+            this.noData = true;
+          } else {
+            this.noData = false;
+            this.$forceUpdate();
+          }
+          this.lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+        })
+        .catch(err => {
+          console.log("Couldn't get data", err);
+        });
+
+      console.log('all listings\n', this.allListings);
+    },
+    async loadMore() {
+      window.onscroll = () => {
+        let bottomOfWindow =
+          window.innerHeight + window.scrollY >= document.body.offsetHeight;
+
+        if (bottomOfWindow) {
+          if (!this.filterOn) {
+            firestore
+              .collection('/allListings')
+              .orderBy('username')
+              .startAfter(this.lastVisible)
+              .limit(5)
+              .get()
+              .then(querySnapshot => {
+                querySnapshot.forEach(doc => {
+                  let listingData = {
+                    data: doc.data(),
+                    id: doc.id
+                  };
+                  this.allListings.push(listingData);
+                });
+
+                if (this.allListings.length == 0) {
+                  this.noData = true;
+                } else {
+                  this.noData = false;
+                  this.$forceUpdate();
+                }
+
+                this.lastVisible =
+                  querySnapshot.docs[querySnapshot.docs.length - 1];
+              });
+          } else if (this.filterOn) {
+            console.log('this is te filter', this.filter);
+            if (this.filter.category == 'All Categories') {
+              try {
+                firestore
+                  .collection('allListings')
+                  .orderBy('price')
+                  .limit(5)
+                  .startAfter(this.lastVisible)
+                  .endAt(this.filter.maxPrice)
+                  .get()
+                  .then(snapshot => {
+                    snapshot.forEach(doc => {
+                      if (
+                        doc.data().noOfFollowers <= this.filter.maxFollowers &&
+                        doc.data().noOfFollowers >= this.filter.minFollowers
+                      ) {
+                        let listingData = {
+                          data: doc.data(),
+                          id: doc.id
+                        };
+                        this.allListings.push(listingData);
+                      }
+                    });
+                    if (this.allListings.length == 0) {
+                      this.noData = true;
+                    } else {
+                      this.noData = false;
+                      this.$forceUpdate();
+                    }
+
+                    this.lastVisible = snapshot.docs[snapshot.docs.length - 1];
+                  });
+              } catch (error) {
+                console.log('No more data', error);
+              }
+            } else if (this.filter.category !== 'All Categories') {
+              try {
+                firestore
+                  .collection('allListings')
+                  .orderBy('price')
+                  .limit(5)
+                  .startAfter(this.lastVisible)
+                  .endAt(this.filter.maxPrice)
+                  .get()
+                  .then(snapshot => {
+                    snapshot.forEach(doc => {
+                      if (
+                        doc.data().noOfFollowers <= this.filter.maxFollowers &&
+                        doc.data().noOfFollowers >= this.filter.minFollowers &&
+                        doc.data().category == this.filter.category
+                      ) {
+                        let listingData = {
+                          data: doc.data(),
+                          id: doc.id
+                        };
+                        this.allListings.push(listingData);
+                      }
+                    });
+                    if (this.allListings.length == 0) {
+                      this.noData = true;
+                    } else {
+                      this.noData = false;
+                      this.$forceUpdate();
+                    }
+                    this.lastVisible = snapshot.docs[snapshot.docs.length - 1];
+                  });
+              } catch (error) {
+                console.log('No more data', error);
+              }
+            }
+          }
+        }
+      };
+    },
+    loadRecents() {
+      firestore
+        .collection('/allListings')
+        .orderBy('dateCreated')
+        .get()
+        .then(snapshot => {
+          let recents = [];
+          snapshot.forEach(doc => {
+            let listingData = {
+              data: doc.data(),
+              id: doc.id
+            };
+            recents.push(listingData);
+          });
+
+          for (let i = recents.length - 1; i > recents.length - 4; i--)
+            this.recents.push(recents[i]);
+        });
+    },
+    openListing(id) {
+      this.$router.push(`/listing/${id}`);
+    }
+  },
+  mounted() {
+    eventBus.$on('closeModal', msg => {
+      this.showModal = false;
+    });
+    this.loadAllListings();
+    this.loadRecents();
+    this.loadMore();
+  },
+  created() {
+    console.log(this.allListings);
+  },
+  computed: {
+    headerStyle() {
+      return {
+        background: `radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%)`
+      };
+    }
+  }
+};
+</script>
 <style>
 #toolbar {
   margin-bottom: 90px;
 }
 .classWithPad {
-  margin: 10px;
+  /* margin: 10px; */
   padding: 10px;
 }
 #featuredRow {
@@ -317,49 +408,6 @@ h1 {
 }
 </style>
 
-<script>
-import Modal from '@/components/Modal.vue';
-import FeaturedCard from '@/components/cards/FeaturedCard.vue';
-import { eventBus } from '../eventBus';
-import ListingCardMain from '../components/cards/ListingCardMain.vue';
-export default {
-  components: {
-    Modal,
-    FeaturedCard,
-    ListingCardMain
-  },
-  bodyClass: 'profile-page',
-  //   props: {
-  //     header: {
-  //       type: String,
-  //       default: require('@/assets/img/kifkuf.jpg')
-  //     }
-  //   },
-  data() {
-    return {
-      showModal: false
-    };
-  },
-  methods: {
-    openModal() {
-      this.showModal = true;
-    }
-  },
-  mounted() {
-    eventBus.$on('closeModal', msg => {
-      this.showModal = false;
-    });
-  },
-  computed: {
-    headerStyle() {
-      return {
-        background: `radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%)`
-      };
-    }
-  }
-};
-</script>
-
 <style lang="scss" scoped>
 .section {
   padding: 0;
@@ -378,5 +426,25 @@ export default {
       margin-bottom: 2.142rem;
     }
   }
+}
+#colFeaturedCardContainer {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+#colFeaturedCardContainer:hover {
+  cursor: pointer;
+  -webkit-box-shadow: 0px 0px 23px -2px rgba(0, 0, 0, 0.28);
+  -moz-box-shadow: 0px 0px 23px -2px rgba(0, 0, 0, 0.28);
+  box-shadow: 0px 0px 23px -2px rgba(0, 0, 0, 0.28);
+  transition: 0.5s;
+}
+#noDataTitle {
+  text-align: center;
+  transition: 0.5s;
+  margin-top: 0px !important;
 }
 </style>

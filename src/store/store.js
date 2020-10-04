@@ -2,16 +2,26 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import * as fb from '../views/firestore/index';
 import router from '../router';
+import firebase from 'firebase';
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
-    userProfile: {}
+    userProfile: { listings: null }
   },
   mutations: {
-    setUserProfile(state, val) {
-      state.userProfile = val;
+    SET_USER_PROFILE(state, val) {
+      state.userProfile = { ...val };
+      console.log('user prof from store.js', state.userProfile);
+    },
+    ADD_NEW_LISTING_TO_STATE(state, listingData) {
+      state.userProfile.listings.push(listingData);
+      console.log(
+        'added new listing to listings array and set in state',
+        listingData
+      );
+      console.log(state.userProfile);
     }
     //   setPosts maybe it can help with posting listings
   },
@@ -29,7 +39,8 @@ const store = new Vuex.Store({
           username: form.username,
           email: form.email,
           avatar: form.avatar,
-          dateCreated: new Date()
+          dateCreated: new Date(),
+          password: form.password
         });
 
         dispatch('fetchUserProfile', user);
@@ -75,7 +86,7 @@ const store = new Vuex.Store({
       await fb.auth.signOut();
 
       // clean userProfile and redirect to /login
-      commit('setUserProfile', {});
+      commit('SET_USER_PROFILE', {});
       router.push('/login');
     },
 
@@ -83,9 +94,13 @@ const store = new Vuex.Store({
     async fetchUserProfile({ commit }, user) {
       // fetch user profile
       const userProfile = await fb.usersRef.doc(user.uid).get();
+      const userProfileData = {
+        ...userProfile.data(),
+        id: userProfile.id
+      };
 
       // set profile in state
-      commit('setUserProfile', userProfile.data());
+      commit('SET_USER_PROFILE', userProfileData);
 
       // change route to dashboard
       if (
@@ -93,11 +108,56 @@ const store = new Vuex.Store({
         router.currentRoute.fullPath == '/signup'
       )
         router.push('/');
+    },
+    async addListingToUserAccount({ commit }, listingData) {
+      console.log(listingData);
+      let user = await fb.usersRef.doc(fb.auth.currentUser.uid).get();
+
+      const firestore = firebase.firestore();
+      const doc = firestore.doc(`/users/${fb.auth.currentUser.uid}`);
+      const arrayUnion = firebase.firestore.FieldValue.arrayUnion;
+
+      doc.update({
+        listings: arrayUnion({
+          category: listingData.category,
+          description: listingData.description,
+          noOfFollowers: listingData.noOfFollowers,
+          noOfPosts: listingData.noOfPosts,
+          price: listingData.price,
+          reach: listingData.reach,
+          username: listingData.username,
+          ownerEmail: listingData.ownerEmail,
+          ownerUsername: listingData.ownerUsername,
+          ownerID: fb.auth.currentUser.uid,
+          dateCreated: listingData.dateCreated,
+          avatar: listingData.avatar
+        })
+      });
+
+      commit('ADD_NEW_LISTING_TO_STATE', listingData);
+
+      // add to collection - all listings
+      firestore.collection(`/allListings`).add({
+        category: listingData.category,
+        description: listingData.description,
+        noOfFollowers: listingData.noOfFollowers,
+        noOfPosts: listingData.noOfPosts,
+        price: listingData.price,
+        reach: listingData.reach,
+        username: listingData.username,
+        ownerEmail: listingData.ownerEmail,
+        ownerUsername: listingData.ownerUsername,
+        ownerID: fb.auth.currentUser.uid,
+        dateCreated: listingData.dateCreated,
+        avatar: listingData.avatar
+      });
     }
     // MAIN DRIVER
   },
   getters: {
-    getUserProfile: state => state.userProfile,
+    getUserProfile(state) {
+      return state.userProfile;
+    },
     getCurrentUser: () => fb.auth.currentUser
   }
 });

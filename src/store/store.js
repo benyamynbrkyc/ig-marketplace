@@ -93,7 +93,10 @@ const store = new Vuex.Store({
     // MAIN DRIVER
     async fetchUserProfile({ commit }, user) {
       // fetch user profile
-      const userProfile = await fb.usersRef.doc(user.uid).get();
+      const UID =
+        user.uid == 'mqSrKzK2MWd9rPA8dBPxUz7RLof2' ? 'Admin' : user.uid;
+
+      const userProfile = await fb.usersRef.doc(UID).get();
       const userProfileData = {
         ...userProfile.data(),
         id: userProfile.id

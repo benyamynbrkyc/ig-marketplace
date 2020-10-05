@@ -1,6 +1,7 @@
 <template>
   <div class="window-container">
     <div class="chat-forms">
+      <!-- CREATE ROOM WITH USER FROM INPUT FIELD -->
       <form @submit.prevent="createRoom" v-if="addNewRoom">
         <input
           type="text"
@@ -14,6 +15,7 @@
           Cancel
         </button>
       </form>
+      <!-- CREATE ROOM WITH USER FROM INPUT FIELD -->
 
       <form @submit.prevent="addRoomUser" v-if="inviteRoomId">
         <input

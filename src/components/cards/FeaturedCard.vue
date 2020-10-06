@@ -48,7 +48,7 @@
                 <img src="@/assets/img/listingSubIcons/followers.png" alt="" />
               </div>
               <h4 class="info" style="line-height: 1rem !important;">
-                {{ price }} <br />
+                {{ '$' + price }} <br />
                 <span class="listingSubTextTitle">Price</span>
               </h4>
             </div>

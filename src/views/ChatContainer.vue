@@ -154,15 +154,15 @@ export default {
 
     async fetchRooms() {
       this.resetRooms();
-      let query;
 
-      if (this.currentUserId !== 'Admin') {
-        query = roomsRef.where('users', 'array-contains', this.currentUserId);
-      } else {
-        query = roomsRef;
-      }
+      const query = roomsRef.where(
+        'users',
+        'array-contains',
+        this.currentUserId
+      );
 
       const rooms = await query.get();
+      console.log(rooms);
 
       const roomList = [];
       const rawRoomUsers = [];

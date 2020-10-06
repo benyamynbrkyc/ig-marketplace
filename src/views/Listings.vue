@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <parallax class="section page-header" :style="headerStyle"></parallax>
+    <parallax class="section page-header"></parallax>
     <div class="main main-raised">
       <div class="section profile-content">
         <div class="container">
@@ -349,14 +349,14 @@ export default {
   },
   created() {
     console.log(this.allListings);
-  },
-  computed: {
-    headerStyle() {
-      return {
-        background: `radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%)`
-      };
-    }
   }
+  // computed: {
+  //   headerStyle() {
+  //     return {
+  //       background: `radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%)`
+  //     };
+  //   }
+  // }
 };
 </script>
 <style>

@@ -49,7 +49,10 @@ export default {
   // they're kinda useless I think
   methods: {
     setCurrentUserId() {
-      this.currentUserId = fb.auth.currentUser.uid;
+      this.currentUserId =
+        fb.auth.currentUser.uid == 'mqSrKzK2MWd9rPA8dBPxUz7RLof2'
+          ? 'Admin'
+          : fb.auth.currentUser.uid;
       this.currentUser = fb.auth.currentUser;
     },
     async populateRooms() {
@@ -59,18 +62,38 @@ export default {
         .get()
         .then(snapshot => {
           snapshot.forEach(user => {
-            users.push(user.data());
+            users.push({ username: user.data().username, id: user.id });
+            // users.push(user.id);
+            console.log('user IDs pushed to [users]', {
+              username: user.data().username,
+              id: user.id
+            });
           });
+
           let pairs = getPairs(users);
 
           pairs.forEach(async pair => {
+            // get room name
             let roomName = pair[0].username + '_' + pair[1].username;
+            console.log(roomName);
+
+            // form id pairs - to be used as an array to push to individual room
+            let pairOfIDs = [];
+            pair.forEach(user => {
+              pairOfIDs.push(user.id);
+            });
+
+            // get document to check if it exists
             let docExists = await roomsRef.doc(roomName).get();
+            // console.log(docExists.data());
+
+            // if it doesn't exist
             if (docExists.data() == undefined) {
-              // TODO: add admin here and set up a gmail account for him
               const ADMIN = await usersRef.doc('Admin').get();
-              pair.push(ADMIN.data());
-              roomsRef.doc(roomName).set({ users: pair });
+              const ADMIN_ID = ADMIN.id;
+              pairOfIDs.push(ADMIN_ID);
+
+              roomsRef.doc(roomName).set({ users: pairOfIDs });
             } else {
               console.log('Did not set document, document exists.');
             }

@@ -1,21 +1,8 @@
 <template>
   <div>
     <div class="app-container">
-      <div>
-        <button @click="resetData">Clear Data</button>
-        <button @click="addData" :disabled="updatingData">Add Data</button>
-      </div>
       <span class="user-logged">Logged as {{ currentUserId }}</span>
-      <select v-model="currentUserId">
-        <option v-for="user in users" :key="user._id" :value="user._id">
-          {{ user.username }}
-        </option>
-      </select>
-
-      <div class="button-theme">
-        <button @click="theme = 'light'" class="button-light">Light</button>
-        <button @click="theme = 'dark'" class="button-dark">Dark</button>
-      </div>
+      <!-- used to have the options with users -->
 
       <chat-container
         :currentUserId="currentUserId"
@@ -33,6 +20,8 @@
 <script>
 import { roomsRef, usersRef } from '@/views/firestore';
 import ChatContainer from './ChatContainer';
+import * as fb from './firestore/index';
+import getPairs from './utils/combinations';
 
 export default {
   components: {
@@ -43,8 +32,9 @@ export default {
     return {
       theme: 'light',
       showChat: true,
-      users: [],
-      currentUserId: '', // sets userid on load
+      // used to have users array which populates on mounted() - think it's irrelevant
+      currentUserId: null, // sets userid on load
+      currentUser: null,
       updatingData: false
     };
   },
@@ -55,84 +45,68 @@ export default {
       setTimeout(() => (this.showChat = true), 150);
     }
   },
-
+  // used to have the addData and ClearData() Methods
+  // they're kinda useless I think
   methods: {
-    resetData() {
-      roomsRef.get().then(val => {
-        val.forEach(async val => {
-          const ref = roomsRef.doc(val.id).collection('messages');
-
-          await ref.get().then(res => {
-            if (res.empty) return;
-            res.docs.map(doc => ref.doc(doc.id).delete());
+    setCurrentUserId() {
+      this.currentUserId =
+        fb.auth.currentUser.uid == 'mqSrKzK2MWd9rPA8dBPxUz7RLof2'
+          ? 'Admin'
+          : fb.auth.currentUser.uid;
+      this.currentUser = fb.auth.currentUser;
+    },
+    async populateRooms() {
+      // put in a users array on roomsRef
+      let users = [];
+      usersRef
+        .get()
+        .then(snapshot => {
+          snapshot.forEach(user => {
+            users.push({ username: user.data().username, id: user.id });
+            // users.push(user.id);
+            console.log('user IDs pushed to [users]', {
+              username: user.data().username,
+              id: user.id
+            });
           });
 
-          roomsRef.doc(val.id).delete();
+          let pairs = getPairs(users);
+
+          pairs.forEach(async pair => {
+            // get room name
+            let roomName = pair[0].username + '_' + pair[1].username;
+            console.log(roomName);
+
+            // form id pairs - to be used as an array to push to individual room
+            let pairOfIDs = [];
+            pair.forEach(user => {
+              pairOfIDs.push(user.id);
+            });
+
+            // get document to check if it exists
+            let docExists = await roomsRef.doc(roomName).get();
+            // console.log(docExists.data());
+
+            // if it doesn't exist
+            if (docExists.data() == undefined) {
+              const ADMIN = await usersRef.doc('Admin').get();
+              const ADMIN_ID = ADMIN.id;
+              pairOfIDs.push(ADMIN_ID);
+
+              roomsRef.doc(roomName).set({ users: pairOfIDs });
+            } else {
+              console.log('Did not set document, document exists.');
+            }
+          });
+        })
+        .catch(err => {
+          console.log(err);
         });
-      });
-
-      usersRef.get().then(val => {
-        val.forEach(val => {
-          if (val.id !== 'Admin') usersRef.doc(val.id).delete();
-          // BUILD CHANGE
-          // console.log(val.id);
-        });
-      });
-    },
-    async addData() {
-      const userHelper = [
-        {
-          _id: '6R0MijpK6M4AIrwaaCY2',
-          username: 'Luke',
-          avatar: 'https://66.media.tumblr.com/avatar_c6a8eae4303e_512.pnj'
-        },
-        {
-          _id: 'SGmFnBZB4xxMv9V4CVlW',
-          username: 'Leia',
-          avatar: 'https://avatarfiles.alphacoders.com/184/thumb-184913.jpg'
-        },
-        {
-          _id: '6jMsIXUrBHBj7o2cRlau',
-          username: 'Yoda',
-          avatar:
-            'https://vignette.wikia.nocookie.net/teamavatarone/images/4/45/Yoda.jpg/revision/latest?cb=20130224160049'
-        }
-      ];
-      this.updatingData = true;
-
-      const user1 = userHelper[0];
-      await usersRef.doc(user1._id).set(user1);
-
-      const user2 = userHelper[1];
-      await usersRef.doc(user2._id).set(user2);
-
-      const user3 = userHelper[2];
-      await usersRef.doc(user3._id).set(user3);
-
-      await roomsRef.add({ users: [user1._id, user2._id] });
-      await roomsRef.add({ users: [user1._id, user3._id] });
-      await roomsRef.add({ users: [user2._id, user3._id] });
-      await roomsRef.add({ users: [user1._id, user2._id, user3._id] });
-
-      this.updatingData = false;
     }
   },
-  mounted() {
-    usersRef
-      .get()
-      .then(querySnapshot => {
-        querySnapshot.forEach(doc => {
-          // doc.data() is never undefined for query doc snapshots
-          // BUILD CHANGE
-          // console.log(doc.id, ' => ', doc.data());
-          this.users.push(doc.data());
-        });
-      })
-      .catch(function(error) {
-        // BUILD CHANGE
-        // console.log('Error getting documents: ', error);
-        alert('error getting documents');
-      });
+  created() {
+    this.setCurrentUserId();
+    this.populateRooms();
   }
 };
 </script>

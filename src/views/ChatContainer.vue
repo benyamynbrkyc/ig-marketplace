@@ -1,6 +1,7 @@
 <template>
   <div class="window-container">
     <div class="chat-forms">
+      <!-- CREATE ROOM WITH USER FROM INPUT FIELD -->
       <form @submit.prevent="createRoom" v-if="addNewRoom">
         <input
           type="text"
@@ -14,6 +15,7 @@
           Cancel
         </button>
       </form>
+      <!-- CREATE ROOM WITH USER FROM INPUT FIELD -->
 
       <form @submit.prevent="addRoomUser" v-if="inviteRoomId">
         <input
@@ -152,15 +154,15 @@ export default {
 
     async fetchRooms() {
       this.resetRooms();
-      let query;
 
-      if (this.currentUserId !== 'Admin') {
-        query = roomsRef.where('users', 'array-contains', this.currentUserId);
-      } else {
-        query = roomsRef;
-      }
+      const query = roomsRef.where(
+        'users',
+        'array-contains',
+        this.currentUserId
+      );
 
       const rooms = await query.get();
+      console.log(rooms);
 
       const roomList = [];
       const rawRoomUsers = [];

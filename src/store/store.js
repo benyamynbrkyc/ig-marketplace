@@ -13,7 +13,7 @@ const store = new Vuex.Store({
   mutations: {
     SET_USER_PROFILE(state, val) {
       state.userProfile = { ...val };
-      console.log('user prof from store.js', state.userProfile);
+      // console.log('user prof from store.js', state.userProfile);
     },
     ADD_NEW_LISTING_TO_STATE(state, listingData) {
       state.userProfile.listings.push(listingData);
@@ -68,6 +68,8 @@ const store = new Vuex.Store({
       } catch (error) {
         // BUILD CHANGE
         // console.log(error);
+
+        // TODO: emit these as events
         if (error.code == 'auth/argument-error')
           alert('Email and password cannot be empty.');
 

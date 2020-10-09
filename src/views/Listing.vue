@@ -113,6 +113,7 @@
                 Seller
               </h3>
               <h3
+                @click="pushToSeller()"
                 class="listingSubTextTitle"
                 style="font-size: 1.1rem; margin-top: 0px !important; margin-right: 10px;"
               >
@@ -500,6 +501,7 @@ h4 {
   font-size: 1rem;
   color: #3fa1b8;
   word-wrap: break-word;
+  cursor: pointer;
 }
 h4 {
   font-size: 1.6rem;

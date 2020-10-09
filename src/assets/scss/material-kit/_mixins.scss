@@ -380,8 +380,9 @@
       color: $btn-color !important;
       box-shadow: none;
 
+      // used to be $btn-color
       i {
-        color: $btn-color !important;
+        color: white !important;
       }
     }
   }

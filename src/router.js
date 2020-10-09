@@ -58,7 +58,8 @@ const router = new Router({
         footer: { backgroundColor: 'black' }
       },
       meta: {
-        title: 'BS Social Swap | Profile'
+        title: 'BS Social Swap | Profile',
+        requiresAuth: true
       }
     },
     {
@@ -157,7 +158,8 @@ const router = new Router({
         header: { colorOnScroll: 400 }
       },
       meta: {
-        title: 'BS Social Swap | Sell'
+        title: 'BS Social Swap | Sell',
+        requiresAuth: true
       }
     },
     {

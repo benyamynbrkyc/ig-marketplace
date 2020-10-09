@@ -243,7 +243,6 @@ export default {
               data: doc.data(),
               id: doc.id
             };
-            console.log(listingData);
             recents.push(listingData);
           });
 

@@ -191,40 +191,44 @@
                         <i
                           class="material-icons"
                           style="color:white !important;"
-                          >person</i
-                        >
+                          >person
+                        </i>
+                        <!-- <img
+                          id="profilePictureWhenLoggedIn"
+                          :src="profilePicture"
+                          alt=""
+                        /> -->
+
                         <p>Profile</p>
                       </md-button>
                       <ul class="dropdown-menu dropdown-with-icons">
-                        <li>
+                        <li v-if="!loggedIn">
                           <a href="/login">
                             <i class="material-icons">privacy_tip</i>
                             <p>Log In</p>
                           </a>
                         </li>
-                        <li>
+                        <li v-if="!loggedIn">
                           <a href="/signup">
                             <i class="material-icons">perm_device_info</i>
                             <p>Sign Up</p>
                           </a>
                         </li>
-                        <li>
+                        <li v-if="loggedIn">
                           <a @click="logout()">
                             <i class="material-icons">perm_device_info</i>
                             <p>Log Out</p>
                           </a>
                         </li>
-                        <li>
+                        <!-- <li>
                           <a @click="logCurrentUser()">
                             <i class="material-icons">perm_device_info</i>
                             <p>logCurrentUser()</p>
                           </a>
-                        </li>
-                        <li>
+                        </li> -->
+                        <li v-if="loggedIn">
                           <a href="/profile">
-                            <i class=""
-                              ><img class="navAvatar" :src="pathToAvatar"
-                            /></i>
+                            <i class="material-icons">person</i>
                             <p>Profile</p>
                           </a>
                         </li>
@@ -240,27 +244,6 @@
     </div>
   </md-toolbar>
 </template>
-
-<style scoped>
-.md-simple p {
-  color: white !important;
-}
-.material-icons {
-  color: black;
-}
-.md-button {
-  color: white !important;
-}
-.md-title img {
-  /* background-color: #1a4136; */
-  padding: 15px 10px;
-  border-radius: 5px;
-}
-.navAvatar {
-  width: 24px;
-  height: 20px;
-}
-</style>
 
 <script>
 let resizeTimeout;
@@ -307,7 +290,8 @@ export default {
   data() {
     return {
       extraNavClasses: '',
-      toggledClass: false
+      toggledClass: false,
+      profilePicture: null
     };
   },
   computed: {
@@ -323,8 +307,15 @@ export default {
         return `${this.$store.getters.getUserProfile.avatar}`;
       else
         return 'https://ladyinredthefilm.files.wordpress.com/2014/04/facebook-anonymous-silhouette.png?w=696';
+    },
+    userProfile() {
+      return this.$store.getters.getUserProfile;
+    },
+    loggedIn() {
+      return this.$store.getters.getUserProfile.email;
     }
   },
+
   methods: {
     bodyClick() {
       let bodyClick = document.getElementById('bodyClick');
@@ -377,21 +368,21 @@ export default {
       // console.log('Logging out', this.$store.getters.getUserProfile.username);
       this.$store.dispatch('logout');
     },
-    logCurrentUser() {
-      console.log(
-        'UserProfile set in state',
-        this.$store.getters.getUserProfile
-      );
-      console.log(
-        'Email Verified?',
-        this.$store.getters.getCurrentUser.emailVerified
-      );
+    // logCurrentUser() {
+    //   console.log(
+    //     'UserProfile set in state',
+    //     this.$store.getters.getUserProfile
+    //   );
+    //   console.log(
+    //     'Email Verified?',
+    //     this.$store.getters.getCurrentUser.emailVerified
+    //   );
 
-      console.log('Full User:\n', fb.auth.currentUser);
-      console.log('Email verified:\n', fb.auth.currentUser.emailVerified);
-    },
+    //   console.log('Full User:\n', fb.auth.currentUser);
+    //   console.log('Email verified:\n', fb.auth.currentUser.emailVerified);
+    // },
     sell() {
-      if (fb.auth.currentUser.emailVerified) {
+      if (fb.auth.currentUser !== null) {
         router.push('/sell');
       } else {
         alert(
@@ -425,3 +416,28 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.md-simple p {
+  color: white !important;
+}
+.material-icons {
+  color: black;
+}
+.md-button {
+  color: white !important;
+}
+.md-title img {
+  /* background-color: #1a4136; */
+  padding: 15px 10px;
+  border-radius: 5px;
+}
+.navAvatar {
+  width: 24px;
+  height: 20px;
+}
+#profilePictureWhenLoggedIn {
+  height: 20px;
+  width: 20px;
+}
+</style>

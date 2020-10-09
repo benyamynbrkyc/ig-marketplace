@@ -47,9 +47,7 @@
                       class="md-button md-button-link md-simple"
                       style="color: white !important;"
                     >
-                      <i class="material-icons" style="color:white !important;"
-                        >home</i
-                      >
+                      <i class="material-icons">home</i>
                       <p>Home</p>
                     </md-button>
                   </div>
@@ -67,9 +65,7 @@
                       class="md-button md-button-link md-simple"
                       style="color: white !important;"
                     >
-                      <i class="material-icons" style="color:white !important;"
-                        >shopping_cart</i
-                      >
+                      <i class="material-icons" id="navIcon">shopping_cart</i>
                       <p>Listings</p>
                     </md-button>
                   </div>
@@ -87,9 +83,7 @@
                       class="md-button md-button-link md-simple"
                       style="color: white !important;"
                     >
-                      <i class="material-icons" style="color:white !important;"
-                        >monetization_on</i
-                      >
+                      <i class="material-icons">monetization_on</i>
                       <p>Sell</p>
                     </md-button>
                   </div>
@@ -109,11 +103,7 @@
                         data-toggle="dropdown"
                         style="color:white !important;"
                       >
-                        <i
-                          class="material-icons"
-                          style="color:white !important;"
-                          >library_books</i
-                        >
+                        <i class="material-icons">library_books</i>
                         <p>Policies and TOS</p>
                       </md-button>
                       <ul class="dropdown-menu dropdown-with-icons">
@@ -146,9 +136,7 @@
                       class="md-button md-button-link md-simple"
                       style="color: white !important;"
                     >
-                      <i class="material-icons" style="color:white !important;"
-                        >contact_page</i
-                      >
+                      <i class="material-icons">contact_page</i>
                       <p>Contact</p>
                     </md-button>
                   </div>
@@ -166,16 +154,48 @@
                       class="md-button md-button-link md-simple"
                       style="color: white !important;"
                     >
-                      <i class="material-icons" style="color:white !important;"
-                        >chat</i
-                      >
+                      <i class="material-icons">chat</i>
                       <p>Chat</p>
                     </md-button>
                   </div>
                 </a>
               </li>
               <!-- item 6 / profile -->
-              <li class="md-list-item" v-if="!showDownload">
+              <li class="md-list-item" v-if="!loggedIn">
+                <a
+                  href="/login"
+                  class="md-list-item-router md-list-item-container md-button-clean dropdown"
+                >
+                  <div class="md-list-item-content">
+                    <md-button
+                      slot="title"
+                      class="md-button md-button-link md-simple"
+                      style="color: white !important;"
+                    >
+                      <i class="material-icons">chat</i>
+                      <p>Log In</p>
+                    </md-button>
+                  </div>
+                </a>
+              </li>
+              <li class="md-list-item" v-if="!loggedIn">
+                <a
+                  href="/signup"
+                  class="md-list-item-router md-list-item-container md-button-clean dropdown"
+                >
+                  <div class="md-list-item-content">
+                    <md-button
+                      slot="title"
+                      class="md-button md-button-link md-simple"
+                      style="color: white !important;"
+                    >
+                      <i class="material-icons">chat</i>
+                      <p>Sign Up</p>
+                    </md-button>
+                  </div>
+                </a>
+              </li>
+              <li class="md-list-item" v-if="!showDownload && loggedIn">
                 <a
                   href="javascript:void(0)"
                   class="md-list-item-router md-list-item-container md-button-clean dropdown"
@@ -188,11 +208,7 @@
                         data-toggle="dropdown"
                         style="color:white !important;"
                       >
-                        <i
-                          class="material-icons"
-                          style="color:white !important;"
-                          >person
-                        </i>
+                        <i class="material-icons">person </i>
                         <!-- <img
                           id="profilePictureWhenLoggedIn"
                           :src="profilePicture"
@@ -202,18 +218,18 @@
                         <p>Profile</p>
                       </md-button>
                       <ul class="dropdown-menu dropdown-with-icons">
-                        <li v-if="!loggedIn">
+                        <!-- <li v-if="!loggedIn">
                           <a href="/login">
                             <i class="material-icons">privacy_tip</i>
                             <p>Log In</p>
                           </a>
-                        </li>
-                        <li v-if="!loggedIn">
+                        </li> -->
+                        <!-- <li v-if="!loggedIn">
                           <a href="/signup">
                             <i class="material-icons">perm_device_info</i>
                             <p>Sign Up</p>
                           </a>
-                        </li>
+                        </li> -->
                         <li v-if="loggedIn">
                           <a @click="logout()">
                             <i class="material-icons">perm_device_info</i>
@@ -242,6 +258,28 @@
         </div>
       </div>
     </div>
+    <transition name="fade">
+      <div id="notifications" v-if="showNotLoggedInBanner == true">
+        <div class="alert alert-info" id="alertBanner">
+          <div class="container">
+            <button
+              type="button"
+              aria-hidden="true"
+              class="close"
+              @click="event => removeNotify(event, 'alert-info')"
+            >
+              <md-icon>clear</md-icon>
+            </button>
+            <div class="alert-icon">
+              <md-icon>info_outline</md-icon>
+            </div>
+            <b> INFO ALERT </b> : You must be logged in to access this feature.
+            <a href="/login">Log In</a> or
+            <a href="/signup">Create an Account</a>
+          </div>
+        </div>
+      </div>
+    </transition>
   </md-toolbar>
 </template>
 
@@ -291,7 +329,8 @@ export default {
     return {
       extraNavClasses: '',
       toggledClass: false,
-      profilePicture: null
+      profilePicture: null,
+      showNotLoggedInBanner: false
     };
   },
   computed: {
@@ -385,10 +424,16 @@ export default {
       if (fb.auth.currentUser !== null) {
         router.push('/sell');
       } else {
-        alert(
-          'You must verify your email before you can start selling on BS Social Swap.'
-        );
+        this.showNotLoggedInBanner = true;
       }
+    },
+    removeNotify(e, notifyClass) {
+      var target = e.target;
+      while (target.className.indexOf(notifyClass) === -1) {
+        target = target.parentNode;
+      }
+      this.showNotLoggedInBanner = false;
+      return target.parentNode.removeChild(target);
     }
   },
   mounted() {
@@ -424,9 +469,9 @@ export default {
 .material-icons {
   color: black;
 }
-.md-button {
+/* .md-button {
   color: white !important;
-}
+} */
 .md-title img {
   /* background-color: #1a4136; */
   padding: 15px 10px;
@@ -439,5 +484,36 @@ export default {
 #profilePictureWhenLoggedIn {
   height: 20px;
   width: 20px;
+}
+#notifications {
+  background-color: transparent;
+}
+#alertBanner {
+  margin-bottom: 10px !important;
+  margin-top: 10px !important;
+  background-color: white;
+  color: black;
+}
+#alertBanner i {
+  color: black !important;
+}
+#alertBanner a {
+  color: #3a7571 !important;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+.material-icons {
+  /* color: ; */
+}
+@media only screen and (max-width: 991px) {
+  .material-icons {
+    color: black !important;
+  }
 }
 </style>

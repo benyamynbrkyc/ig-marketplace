@@ -8,7 +8,8 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
-    userProfile: { listings: null }
+    userProfile: { listings: null },
+    showEmailNotVerifiedBanner: false
   },
   mutations: {
     SET_USER_PROFILE(state, val) {
@@ -22,10 +23,16 @@ const store = new Vuex.Store({
         listingData
       );
       console.log(state.userProfile);
+    },
+    SET_SHOW_EMAIL_NOT_VERIFIED_BANNER_TO_TRUE(state) {
+      state.showEmailNotVerifiedBanner = true;
     }
     //   setPosts maybe it can help with posting listings
   },
   actions: {
+    async showEmailNotVerifiedBanner({ commit }) {
+      commit('SET_SHOW_EMAIL_NOT_VERIFIED_BANNER_TO_TRUE');
+    },
     async signup({ dispatch }, form) {
       // sign user up
       try {
@@ -119,31 +126,14 @@ const store = new Vuex.Store({
       console.log(listingData);
       let user = await fb.usersRef.doc(fb.auth.currentUser.uid).get();
 
-      const firestore = firebase.firestore();
-      const doc = firestore.doc(`/users/${fb.auth.currentUser.uid}`);
-      const arrayUnion = firebase.firestore.FieldValue.arrayUnion;
+      const firestore = fb.db;
+      const currentUser = firestore.doc(`/users/${fb.auth.currentUser.uid}`);
+      const arrayUnion = fb.arrayUnion;
 
-      doc.update({
-        listings: arrayUnion({
-          category: listingData.category,
-          description: listingData.description,
-          noOfFollowers: listingData.noOfFollowers,
-          noOfPosts: listingData.noOfPosts,
-          price: listingData.price,
-          reach: listingData.reach,
-          username: listingData.username,
-          ownerEmail: listingData.ownerEmail,
-          ownerUsername: listingData.ownerUsername,
-          ownerID: fb.auth.currentUser.uid,
-          dateCreated: listingData.dateCreated,
-          avatar: listingData.avatar
-        })
-      });
-
-      commit('ADD_NEW_LISTING_TO_STATE', listingData);
-
-      // add to collection - all listings
-      firestore.collection(`/allListings`).add({
+      let newListingInAllListings = firestore.collection('allListings').doc();
+      const NEW_LISTING_IN_ALL_LISTINGS_ID = newListingInAllListings.id;
+      console.log(NEW_LISTING_IN_ALL_LISTINGS_ID);
+      newListingInAllListings.set({
         category: listingData.category,
         description: listingData.description,
         noOfFollowers: listingData.noOfFollowers,
@@ -155,10 +145,14 @@ const store = new Vuex.Store({
         ownerUsername: listingData.ownerUsername,
         ownerID: fb.auth.currentUser.uid,
         dateCreated: listingData.dateCreated,
-        avatar: listingData.avatar
+        avatar: listingData.avatar,
+        _id: NEW_LISTING_IN_ALL_LISTINGS_ID
+      });
+
+      currentUser.update({
+        listings: arrayUnion(`${String(NEW_LISTING_IN_ALL_LISTINGS_ID)}`)
       });
     }
-    // MAIN DRIVER
   },
   getters: {
     getUserProfile(state) {

@@ -145,7 +145,7 @@
               <!-- item 5 -->
               <li class="md-list-item" v-if="!showDownload">
                 <a
-                  href="/chat"
+                  @click="chat()"
                   class="md-list-item-router md-list-item-container md-button-clean dropdown"
                 >
                   <div class="md-list-item-content">
@@ -280,6 +280,31 @@
         </div>
       </div>
     </transition>
+    <transition>
+      <div id="notifications" v-if="showEmailNotVerifiedBanner == true">
+        <div class="alert alert-info" id="alertBanner">
+          <div class="container">
+            <button
+              type="button"
+              aria-hidden="true"
+              class="close"
+              @click="event => removeNotify(event, 'alert-info')"
+            >
+              <md-icon>clear</md-icon>
+            </button>
+            <div class="alert-icon">
+              <md-icon>info_outline</md-icon>
+            </div>
+            <b> INFO ALERT </b> : You must verify your email to fully experience
+            BS Social Swap. Your verification email should arrive within 5
+            minutes. <br />
+            <a style="cursor: pointer;" @click="resendVerificationEmail()"
+              >Resend Verification Email</a
+            >
+          </div>
+        </div>
+      </div>
+    </transition>
   </md-toolbar>
 </template>
 
@@ -330,7 +355,8 @@ export default {
       extraNavClasses: '',
       toggledClass: false,
       profilePicture: null,
-      showNotLoggedInBanner: false
+      showNotLoggedInBanner: false,
+      showEmailNotVerifiedBanner: false
     };
   },
   computed: {
@@ -421,8 +447,31 @@ export default {
     //   console.log('Email verified:\n', fb.auth.currentUser.emailVerified);
     // },
     sell() {
-      if (fb.auth.currentUser !== null) {
+      if (
+        fb.auth.currentUser !== null &&
+        fb.auth.currentUser.emailVerified == true
+      ) {
         router.push('/sell');
+      } else if (
+        fb.auth.currentUser !== null &&
+        fb.auth.currentUser.emailVerified == false
+      ) {
+        this.showEmailNotVerifiedBanner = true;
+      } else {
+        this.showNotLoggedInBanner = true;
+      }
+    },
+    chat() {
+      if (
+        fb.auth.currentUser !== null &&
+        fb.auth.currentUser.emailVerified == true
+      ) {
+        router.push('/chat');
+      } else if (
+        fb.auth.currentUser !== null &&
+        fb.auth.currentUser.emailVerified == false
+      ) {
+        this.showEmailNotVerifiedBanner = true;
       } else {
         this.showNotLoggedInBanner = true;
       }
@@ -433,6 +482,7 @@ export default {
         target = target.parentNode;
       }
       this.showNotLoggedInBanner = false;
+      this.showEmailNotVerifiedBanner = false;
       return target.parentNode.removeChild(target);
     }
   },

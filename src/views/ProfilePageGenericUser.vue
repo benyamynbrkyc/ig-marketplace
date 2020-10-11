@@ -20,10 +20,11 @@
                 Seller
               </h3>
               <h3
+                @click="pushToSeller()"
                 class="listingSubTextTitle"
                 style="font-size: 1.1rem; margin-top: 0px !important; margin-right: 10px;"
               >
-                {{ username }}
+                {{ sellerName }}
                 <img
                   src="../assets/img/verified.jpg"
                   style="max-width:20px; margin: 0;"
@@ -99,6 +100,7 @@
 <script>
 import * as firebase from './firestore/index';
 import ProfileListingCard from './../components/cards/ProfileListingCard';
+import router from '../router';
 
 export default {
   components: {
@@ -108,7 +110,9 @@ export default {
   data() {
     return {
       noData: false,
-      allListings: []
+      allListings: [],
+      sellerName: null,
+      avatar: null
     };
   },
   methods: {
@@ -129,22 +133,11 @@ export default {
               .catch(err => {
                 this.noData = true;
               });
-            // this.allListings.push(listing);
           });
-
-          // if (this.allListings.length == 0) {
-          //   this.noData = true;
-          // } else {
-          //   this.noData = false;
-          //   this.$forceUpdate();
-          // }
-          // this.lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
         })
         .catch(err => {
           this.noData = true;
         });
-
-      // console.log('all listings\n', this.allListings);
     },
     getListingID(listingName) {
       firebase.db
@@ -156,13 +149,29 @@ export default {
           });
         })
         .catch(err => {
-          // console.log(err);
           return err;
         });
+    },
+    loadUser() {
+      firebase.db
+        .doc(`/users/${this.userID}`)
+        .get()
+        .then(userSnapshot => {
+          this.sellerName = userSnapshot.data().username;
+          this.avatar = userSnapshot.data().avatar;
+        })
+        .catch(err => {
+          this.sellerName = 'error';
+          this.avatar = 'error';
+        });
+    },
+    pushToSeller() {
+      this.$router.push(`/profile/${String(this.ownerID)}`);
     }
   },
 
   mounted() {
+    this.loadUser();
     this.loadAllListingsForUser(this.userID);
   },
 
@@ -172,14 +181,8 @@ export default {
         background: `radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%)`
       };
     },
-    username() {
-      return this.$store.getters.getUserProfile.username;
-    },
     userID() {
-      return firebase.auth.currentUser.uid;
-    },
-    avatar() {
-      return this.$store.getters.getUserProfile.avatar;
+      return this.$route.params.id;
     }
   }
 };

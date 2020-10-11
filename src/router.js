@@ -65,7 +65,14 @@ const router = new Router({
     {
       path: '/profile/:id',
       name: 'profile-page',
-      components: { default: Profile, header: MainNavbar, footer: MainFooter },
+      components: {
+        default: () =>
+          import(
+            /* webpackChunkName: "settings" */ './views/ProfilePageGenericUser.vue'
+          ),
+        header: MainNavbar,
+        footer: MainFooter
+      },
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: 'black' }

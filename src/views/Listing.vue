@@ -1,5 +1,6 @@
 <template>
   <div class="wrapper">
+    <h1 id="listingHeader">{{ listingData.category }} account for sale</h1>
     <md-card id="mainCard" class="md-card-login">
       <div class="section" id="intro">
         <div class="container-fluid" id="flexContainer">
@@ -72,8 +73,12 @@
                       class="info"
                       style="line-height: 1.6rem !important; font-size: 1.4rem;"
                     >
-                      <span class="listingSubTextTitle">Category</span> <br />
-                      {{ listingData.category }}
+                      <span class="listingSubTextTitle"> Category</span>
+                      <br />
+
+                      <span style="font-size: 1rem !important;">
+                        {{ listingData.category }}</span
+                      >
                     </h4>
                   </div>
                 </div>
@@ -156,6 +161,7 @@
               >
                 <div data-v-9d51a18c="" class="icon">
                   <img
+                    style="margin-left: 5px;"
                     data-v-9d51a18c=""
                     src="@/assets/img/listingSubIcons/description.png"
                     alt=""
@@ -568,13 +574,13 @@ h4 {
   font-size: 1rem;
   text-align: justify;
   text-transform: none;
-  padding-bottom: 10px;
   word-break: break-all;
   white-space: pre-wrap;
 }
 #description .info {
   max-width: unset;
   width: 100%;
+  padding-bottom: 12px !important;
 }
 footer {
   padding-top: -1000px;
@@ -584,5 +590,10 @@ footer {
   height: 68px !important;
   max-height: unset !important;
   border-radius: 50%;
+}
+#listingHeader {
+  text-align: center;
+  padding: 0 10px 0 10px;
+  margin-top: 0px;
 }
 </style>

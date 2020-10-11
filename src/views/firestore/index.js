@@ -27,5 +27,6 @@ export const roomsRef = db.collection('chatRooms');
 
 export const filesRef = storageRef.child('files');
 
+export const arrayUnion = firebase.firestore.FieldValue.arrayUnion;
 export const dbTimestamp = firebase.firestore.FieldValue.serverTimestamp();
 export const deleteDbField = firebase.firestore.FieldValue.delete();

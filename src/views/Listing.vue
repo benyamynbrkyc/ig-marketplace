@@ -201,7 +201,8 @@ export default {
         description: null,
         sellerName: null,
         ownerAvatar: null
-      }
+      },
+      ownerID: ''
     };
   },
   props: {
@@ -237,6 +238,7 @@ export default {
             (this.listingData.description = docData.description),
             (this.listingData.sellerName = docData.ownerUsername);
 
+          this.ownerID = docData.ownerID;
           this.getOwnerAvatar(docData.ownerID);
         })
         .catch(err => {
@@ -262,6 +264,9 @@ export default {
           .splice(username.length - 4)
           .join('')
       );
+    },
+    pushToSeller() {
+      this.$router.push(`/profile/${String(this.ownerID)}`);
     }
   },
 

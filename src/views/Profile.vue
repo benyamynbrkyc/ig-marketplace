@@ -2,110 +2,16 @@
   <div class="wrapper">
     <md-card id="mainCard" class="md-card-login">
       <div class="section" id="intro">
+        <div class="container">
+          <!-- TODO: Add if mobile here and push it below -->
+          <h4 style="margin-left: 20px;">My Listings</h4>
+        </div>
+
         <div class="container-fluid" id="flexContainer">
           <div class="row" id="introRow">
-            <div class="col-6" id="backG2">
-              <div
-                class="row"
-                id="featureRow"
-                style="margin-bottom: 10px; margin-top: 30px;"
-              >
-                <div class="info itemInfo">
-                  <div class="row innerListingItem">
-                    <div class="icon">
-                      <img src="" id="userAccountImage" />
-                    </div>
-                    <h4 class="info" style="line-height: 2rem !important;">
-                      <span class="listingSubTextTitle">Username</span>
-                      <br />
-                      listingData.username
-                    </h4>
-                  </div>
-                </div>
-                <div class="info itemInfo">
-                  <div class="row innerListingItem">
-                    <div class="icon">
-                      <img
-                        src="@/assets/img/listingSubIcons/followers.png"
-                        alt=""
-                      />
-                    </div>
-                    <h4 class="info" style="line-height: 2rem !important;">
-                      <span class="listingSubTextTitle">Followers</span> <br />
-                      {{ listingData.followers }}
-                    </h4>
-                  </div>
-                </div>
-                <div class="info itemInfo" id="categoryTag">
-                  <div class="row innerListingItem lastFeatureItem">
-                    <div class="icon">
-                      <img
-                        src="@/assets/img/listingSubIcons/price.png"
-                        alt=""
-                      />
-                    </div>
-                    <h4 class="info" style="line-height: 2rem !important;">
-                      <span class="listingSubTextTitle">Price</span> <br />
-                      {{ listingData.price }}
-                    </h4>
-                  </div>
-                </div>
-              </div>
-              <!-- SECOND ROW -->
-              <div
-                class="row secondRow"
-                id="featureRow"
-                style="margin-top: 30px"
-              >
-                <div class="info itemInfo">
-                  <div class="row innerListingItem">
-                    <div class="icon">
-                      <img
-                        src="@/assets/img/listingSubIcons/category.png"
-                        alt=""
-                      />
-                    </div>
-                    <h4
-                      class="info"
-                      style="line-height: 1.6rem !important; font-size: 1.4rem;"
-                    >
-                      <span class="listingSubTextTitle">Category</span> <br />
-                      {{ listingData.category }}
-                    </h4>
-                  </div>
-                </div>
-                <div class="info itemInfo">
-                  <div class="row innerListingItem">
-                    <div class="icon">
-                      <img
-                        src="@/assets/img/listingSubIcons/posts.png"
-                        alt=""
-                      />
-                    </div>
-                    <h4 class="info" style="line-height: 2rem !important;">
-                      <span class="listingSubTextTitle">Posts</span> <br />
-                      {{ listingData.posts }}
-                    </h4>
-                  </div>
-                </div>
-                <div class="info itemInfo" id="categoryTag">
-                  <div class="row innerListingItem lastFeatureItem">
-                    <div class="icon">
-                      <img
-                        src="@/assets/img/listingSubIcons/likeperpost.png"
-                        alt=""
-                      />
-                    </div>
-                    <h4 class="info" style="line-height: 2rem !important; ">
-                      <span class="listingSubTextTitle">Reach</span><br />
-                      {{ listingData.reach }}
-                    </h4>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <div class="col-6" id="backG2"></div>
             <div class="col-6" id="backG1" style="text-align: left;">
-              <img :src="`${listingData.ownerAvatar}`" alt="" />
+              <img src="`${listingData.ownerAvatar}`" alt="" />
               <h3 style="font-size: 0.85rem; color: green; margin-bottom: 0px;">
                 Seller
               </h3>
@@ -113,7 +19,7 @@
                 class="listingSubTextTitle"
                 style="font-size: 1.1rem; margin-top: 0px !important; margin-right: 10px;"
               >
-                {{ listingData.sellerName }}
+                {{ username }}
                 <img
                   src="../assets/img/verified.jpg"
                   style="max-width:20px; margin: 0;"
@@ -143,32 +49,30 @@
             data-v-9d51a18c=""
             id="featureRow"
             class="row"
-            style="margin-bottom: 10px; margin-top: 30px;"
+            style="margin-bottom: 10px; margin-top: 30px; background-color: transparent;"
           >
-            <div data-v-9d51a18c="" id="description" class="info itemInfo">
+            <div
+              data-v-9d51a18c=""
+              id="description"
+              style="background-color: transparent; box-shadow: none;"
+              class="info itemInfo"
+            >
               <div
                 data-v-9d51a18c=""
                 class="row innerListingItem lastFeatureItem"
               >
-                <div data-v-9d51a18c="" class="icon">
-                  <img
-                    data-v-9d51a18c=""
-                    src="@/assets/img/listingSubIcons/description.png"
-                    alt=""
-                  />
-                </div>
-                <h4
-                  data-v-9d51a18c=""
-                  class="info"
-                  style="line-height: 2rem !important;"
-                >
-                  <span class="listingSubTextTitle">Description</span>
-                  <br />
-
-                  <span id="descriptionText">{{
-                    listingData.description
-                  }}</span>
-                </h4>
+                <ProfileListingCard
+                  style="background-color: white;"
+                  v-for="listing in allListings"
+                  :key="listing.id"
+                  :avatar="listing.avatar"
+                  :followers="listing.noOfFollowers"
+                  :posts="listing.noOfPosts"
+                  :price="listing.price"
+                  :reach="listing.reach"
+                  :category="listing.category"
+                  :id="listing.id"
+                ></ProfileListingCard>
               </div>
             </div>
           </div>
@@ -180,12 +84,65 @@
 
 <script>
 import * as firebase from './firestore/index';
+import ProfileListingCard from './../components/cards/ProfileListingCard';
 
 export default {
-  components: {},
+  components: {
+    ProfileListingCard
+  },
   bodyClass: 'profile-page',
   data() {
-    return {};
+    return {
+      avatar: null,
+      // username: null,
+      allListings: []
+    };
+  },
+  methods: {
+    async loadAllListingsForUser(userID) {
+      this.allListings = [];
+      firebase.db
+        .doc(`/users/${userID}`)
+        .get()
+        .then(querySnapshot => {
+          querySnapshot.data().listings.forEach(listing => {
+            console.log(this.getListingID(listing.ownerUsername));
+            this.allListings.push(listing);
+          });
+
+          // if (this.allListings.length == 0) {
+          //   this.noData = true;
+          // } else {
+          //   this.noData = false;
+          //   this.$forceUpdate();
+          // }
+          // this.lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+        })
+        .catch(err => {
+          console.log("Couldn't get data", err);
+        });
+
+      console.log('all listings\n', this.allListings);
+    },
+    getListingID(ownerUsername) {
+      firebase.db
+        .collection('allListings')
+        .where('ownerUsername', '==', ownerUsername)
+        .get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(doc => {
+            return;
+          });
+        })
+        .catch(err => {
+          // console.log(err);
+          return err;
+        });
+    }
+  },
+
+  mounted() {
+    this.loadAllListingsForUser(this.userID);
   },
 
   computed: {
@@ -193,6 +150,12 @@ export default {
       return {
         background: `radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%)`
       };
+    },
+    username() {
+      return this.$store.getters.getUserProfile.username;
+    },
+    userID() {
+      return firebase.auth.currentUser.uid;
     }
   }
 };
@@ -331,7 +294,9 @@ h4 {
   display: flex;
   width: 100%;
   text-align: center;
+  margin-top: -245px !important;
 }
+
 #featureRow .info {
   font-weight: bold;
   text-transform: uppercase;
@@ -346,8 +311,6 @@ h4 {
     min-width: 129px !important;
     /* max-width: 200px !important; */
   }
-}
-@media only screen and (max-width: 768px) {
 }
 
 #featureRow img {
@@ -398,7 +361,7 @@ h4 {
   margin-bottom: 20px;
   padding-top: 10px;
   padding-bottom: 10px;
-  height: 300px;
+  /* height: 300px; */
   background-color: rgba(255, 255, 255, 0);
   box-shadow: none;
 }
@@ -412,6 +375,7 @@ h4 {
   text-align: center;
   font-size: 1.2em;
   padding: 0;
+  background-color: transparent;
 }
 .innerListingItem {
   margin-top: 15px;
@@ -465,6 +429,9 @@ h4 {
     margin-left: auto !important;
     margin-right: auto !important;
     width: 90% !important;
+  }
+  #featureRow {
+    margin-top: 30px !important;
   }
 }
 @media only screen and (max-width: 850px) {

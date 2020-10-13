@@ -305,6 +305,28 @@
         </div>
       </div>
     </transition>
+    <transition name="fade">
+      <div id="notifications" v-if="showUnknownErrorBanner == true">
+        <div class="alert alert-info" id="alertBanner">
+          <div class="container">
+            <button
+              type="button"
+              aria-hidden="true"
+              class="close"
+              @click="event => removeNotify(event, 'alert-info')"
+            >
+              <md-icon>clear</md-icon>
+            </button>
+            <div class="alert-icon">
+              <md-icon>info_outline</md-icon>
+            </div>
+            <b> INFO ALERT </b> : You must be logged in to access this feature.
+            <a href="/login">Log In</a> or
+            <a href="/signup">Create an Account</a>
+          </div>
+        </div>
+      </div>
+    </transition>
   </md-toolbar>
 </template>
 
@@ -378,6 +400,9 @@ export default {
     },
     loggedIn() {
       return this.$store.getters.getUserProfile.email;
+    },
+    showUnknownErrorBanner() {
+      return this.$store.getters.getShowUnknownErrorBannerStatus;
     }
   },
 

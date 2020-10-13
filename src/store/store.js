@@ -9,7 +9,8 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
     userProfile: { listings: null },
-    showEmailNotVerifiedBanner: false
+    showEmailNotVerifiedBanner: false,
+    showUnknownErrorBanner: false
   },
   mutations: {
     SET_USER_PROFILE(state, val) {
@@ -26,12 +27,18 @@ const store = new Vuex.Store({
     },
     SET_SHOW_EMAIL_NOT_VERIFIED_BANNER_TO_TRUE(state) {
       state.showEmailNotVerifiedBanner = true;
+    },
+    SET_SHOW_UNKNOWN_ERROR_BANNER_TO_TRUE(state) {
+      state.showUnknownErrorBanner = true;
     }
     //   setPosts maybe it can help with posting listings
   },
   actions: {
     async showEmailNotVerifiedBanner({ commit }) {
       commit('SET_SHOW_EMAIL_NOT_VERIFIED_BANNER_TO_TRUE');
+    },
+    async showUnknownErrorBanner({ commit }) {
+      commit('SET_SHOW_UNKNOWN_ERROR_BANNER_TO_TRUE');
     },
     async signup({ dispatch }, form) {
       // sign user up
@@ -158,7 +165,8 @@ const store = new Vuex.Store({
     getUserProfile(state) {
       return state.userProfile;
     },
-    getCurrentUser: () => fb.auth.currentUser
+    getCurrentUser: () => fb.auth.currentUser,
+    getShowUnknownErrorBannerStatus: state => state.showUnknownErrorBanner
   }
 });
 

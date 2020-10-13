@@ -1,7 +1,12 @@
 <template>
   <div>
     <div class="app-container">
-      <span class="user-logged">Logged as {{ currentUserId }}</span>
+      <div class="alert-icon" id="chatAdminDisclaimer">
+        <md-icon>info_outline</md-icon> <b>Info </b>: Every chat group includes
+        the admin user who handles the payment and escrow process. He is there
+        to ensure safety and transparency throughout BS Social Swap.
+      </div>
+
       <!-- used to have the options with users -->
 
       <chat-container
@@ -184,5 +189,8 @@ select {
   text-align: right;
   font-size: 14px;
   color: grey;
+}
+#chatAdminDisclaimer {
+  padding: 0 10px 0 10px;
 }
 </style>

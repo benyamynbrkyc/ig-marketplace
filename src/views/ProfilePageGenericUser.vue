@@ -7,7 +7,7 @@
           <h1
             style="margin-left: 20px; margin-bottom: 40px; text-align: center;"
           >
-            My Profile
+            {{ sellerName }}'s account
           </h1>
         </div>
 
@@ -62,8 +62,12 @@
               style="background-color: transparent; box-shadow: none;"
               class="info itemInfo"
             >
-              <h4 class="title" style="margin-left: 20px; margin-top: 20px;">
-                My Listings
+              <h4
+                v-if="noData == false"
+                class="title"
+                style="margin-left: 20px; margin-top: 20px;"
+              >
+                Listings
               </h4>
               <h3
                 v-if="noData == true"

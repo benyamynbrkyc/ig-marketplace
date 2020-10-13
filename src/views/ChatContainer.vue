@@ -57,6 +57,7 @@
       :messages="messages"
       :messagesLoaded="messagesLoaded"
       :menuActions="menuActions"
+      :showAddRoom="false"
       @fetchMessages="fetchMessages"
       @sendMessage="sendMessage"
       @editMessage="editMessage"
@@ -221,7 +222,11 @@ export default {
         );
 
         room.roomName =
-          roomContacts.map(user => user.username).join(', ') || 'Myself';
+          roomContacts
+            .map(user => {
+              if (user.username !== 'Admin') return user.username;
+            })
+            .join(' ') || 'Myself';
 
         const roomAvatar =
           roomContacts.length === 1 && roomContacts[0].avatar
@@ -304,7 +309,7 @@ export default {
       if (this.end && !this.start) return (this.messagesLoaded = true);
 
       let ref = this.messagesRef(room.roomId);
-
+      console.log('this is the roomID: ', `'${room.roomId}'`);
       let query = ref.orderBy('timestamp', 'desc').limit(this.perPage);
 
       if (this.start) query = query.startAfter(this.start);

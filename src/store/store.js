@@ -10,7 +10,8 @@ const store = new Vuex.Store({
   state: {
     userProfile: { listings: null },
     showEmailNotVerifiedBanner: false,
-    showUnknownErrorBanner: false
+    showUnknownErrorBanner: false,
+    showInvalidPasswordBanner: false
   },
   mutations: {
     SET_USER_PROFILE(state, val) {
@@ -30,6 +31,9 @@ const store = new Vuex.Store({
     },
     SET_SHOW_UNKNOWN_ERROR_BANNER_TO_TRUE(state) {
       state.showUnknownErrorBanner = true;
+    },
+    SET_SHOW_INVALID_PASSWORD_BANNER_TO_TRUE(state) {
+      state.showInvalidPasswordBanner = true;
     }
     //   setPosts maybe it can help with posting listings
   },
@@ -69,7 +73,7 @@ const store = new Vuex.Store({
         if (error.code == 'auth/invalid-email') alert('Invalid email.');
       }
     },
-    async login({ dispatch }, form) {
+    async login({ dispatch, commit }, form) {
       // sign user in
       try {
         const { user } = await fb.auth.signInWithEmailAndPassword(
@@ -89,13 +93,11 @@ const store = new Vuex.Store({
 
         if (error.code == 'auth/invalid-email') alert('Invalid email.');
 
-        if (error.code == 'auth/wrong-password') alert('Invalid password.');
+        if (error.code == 'auth/wrong-password')
+          commit('SET_SHOW_INVALID_PASSWORD_BANNER_TO_TRUE');
 
         if (error.code == 'auth/user-not-found') {
-          let question = confirm(
-            'The user has not been found.\nDo you want to sign up?'
-          );
-          if (question) router.push('/signup');
+          commit('SET_SHOW_INVALID_PASSWORD_BANNER_TO_TRUE');
         }
       }
     },
@@ -166,7 +168,8 @@ const store = new Vuex.Store({
       return state.userProfile;
     },
     getCurrentUser: () => fb.auth.currentUser,
-    getShowUnknownErrorBannerStatus: state => state.showUnknownErrorBanner
+    getShowUnknownErrorBannerStatus: state => state.showUnknownErrorBanner,
+    getShowInvalidPasswordBannerStatus: state => state.showInvalidPasswordBanner
   }
 });
 

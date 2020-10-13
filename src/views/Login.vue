@@ -55,7 +55,8 @@ export default {
   data() {
     return {
       email: null,
-      password: null
+      password: null,
+      showInvalidPasswordBanner: false
     };
   },
   props: {
@@ -72,12 +73,15 @@ export default {
     }
   },
   methods: {
-    login() {
+    async login() {
       this.$store.dispatch('login', {
         email: this.email,
         password: this.password
       });
-    }
+      this.showInvalidPasswordBanner = await this.$store.getters
+        .getShowInvalidPasswordBannerStatus;
+      console.log(this.showInvalidPasswordBanner);
+    } // TODO: correct all of these to show banners, get roomID from contact seller
   }
 };
 </script>

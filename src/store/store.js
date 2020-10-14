@@ -11,7 +11,12 @@ const store = new Vuex.Store({
     userProfile: { listings: null },
     showEmailNotVerifiedBanner: false,
     showUnknownErrorBanner: false,
-    showInvalidPasswordBanner: false
+    showInvalidPasswordBanner: false,
+    showUserNotFoundBanner: false,
+    showArgumentErrorBanner: false,
+    showInvalidEmailBanner: false,
+    showAllFieldsMustBePopulatedBanner: false,
+    showEmailInUseBanner: false
   },
   mutations: {
     SET_USER_PROFILE(state, val) {
@@ -32,10 +37,56 @@ const store = new Vuex.Store({
     SET_SHOW_UNKNOWN_ERROR_BANNER_TO_TRUE(state) {
       state.showUnknownErrorBanner = true;
     },
+    //
+    //
+    SET_SHOW_ARGUMENT_ERROR_BANNER_TO_TRUE(state) {
+      state.showArgumentErrorBanner = true;
+    },
+    SET_SHOW_ARGUMENT_ERROR_BANNER_TO_FALSE(state) {
+      state.showArgumentErrorBanner = false;
+    },
+    //
+    //
+    SET_SHOW_INVALID_EMAIL_BANNER_TO_TRUE(state) {
+      state.showInvalidEmailBanner = true;
+    },
+    SET_SHOW_INVALID_EMAIL_BANNER_TO_FALSE(state) {
+      state.showInvalidEmailBanner = false;
+    },
+    //
+    //
     SET_SHOW_INVALID_PASSWORD_BANNER_TO_TRUE(state) {
       state.showInvalidPasswordBanner = true;
+    },
+    SET_SHOW_INVALID_PASSWORD_BANNER_TO_FALSE(state) {
+      state.showInvalidPasswordBanner = false;
+    },
+    //
+    //
+    SET_SHOW_USER_NOT_FOUND_BANNER_TO_TRUE(state) {
+      state.showUserNotFoundBanner = true;
+    },
+    SET_SHOW_USER_NOT_FOUND_BANNER_TO_FALSE(state) {
+      state.showUserNotFoundBanner = false;
+    },
+    //
+    //
+    SET_SHOW_ALL_FIELDS_MUST_BE_POPULATED_BANNER_TO_TRUE(state) {
+      state.showAllFieldsMustBePopulatedBanner = true;
+    },
+    SET_SHOW_ALL_FIELDS_MUST_BE_POPULATED_BANNER_TO_FALSE(state) {
+      state.showAllFieldsMustBePopulatedBanner = false;
+    },
+    //
+    //
+    SET_SHOW_EMAIL_IN_USE_BANNER_TO_TRUE(state) {
+      state.showEmailInUseBanner = true;
+    },
+    SET_SHOW_EMAIL_IN_USE_BANNER_TO_FALSE(state) {
+      state.showEmailInUseBanner = false;
     }
-    //   setPosts maybe it can help with posting listings
+    //
+    //
   },
   actions: {
     async showEmailNotVerifiedBanner({ commit }) {
@@ -44,7 +95,7 @@ const store = new Vuex.Store({
     async showUnknownErrorBanner({ commit }) {
       commit('SET_SHOW_UNKNOWN_ERROR_BANNER_TO_TRUE');
     },
-    async signup({ dispatch }, form) {
+    async signup({ dispatch, commit }, form) {
       // sign user up
       try {
         const { user } = await fb.auth.createUserWithEmailAndPassword(
@@ -65,12 +116,19 @@ const store = new Vuex.Store({
         dispatch('fetchUserProfile', user);
       } catch (error) {
         // BUILD CHANGE
-        // console.log(error);
+        console.log(error);
 
         if (error.code == 'auth/argument-error')
-          alert('All fields must be populated.');
+          commit('SET_SHOW_ALL_FIELDS_MUST_BE_POPULATED_BANNER_TO_TRUE');
+        else commit('SET_SHOW_ALL_FIELDS_MUST_BE_POPULATED_BANNER_TO_FALSE');
 
-        if (error.code == 'auth/invalid-email') alert('Invalid email.');
+        if (error.code == 'auth/invalid-email')
+          commit('SET_SHOW_INVALID_EMAIL_BANNER_TO_TRUE');
+        else commit('SET_SHOW_INVALID_EMAIL_BANNER_TO_FALSE');
+
+        if (error.code == 'auth/email-already-in-use')
+          commit('SET_SHOW_EMAIL_IN_USE_BANNER_TO_TRUE');
+        else commit('SET_SHOW_EMAIL_IN_USE_BANNER_TO_FALSE');
       }
     },
     async login({ dispatch, commit }, form) {
@@ -85,20 +143,24 @@ const store = new Vuex.Store({
         dispatch('fetchUserProfile', user);
       } catch (error) {
         // BUILD CHANGE
-        // console.log(error);
+        console.log(error);
 
         // TODO: emit these as events
         if (error.code == 'auth/argument-error')
-          alert('Email and password cannot be empty.');
+          commit('SET_SHOW_ARGUMENT_ERROR_BANNER_TO_TRUE');
+        else commit('SET_SHOW_ARGUMENT_ERROR_BANNER_TO_FALSE');
 
-        if (error.code == 'auth/invalid-email') alert('Invalid email.');
+        if (error.code == 'auth/invalid-email')
+          commit('SET_SHOW_INVALID_EMAIL_BANNER_TO_TRUE');
+        else commit('SET_SHOW_INVALID_EMAIL_BANNER_TO_FALSE');
 
         if (error.code == 'auth/wrong-password')
           commit('SET_SHOW_INVALID_PASSWORD_BANNER_TO_TRUE');
+        else commit('SET_SHOW_INVALID_PASSWORD_BANNER_TO_FALSE');
 
-        if (error.code == 'auth/user-not-found') {
-          commit('SET_SHOW_INVALID_PASSWORD_BANNER_TO_TRUE');
-        }
+        if (error.code == 'auth/user-not-found')
+          commit('SET_SHOW_USER_NOT_FOUND_BANNER_TO_TRUE');
+        else commit('SET_SHOW_USER_NOT_FOUND_BANNER_TO_FALSE');
       }
     },
     async logout({ commit }) {
@@ -169,7 +231,14 @@ const store = new Vuex.Store({
     },
     getCurrentUser: () => fb.auth.currentUser,
     getShowUnknownErrorBannerStatus: state => state.showUnknownErrorBanner,
-    getShowInvalidPasswordBannerStatus: state => state.showInvalidPasswordBanner
+    getShowInvalidPasswordBannerStatus: state =>
+      state.showInvalidPasswordBanner,
+    getShowUserNotFoundBannerStatus: state => state.showUserNotFoundBanner,
+    getShowInvalidEmailBannerStatus: state => state.showInvalidEmailBanner,
+    getShowArgumentErrorBanner: state => state.showArgumentErrorBanner,
+    getShowAllFieldsMustBePopulatedBanner: state =>
+      state.showAllFieldsMustBePopulatedBanner,
+    getShowEmailInUseBannerStatus: state => state.showEmailInUseBanner
   }
 });
 

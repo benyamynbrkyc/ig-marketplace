@@ -38,6 +38,29 @@
                 <label>Profile Picture - Paste URL</label>
                 <md-input v-model="avatar"></md-input>
               </md-field>
+
+              <h5
+                style="color: red; text-align: center; margin-top: 30px;"
+                slot="inputs"
+                v-if="showInvalidEmailBanner == true"
+              >
+                Invalid email
+              </h5>
+              <h5
+                style="color: red; text-align: center; margin-top: 30px;"
+                slot="inputs"
+                v-if="showAllFieldsMustBePopulatedBanner == true"
+              >
+                All fields must be populated
+              </h5>
+              <h5
+                style="color: red; text-align: center; margin-top: 30px;"
+                slot="inputs"
+                v-if="showEmailAlreadyInUseBanner == true"
+              >
+                Email already in use
+              </h5>
+
               <md-button
                 @click="signup()"
                 slot="footer"
@@ -80,6 +103,15 @@ export default {
       return {
         backgroundColor: `#3a7571`
       };
+    },
+    showInvalidEmailBanner() {
+      return this.$store.getters.getShowInvalidEmailBannerStatus;
+    },
+    showAllFieldsMustBePopulatedBanner() {
+      return this.$store.getters.getShowAllFieldsMustBePopulatedBanner;
+    },
+    showEmailAlreadyInUseBanner() {
+      return this.$store.getters.getShowEmailInUseBannerStatus;
     }
   },
   methods: {

@@ -29,6 +29,34 @@
                 <md-input v-model="password" type="password"></md-input>
               </md-field>
 
+              <h5
+                style="color: red; text-align: center; margin-top: 30px;"
+                slot="inputs"
+                v-if="showUserNotFoundBanner == true"
+              >
+                User (email) not found
+              </h5>
+              <h5
+                style="color: red; text-align: center; margin-top: 30px;"
+                slot="inputs"
+                v-if="showInvalidPasswordBanner == true"
+              >
+                Incorrect password
+              </h5>
+              <h5
+                style="color: red; text-align: center; margin-top: 30px;"
+                slot="inputs"
+                v-if="showInvalidEmailBanner == true"
+              >
+                Invalid email
+              </h5>
+              <h5
+                style="color: red; text-align: center; margin-top: 30px;"
+                slot="inputs"
+                v-if="showArgumentErrorBanner == true"
+              >
+                Email and password cannot be empty
+              </h5>
               <md-button
                 @click="login()"
                 slot="footer"
@@ -55,8 +83,7 @@ export default {
   data() {
     return {
       email: null,
-      password: null,
-      showInvalidPasswordBanner: false
+      password: null
     };
   },
   props: {
@@ -70,18 +97,28 @@ export default {
       return {
         backgroundColor: `#3a7571`
       };
+    },
+    showUserNotFoundBanner() {
+      return this.$store.getters.getShowUserNotFoundBannerStatus;
+    },
+    showInvalidPasswordBanner() {
+      return this.$store.getters.getShowInvalidPasswordBannerStatus;
+    },
+    showInvalidEmailBanner() {
+      return this.$store.getters.getShowInvalidEmailBannerStatus;
+    },
+    showArgumentErrorBanner() {
+      return this.$store.getters.getShowArgumentErrorBanner;
     }
   },
   methods: {
     async login() {
+      this.resetFeedback = true;
       this.$store.dispatch('login', {
         email: this.email,
         password: this.password
       });
-      this.showInvalidPasswordBanner = await this.$store.getters
-        .getShowInvalidPasswordBannerStatus;
-      console.log(this.showInvalidPasswordBanner);
-    } // TODO: correct all of these to show banners, get roomID from contact seller
+    }
   }
 };
 </script>

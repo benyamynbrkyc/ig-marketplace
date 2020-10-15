@@ -204,6 +204,25 @@ const router = new Router({
         requiresAuth: true,
         requiresAuthMessage: 'You have to log in to access the chat.'
       }
+    },
+    {
+      path: '/chat/:roomId',
+      name: 'specificChatRoom',
+      components: {
+        default: () =>
+          import(/* webpackChunkName: "settings" */ './views/Chat.vue'),
+        header: MainNavbar,
+        footer: MainFooter
+      },
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: 'black' }
+      },
+      meta: {
+        title: 'BS Social Swap | Chat',
+        requiresAuth: true,
+        requiresAuthMessage: 'You have to log in to access the chat.'
+      }
     }
   ],
   scrollBehavior: to => {

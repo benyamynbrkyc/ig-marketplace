@@ -172,7 +172,7 @@
                       class="md-button md-button-link md-simple"
                       style="color: white !important;"
                     >
-                      <i class="material-icons">chat</i>
+                      <i class="material-icons">login</i>
                       <p>Log In</p>
                     </md-button>
                   </div>
@@ -189,7 +189,7 @@
                       class="md-button md-button-link md-simple"
                       style="color: white !important;"
                     >
-                      <i class="material-icons">chat</i>
+                      <i class="material-icons">person_add</i>
                       <p>Sign Up</p>
                     </md-button>
                   </div>
@@ -320,9 +320,7 @@
             <div class="alert-icon">
               <md-icon>info_outline</md-icon>
             </div>
-            <b> INFO ALERT </b> : You must be logged in to access this feature.
-            <a href="/login">Log In</a> or
-            <a href="/signup">Create an Account</a>
+            <b> INFO ALERT </b> : An error occurred.
           </div>
         </div>
       </div>

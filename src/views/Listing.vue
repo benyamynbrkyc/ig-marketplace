@@ -114,13 +114,16 @@
             </div>
             <div class="col-6" id="backG1" style="text-align: left;">
               <img :src="`${listingData.ownerAvatar}`" alt="" />
-              <h3 style="font-size: 0.85rem; color: green; margin-bottom: 0px;">
+              <h3
+                style="padding-left: 5px; font-size: 0.85rem; color: green; margin-bottom: 0px;"
+              >
                 Seller
               </h3>
               <h3
                 @click="pushToSeller()"
+                id="sellerName"
                 class="listingSubTextTitle"
-                style="font-size: 1.1rem; margin-top: 0px !important; margin-right: 10px;"
+                style="font-size: 1.1rem;"
               >
                 {{ listingData.sellerName }}
                 <img
@@ -135,12 +138,13 @@
               </p>
               <p
                 class="description sellerActions"
-                style="background-color: #e3fed6; display:inline; padding: 5px 3px  5px 0px"
+                style="background-color: #e3fed6;"
+                @click="buyWithEscrow()"
               >
                 <md-icon style="margin-right: 7px; color: green;">lock</md-icon>
-                Buy account with Escrow
+                Buy with Escrow
               </p>
-              <p class="description sellerActions">
+              <p class="description sellerActions" @click="reportListing()">
                 <md-icon style="margin-right: 7px; color: red;"
                   >report_problem</md-icon
                 >
@@ -273,6 +277,12 @@ export default {
     },
     pushToSeller() {
       this.$router.push(`/profile/${String(this.ownerID)}`);
+    },
+    buyWithEscrow() {
+      console.log('Buy with escrow');
+    },
+    reportListing() {
+      console.log('reported listing');
     }
   },
 
@@ -530,8 +540,19 @@ h4 {
   font-size: 0.9rem;
   text-align: left !important;
   margin-left: 10px !important;
+  margin-right: 10px !important;
+  margin-top: 8px !important;
+  margin-bottom: 8px !important;
   font-weight: bolder;
   line-height: 2.5rem;
+  padding: 3px 5px 3px 5px;
+}
+.sellerActions:hover {
+  cursor: pointer;
+  -webkit-box-shadow: 0px 0px 23px -2px rgba(0, 0, 0, 0.28);
+  -moz-box-shadow: 0px 0px 23px -2px rgba(0, 0, 0, 0.28);
+  box-shadow: 0px 0px 23px -2px rgba(0, 0, 0, 0.28);
+  transition: 0.5s;
 }
 
 @media only screen and (max-width: 1080px) {
@@ -595,5 +616,17 @@ footer {
   text-align: center;
   padding: 0 10px 0 10px;
   margin-top: 0px;
+}
+#sellerName {
+  margin-right: 10px;
+  padding: 0 5px 0 5px;
+  display: inline;
+}
+#sellerName:hover {
+  cursor: pointer;
+  -webkit-box-shadow: 0px 0px 23px -2px rgba(0, 0, 0, 0.28);
+  -moz-box-shadow: 0px 0px 23px -2px rgba(0, 0, 0, 0.28);
+  box-shadow: 0px 0px 23px -2px rgba(0, 0, 0, 0.28);
+  transition: 0.5s;
 }
 </style>

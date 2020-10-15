@@ -17,7 +17,7 @@
             <div class="col-6" id="backG1" style="text-align: left;">
               <img :src="avatar" alt="" />
               <h3 style="font-size: 0.85rem; color: green; margin-bottom: 0px;">
-                Seller
+                Me
               </h3>
               <h3
                 class="listingSubTextTitle"
@@ -29,23 +29,29 @@
                   style="max-width:20px; margin: 0;"
                 />
               </h3>
-              <!-- TODO: get these links -->
-              <p class="description sellerActions">
-                <md-icon style="margin-right: 7px;">mail</md-icon> Contact
-                Seller
-              </p>
+              <!-- TODO: delete acc, delete listings -->
+              <!-- <p class="description sellerActions">
+                <md-icon style="margin-right: 7px;">mail</md-icon> Delete
+                Account
+              </p> -->
+              <!--
+
               <p
                 class="description sellerActions"
-                style="background-color: #e3fed6; display:inline; padding: 5px 3px  5px 0px"
+                style="background-color: #e3fed6;"
               >
-                <md-icon style="margin-right: 7px; color: green;">lock</md-icon>
-                Buy account with Escrow
-              </p>
-              <p class="description sellerActions">
-                <md-icon style="margin-right: 7px; color: red;"
-                  >report_problem</md-icon
+                <md-icon style="margin-right: 7px; color: red; "
+                  >delete</md-icon
                 >
-                Report listing
+                Delete Account
+              </p>
+              -->
+              <p
+                class="description sellerActions text-danger"
+                style="display:inline; padding: 5px 3px  5px 0px"
+              >
+                <md-icon style="margin-right: 7px; color: red;">delete</md-icon>
+                Delete account
               </p>
             </div>
           </div>

@@ -20,7 +20,6 @@
                 Seller
               </h3>
               <h3
-                @click="pushToSeller()"
                 class="listingSubTextTitle"
                 style="font-size: 1.1rem; margin-top: 0px !important; margin-right: 10px;"
               >
@@ -31,22 +30,13 @@
                 />
               </h3>
               <!-- TODO: get these links -->
-              <p class="description sellerActions">
+              <p
+                id="contactSeller"
+                class="description sellerActions"
+                @click="openRoomForUser()"
+              >
                 <md-icon style="margin-right: 7px;">mail</md-icon> Contact
                 Seller
-              </p>
-              <p
-                class="description sellerActions"
-                style="background-color: #e3fed6; display:inline; padding: 5px 3px  5px 0px"
-              >
-                <md-icon style="margin-right: 7px; color: green;">lock</md-icon>
-                Buy account with Escrow
-              </p>
-              <p class="description sellerActions">
-                <md-icon style="margin-right: 7px; color: red;"
-                  >report_problem</md-icon
-                >
-                Report listing
               </p>
             </div>
           </div>
@@ -116,7 +106,8 @@ export default {
       noData: false,
       allListings: [],
       sellerName: null,
-      avatar: null
+      avatar: null,
+      firebaseCurrentUserUsername: null
     };
   },
   methods: {
@@ -171,12 +162,61 @@ export default {
     },
     pushToSeller() {
       this.$router.push(`/profile/${String(this.ownerID)}`);
+    },
+    openRoomForUser() {
+      firebase.db
+        .doc(`/users/${this.userID}`)
+        .get()
+        .then(querySnapshot => {
+          let username = querySnapshot.data().username;
+
+          let firstCombo = username + '_' + this.firebaseCurrentUserUsername;
+          let secondCombo = this.firebaseCurrentUserUsername + '_' + username;
+
+          console.log(this.findCorrectRoom(firstCombo, secondCombo));
+        })
+        .catch(err => {
+          this.$store.dispatch('showUnknownErrorBanner');
+        });
+    },
+    findCorrectRoom(firstCombo, secondCombo) {
+      let allRooms = [];
+      let correctRoom;
+      firebase.db
+        .collection('chatRooms')
+        .get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(room => {
+            allRooms.push(room.id);
+          });
+          for (let i = 0; i < allRooms.length; i++) {
+            if (allRooms[i] == firstCombo || allRooms[i] == secondCombo) {
+              console.log('correctRoom', allRooms[i]);
+              return `${allRooms[i]} `;
+              break;
+            }
+          }
+        })
+        .catch(err => {
+          this.$store.dispatch('showUnknownErrorBanner');
+        });
     }
   },
 
   mounted() {
     this.loadUser();
     this.loadAllListingsForUser(this.userID);
+  },
+  created() {
+    firebase.db
+      .doc(`/users/${firebase.auth.currentUser.uid}`)
+      .get()
+      .then(querySnapshot => {
+        this.firebaseCurrentUserUsername = querySnapshot.data().username;
+      })
+      .catch(err => {
+        this.$store.dispatch('showUnknownErrorBanner');
+      });
   },
 
   computed: {
@@ -506,5 +546,17 @@ footer {
   height: 68px !important;
   max-height: unset !important;
   border-radius: 50%;
+}
+#contactSeller {
+  margin-right: 10px;
+  margin-bottom: 10px;
+  padding: 0 5px 0 5px;
+}
+#contactSeller:hover {
+  cursor: pointer;
+  -webkit-box-shadow: 0px 0px 23px -2px rgba(0, 0, 0, 0.28);
+  -moz-box-shadow: 0px 0px 23px -2px rgba(0, 0, 0, 0.28);
+  box-shadow: 0px 0px 23px -2px rgba(0, 0, 0, 0.28);
+  transition: 0.5s;
 }
 </style>

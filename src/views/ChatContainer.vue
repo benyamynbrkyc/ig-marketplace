@@ -131,6 +131,10 @@ export default {
     this.resetRooms();
   },
 
+  created() {
+    if (this.$route.params.roomId) this.getRoomIDFromParams();
+  },
+
   methods: {
     messagesRef(roomId) {
       return roomsRef.doc(roomId).collection('messages');
@@ -152,6 +156,10 @@ export default {
       this.listeners = [];
     },
     // RESETS
+
+    getRoomIDFromParams() {
+      console.log('got params:', this.$route.params.roomId);
+    },
 
     async fetchRooms() {
       this.resetRooms();

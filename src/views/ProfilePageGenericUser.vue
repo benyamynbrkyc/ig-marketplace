@@ -81,6 +81,7 @@
                   :reach="listing.reach"
                   :category="listing.category"
                   :id="listing._id"
+                  :username="username"
                 ></ProfileListingCard>
               </div>
             </div>
@@ -107,7 +108,8 @@ export default {
       allListings: [],
       sellerName: null,
       avatar: null,
-      firebaseCurrentUserUsername: null
+      firebaseCurrentUserUsername: null,
+      username: null
     };
   },
   methods: {
@@ -124,6 +126,7 @@ export default {
               .then(listing => {
                 this.noData = false;
                 this.allListings.push(listing.data());
+                this.username = listing.data().username;
               })
               .catch(err => {
                 this.noData = true;
@@ -167,39 +170,41 @@ export default {
       firebase.db
         .doc(`/users/${this.userID}`)
         .get()
-        .then(querySnapshot => {
+        .then(async querySnapshot => {
           let username = querySnapshot.data().username;
 
           let firstCombo = username + '_' + this.firebaseCurrentUserUsername;
           let secondCombo = this.firebaseCurrentUserUsername + '_' + username;
 
-          console.log(this.findCorrectRoom(firstCombo, secondCombo));
+          let correctRoom = await this.findCorrectRoom(firstCombo, secondCombo);
+
+          this.$router.push(`/chat/${correctRoom}`);
         })
         .catch(err => {
           this.$store.dispatch('showUnknownErrorBanner');
         });
     },
-    findCorrectRoom(firstCombo, secondCombo) {
+    async findCorrectRoom(firstCombo, secondCombo) {
       let allRooms = [];
       let correctRoom;
-      firebase.db
+      let rooms = await firebase.db
         .collection('chatRooms')
         .get()
-        .then(querySnapshot => {
-          querySnapshot.forEach(room => {
-            allRooms.push(room.id);
-          });
-          for (let i = 0; i < allRooms.length; i++) {
-            if (allRooms[i] == firstCombo || allRooms[i] == secondCombo) {
-              console.log('correctRoom', allRooms[i]);
-              return `${allRooms[i]} `;
-              break;
-            }
-          }
-        })
         .catch(err => {
           this.$store.dispatch('showUnknownErrorBanner');
         });
+
+      rooms.forEach(room => {
+        allRooms.push(room.id);
+      });
+
+      for (let i = 0; i < allRooms.length; i++) {
+        if (allRooms[i] == firstCombo || allRooms[i] == secondCombo) {
+          correctRoom = `${allRooms[i]} `;
+          break;
+        }
+      }
+      return correctRoom;
     }
   },
 

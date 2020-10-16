@@ -7,11 +7,17 @@
     <div class="section" id="intro" @click="openListing()">
       <div class="container-fluid" id="flexContainer">
         <div class="row" id="introRow">
-          <div class="col-6" id="backG1">
+          <div class="col-6" id="backG1" style="padding-top: 20px;">
             <img
+              id="listedAccountImage"
               :src="`${avatar !== undefined ? avatar : getNoAvatarPic()}`"
               alt=""
             />
+            <br />
+
+            <h6 id="listedAccountName">
+              {{ generateUsername }}
+            </h6>
           </div>
           <div class="col-6" id="backG2">
             <div class="row" id="featureRow" style="margin-bottom: 10px;">
@@ -85,12 +91,11 @@
               <div class="info" id="categoryTag">
                 <div class="row innerListingItem lastFeatureItem">
                   <div class="icon">
-                    <img src="@/assets/img/listingSubIcons/author.png" alt="" />
+                    <img src="" alt="" />
                   </div>
                   <h4 class="info" style="line-height: 1rem !important; ">
-                    author
-                    <img src="../../assets/img/verified.jpg" alt="" /> <br />
-                    <span class="listingSubTextTitle">Author</span>
+                    <img src="" alt="" /> <br />
+                    <span class="listingSubTextTitle"></span>
                   </h4>
                 </div>
               </div>
@@ -134,6 +139,10 @@ export default {
     reach: {
       type: Number,
       required: true
+    },
+    username: {
+      type: String,
+      required: true
     }
   },
   data() {
@@ -156,6 +165,17 @@ export default {
     },
     openListing() {
       this.$router.push(`/listing/${this.id}`);
+    }
+  },
+  computed: {
+    generateUsername() {
+      return (
+        '@***' +
+        this.username
+          .split('')
+          .splice(this.username.length - 4)
+          .join('')
+      );
     }
   }
 };
@@ -370,5 +390,19 @@ h4 {
 }
 #featureRow > * {
   text-align: left;
+}
+#listedAccountImage {
+  /* max-height: unset !important;
+  height: 50px !important;
+  display: block !important;
+  margin-bottom: -10px !important;
+  padding-bottom: 10px; */
+  position: unset !important;
+  max-height: unset !important;
+  height: 40px !important;
+}
+#listedAccountName {
+  margin-top: 10px !important;
+  margin-bottom: unset !important;
 }
 </style>

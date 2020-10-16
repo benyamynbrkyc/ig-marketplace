@@ -96,6 +96,7 @@ export default {
   data() {
     return {
       perPage: 20,
+
       rooms: [],
       loadingRooms: true,
       selectedRoom: null,
@@ -123,6 +124,7 @@ export default {
   },
 
   mounted() {
+    console.log('this is the roomid', this.roomId);
     this.fetchRooms();
     this.updateUserOnlineStatus();
   },
@@ -131,11 +133,14 @@ export default {
     this.resetRooms();
   },
 
-  created() {
-    if (this.$route.params.roomId) this.getRoomIDFromParams();
-  },
+  // created() {
+  //   this.roomId = this.getRoomIDFromParams();
+  // },
 
   methods: {
+    getRoomIDFromParams() {
+      return this.$route.params.roomId ? this.$route.params.roomId : null;
+    },
     messagesRef(roomId) {
       return roomsRef.doc(roomId).collection('messages');
     },
@@ -157,9 +162,9 @@ export default {
     },
     // RESETS
 
-    getRoomIDFromParams() {
-      console.log('got params:', this.$route.params.roomId);
-    },
+    // getRoomIDFromParams() {
+
+    // },
 
     async fetchRooms() {
       this.resetRooms();
@@ -195,11 +200,11 @@ export default {
                 }
               };
             });
-
           rawUsers.push(promise);
         });
 
         rawUsers.map(users => rawRoomUsers.push(users));
+
         rawMessages.push(this.getLastMessage(room));
       });
 

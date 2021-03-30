@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="app-container">
-      <span class="user-logged">Logged as {{ currentUserId }}</span>
+      <!-- <span class="user-logged">Logged as {{ currentUserId }}</span> -->
       <!-- used to have the options with users -->
 
       <chat-container
@@ -25,7 +25,7 @@ import getPairs from './utils/combinations';
 
 export default {
   components: {
-    ChatContainer
+    ChatContainer,
   },
 
   data() {
@@ -35,7 +35,7 @@ export default {
       // used to have users array which populates on mounted() - think it's irrelevant
       currentUserId: null, // sets userid on load
       currentUser: null,
-      updatingData: false
+      updatingData: false,
     };
   },
 
@@ -43,7 +43,7 @@ export default {
     currentUserId() {
       this.showChat = false;
       setTimeout(() => (this.showChat = true), 150);
-    }
+    },
   },
   // used to have the addData and ClearData() Methods
   // they're kinda useless I think
@@ -66,7 +66,7 @@ export default {
             // users.push(user.id);
             console.log('user IDs pushed to [users]', {
               username: user.data().username,
-              id: user.id
+              id: user.id,
             });
           });
 
@@ -102,12 +102,12 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    }
+    },
   },
   created() {
     this.setCurrentUserId();
     this.populateRooms();
-  }
+  },
 };
 </script>
 
@@ -119,7 +119,7 @@ body {
 .app-container {
   font-family: 'Quicksand', sans-serif;
   padding: 10px 20px 20px;
-  padding-top: 100px !important;
+  padding-top: 80px !important;
 
   @media only screen and (max-width: 768px) {
     padding: 0;

@@ -32,6 +32,18 @@
                 <span style="font-style: italic;">safe and encrypted.</span>
               </p>
 
+              <h6 style="text-transform: none" class="description" slot="title">
+                In order for your Facebook page to show up, you need to be
+                assigned as a Page Owner of that page.
+                <br />
+                <a
+                  style="text-decoration: underline;"
+                  target="_blank"
+                  href="https://www.facebook.com/help/1843115515813561/?ref=share"
+                  >How do I assign or change a Page Owner for my Facebook Page?
+                </a>
+              </h6>
+
               <h6
                 class="description"
                 slot="title"
@@ -313,6 +325,13 @@
                 You must authorize BS Social Swap to access your Instagram data
                 via Facebook before you can submit an account.
               </h3>
+              <h6 class="description" slot="inputs" style="text-align: center">
+                <a
+                  href="https://help.instagram.com/790156881117411?helpref=uf_permalink"
+                  >Why do we do this?</a
+                >
+              </h6>
+
               <h4
                 v-if="
                   facebookAuthStatus &&
@@ -348,7 +367,7 @@ const firestore = firebase.firestore();
 
 export default {
   components: {
-    SellCard
+    SellCard,
   },
   bodyClass: 'login-page',
   data() {
@@ -376,18 +395,18 @@ export default {
         category: null,
         noOfPosts: null,
         reach: null,
-        description: null
+        description: null,
       },
       missingValues: null,
-      usernameAlreadyRegistered: false
+      usernameAlreadyRegistered: false,
     };
   },
   computed: {
     headerStyle() {
       return {
-        backgroundColor: `#3a7571`
+        backgroundColor: `#3a7571`,
       };
-    }
+    },
   },
   methods: {
     async sendInstaInfo() {
@@ -399,6 +418,9 @@ export default {
       facebookProvider.addScope('business_management');
       facebookProvider.addScope('instagram_manage_insights');
       facebookProvider.addScope('read_insights');
+      facebookProvider.setCustomParameters({
+        auth_type: 'rerequest',
+      });
 
       // this could work better for mobile
       // provider.setCustomParameters({
@@ -409,16 +431,20 @@ export default {
         'tempCred',
         JSON.stringify({
           email: this.$store.getters.getUserProfile.email,
-          password: this.$store.getters.getUserProfile.password
-        })
+          password: this.$store.getters.getUserProfile.password,
+        }),
       );
 
       fb.auth.signInWithRedirect(facebookProvider);
     },
     async setFBAuthStatus(result) {
       this.facebookAuthUser = result;
+
       this.FB_ACCESS_TOKEN = result.credential.accessToken;
-      console.log(result.credential.accessToken);
+      console.log(
+        'result.credential.accessToken\n',
+        result.credential.accessToken,
+      );
 
       if (
         result.credential.accessToken !== null &&
@@ -430,7 +456,7 @@ export default {
       console.log('this facebook auth user\n', this.facebookAuthUser);
 
       let pagesOfUser = await axios.get(
-        `https://graph.facebook.com/v8.0/me/accounts?access_token=${this.FB_ACCESS_TOKEN}`
+        `https://graph.facebook.com/v8.0/me/accounts?access_token=${this.FB_ACCESS_TOKEN}`,
       );
       let pages = pagesOfUser.data.data;
       this.pages = pagesOfUser.data.data;
@@ -468,7 +494,7 @@ export default {
       for (let elem in this.instagramAccountData) {
         if (elem == 'price' && this.instagramAccountData[elem] == 0) {
           emptyVals.push(
-            elem.charAt(0).toUpperCase() + elem.slice(1) + ': cannot be 0.'
+            elem.charAt(0).toUpperCase() + elem.slice(1) + ': cannot be 0.',
           );
         }
         if (this.instagramAccountData[elem] == null)
@@ -481,7 +507,7 @@ export default {
 
         this.$store.dispatch(
           'addListingToUserAccount',
-          this.instagramAccountData
+          this.instagramAccountData,
         );
 
         router.push('/listings');
@@ -494,7 +520,7 @@ export default {
       console.log('page with ID', page);
 
       this.IG_USER = await axios.get(
-        `https://graph.facebook.com/v8.0/${page.id}?fields=instagram_business_account&access_token=${page.access_token}`
+        `https://graph.facebook.com/v8.0/${page.id}?fields=instagram_business_account&access_token=${page.access_token}`,
       );
 
       console.log(this.IG_USER);
@@ -506,7 +532,7 @@ export default {
         console.log(instaBusinessAccountID);
 
         const username = await axios.get(
-          `https://graph.facebook.com/v8.0/${instaBusinessAccountID}?fields=username&access_token=${page.access_token}`
+          `https://graph.facebook.com/v8.0/${instaBusinessAccountID}?fields=username&access_token=${page.access_token}`,
         );
 
         const allListingsDataSearchID = firestore
@@ -526,7 +552,7 @@ export default {
             // get # of posts
             let mediaObjIDs = [];
             const posts = await axios.get(
-              `https://graph.facebook.com/v8.0/${instaBusinessAccountID}/media?access_token=${page.access_token}`
+              `https://graph.facebook.com/v8.0/${instaBusinessAccountID}/media?access_token=${page.access_token}`,
             );
             this.instagramAccountData.noOfPosts = posts.data.data.length;
             const postIDs = posts.data.data;
@@ -538,7 +564,7 @@ export default {
 
             // average reach
             let reachData = await axios.get(
-              `https://graph.facebook.com/v8.0/${instaBusinessAccountID}/insights?metric=reach&period=days_28&access_token=${page.access_token}`
+              `https://graph.facebook.com/v8.0/${instaBusinessAccountID}/insights?metric=reach&period=days_28&access_token=${page.access_token}`,
             );
             let reachVals = reachData.data.data[0].values;
             let reachValsSum = 0;
@@ -552,12 +578,12 @@ export default {
 
             // get followers
             let businessDiscoveryInsights = await axios.get(
-              `https://graph.facebook.com/v8.0/${instaBusinessAccountID}?fields=business_discovery.username(${username.data.username}){followers_count,media_count}&access_token=${page.access_token}`
+              `https://graph.facebook.com/v8.0/${instaBusinessAccountID}?fields=business_discovery.username(${username.data.username}){followers_count,media_count}&access_token=${page.access_token}`,
             );
 
             // get profile picture url from insta api
             let profilePictureResponseObject = await axios.get(
-              `https://graph.facebook.com/v8.0/${instaBusinessAccountID}/?fields=profile_picture_url&access_token=${page.access_token}`
+              `https://graph.facebook.com/v8.0/${instaBusinessAccountID}/?fields=profile_picture_url&access_token=${page.access_token}`,
             );
 
             console.log(profilePictureResponseObject.data.profile_picture_url);
@@ -585,10 +611,10 @@ export default {
       const tempCred = JSON.parse(localStorage.getItem('tempCred'));
       this.$store.dispatch('login', {
         email: tempCred.email,
-        password: tempCred.password
+        password: tempCred.password,
       });
       console.log(tempCred);
-    }
+    },
   },
   created() {
     console.log('created hook, current fb.auth user', fb.auth.currentUser);
@@ -615,8 +641,8 @@ export default {
     },
     chosenPage(val) {
       this.findInstagramAcc(val);
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -701,7 +727,6 @@ p.description {
   margin: auto;
   padding-left: 10px;
   padding-right: 10px;
-  text-transform: capitalize;
 }
 #createAcc {
   text-transform: none;

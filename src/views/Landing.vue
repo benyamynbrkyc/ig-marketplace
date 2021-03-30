@@ -5,7 +5,7 @@
         <div class="md-layout">
           <div class="row" id="heroImgRow">
             <img
-              src="https://nitrocdn.com/oBHBqLgJXZVfCESjGKVwqurKNzgjnxtE/assets/static/optimized/rev-31096c6/wp-content/uploads/2020/05/992-e1589633150167.png"
+              src="https://firebasestorage.googleapis.com/v0/b/ig-marketplace.appspot.com/o/bs-logo-no-bg.png?alt=media&token=205ef9a4-6c6c-4033-a823-fa4d96e08bc4"
               id="heroImg"
             />
           </div>
@@ -213,21 +213,21 @@ import * as firebase from './firestore/index';
 
 export default {
   components: {
-    ListingCardMain
+    ListingCardMain,
   },
   bodyClass: 'landing-page',
   props: {
     header: {
       type: String,
-      default: require('@/assets/img/header-backg.jpeg')
-    }
+      default: require('@/assets/img/header-backg.jpeg'),
+    },
   },
   data() {
     return {
       name: null,
       email: null,
       message: null,
-      recents: []
+      recents: [],
     };
   },
   methods: {
@@ -241,7 +241,7 @@ export default {
           snapshot.forEach(doc => {
             let listingData = {
               data: doc.data(),
-              id: doc.id
+              id: doc.id,
             };
             recents.push(listingData);
           });
@@ -249,7 +249,7 @@ export default {
           for (let i = recents.length - 1; i > recents.length - 4; i--)
             this.recents.push(recents[i]);
         });
-    }
+    },
   },
   created() {
     this.loadRecents();
@@ -257,10 +257,10 @@ export default {
   computed: {
     headerStyle() {
       return {
-        background: '#3a7571'
+        background: '#3a7571',
       };
-    }
-  }
+    },
+  },
 };
 </script>
 

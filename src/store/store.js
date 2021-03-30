@@ -8,7 +8,7 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
-    userProfile: { listings: null }
+    userProfile: { listings: null },
   },
   mutations: {
     SET_USER_PROFILE(state, val) {
@@ -19,10 +19,10 @@ const store = new Vuex.Store({
       state.userProfile.listings.push(listingData);
       console.log(
         'added new listing to listings array and set in state',
-        listingData
+        listingData,
       );
       console.log(state.userProfile);
-    }
+    },
     //   setPosts maybe it can help with posting listings
   },
   actions: {
@@ -31,7 +31,7 @@ const store = new Vuex.Store({
       try {
         const { user } = await fb.auth.createUserWithEmailAndPassword(
           form.email,
-          form.password
+          form.password,
         );
 
         // create user profile object in users collection
@@ -41,7 +41,7 @@ const store = new Vuex.Store({
           email: form.email,
           avatar: form.avatar,
           dateCreated: new Date(),
-          password: form.password
+          password: form.password,
         });
 
         dispatch('fetchUserProfile', user);
@@ -60,7 +60,7 @@ const store = new Vuex.Store({
       try {
         const { user } = await fb.auth.signInWithEmailAndPassword(
           form.email,
-          form.password
+          form.password,
         );
 
         // fetch user profile and set in state
@@ -79,7 +79,7 @@ const store = new Vuex.Store({
 
         if (error.code == 'auth/user-not-found') {
           let question = confirm(
-            'The user has not been found.\nDo you want to sign up?'
+            'The user has not been found.\nDo you want to sign up?',
           );
           if (question) router.push('/signup');
         }
@@ -102,7 +102,7 @@ const store = new Vuex.Store({
       const userProfile = await fb.usersRef.doc(UID).get();
       const userProfileData = {
         ...userProfile.data(),
-        id: userProfile.id
+        id: userProfile.id,
       };
 
       // set profile in state
@@ -136,8 +136,8 @@ const store = new Vuex.Store({
           ownerUsername: listingData.ownerUsername,
           ownerID: fb.auth.currentUser.uid,
           dateCreated: listingData.dateCreated,
-          avatar: listingData.avatar
-        })
+          avatar: listingData.avatar,
+        }),
       });
 
       commit('ADD_NEW_LISTING_TO_STATE', listingData);
@@ -155,17 +155,17 @@ const store = new Vuex.Store({
         ownerUsername: listingData.ownerUsername,
         ownerID: fb.auth.currentUser.uid,
         dateCreated: listingData.dateCreated,
-        avatar: listingData.avatar
+        avatar: listingData.avatar,
       });
-    }
+    },
     // MAIN DRIVER
   },
   getters: {
     getUserProfile(state) {
       return state.userProfile;
     },
-    getCurrentUser: () => fb.auth.currentUser
-  }
+    getCurrentUser: () => fb.auth.currentUser,
+  },
 });
 
 export default store;

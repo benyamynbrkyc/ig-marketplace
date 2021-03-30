@@ -12,7 +12,7 @@ const config = {
   storageBucket: 'ig-marketplace.appspot.com',
   messagingSenderId: '501704789302',
   appId: '1:501704789302:web:8a2485d52e50f06ded7797',
-  measurementId: 'G-8J7302SPHJ'
+  measurementId: 'G-8J7302SPHJ',
 };
 app.initializeApp(config);
 

@@ -12,7 +12,8 @@
         <h3 class="md-title">
           <a href="/"
             ><img
-              src="https://nitrocdn.com/oBHBqLgJXZVfCESjGKVwqurKNzgjnxtE/assets/static/optimized/rev-31096c6/wp-content/uploads/2020/05/sajtpng-e1589632975136-min.png"
+              id="navLogo"
+              src="https://firebasestorage.googleapis.com/v0/b/ig-marketplace.appspot.com/o/bs-logo-no-bg.png?alt=media&token=205ef9a4-6c6c-4033-a823-fa4d96e08bc4"
               alt=""
           /></a>
         </h3>
@@ -302,7 +303,7 @@ import router from '../router';
 import * as fb from '../views/firestore/index';
 export default {
   components: {
-    MobileMenu
+    MobileMenu,
   },
   props: {
     type: {
@@ -316,21 +317,21 @@ export default {
           'danger',
           'success',
           'warning',
-          'info'
+          'info',
         ].includes(value);
-      }
+      },
     },
     colorOnScroll: {
       type: Number,
-      default: 0
-    }
+      default: 0,
+    },
   },
   data() {
     return {
       extraNavClasses: '',
       toggledClass: false,
       profilePicture: null,
-      showNotLoggedInBanner: false
+      showNotLoggedInBanner: false,
     };
   },
   computed: {
@@ -352,7 +353,7 @@ export default {
     },
     loggedIn() {
       return this.$store.getters.getUserProfile.email;
-    }
+    },
   },
 
   methods: {
@@ -434,7 +435,7 @@ export default {
       }
       this.showNotLoggedInBanner = false;
       return target.parentNode.removeChild(target);
-    }
+    },
   },
   mounted() {
     this.$forceUpdate();
@@ -458,11 +459,15 @@ export default {
   },
   beforeDestroy() {
     document.removeEventListener('scroll', this.scrollListener);
-  }
+  },
 };
 </script>
 
 <style scoped>
+#navLogo {
+  height: 80px;
+  width: auto;
+}
 .md-simple p {
   color: white !important;
 }

@@ -21,33 +21,33 @@ const router = new Router({
       components: { default: Landing, header: MainNavbar, footer: MainFooter },
       props: {
         header: { colorOnScroll: 400 },
-        footer: { backgroundColor: 'black' }
+        footer: { backgroundColor: 'black' },
       },
       meta: {
-        title: 'BS Social Swap | Home'
-      }
+        title: 'BS Social Swap | Home',
+      },
     },
     {
       path: '/login',
       name: 'login',
       components: { default: Login, header: MainNavbar, footer: MainFooter },
       props: {
-        header: { colorOnScroll: 400 }
+        header: { colorOnScroll: 400 },
       },
       meta: {
-        title: 'BS Social Swap | Login'
-      }
+        title: 'BS Social Swap | Login',
+      },
     },
     {
       path: '/signup',
       name: 'signup',
       components: { default: Signup, header: MainNavbar, footer: MainFooter },
       props: {
-        header: { colorOnScroll: 400 }
+        header: { colorOnScroll: 400 },
       },
       meta: {
-        title: 'BS Social Swap | Sign Up'
-      }
+        title: 'BS Social Swap | Sign Up',
+      },
     },
     {
       path: '/profile',
@@ -55,12 +55,12 @@ const router = new Router({
       components: { default: Profile, header: MainNavbar, footer: MainFooter },
       props: {
         header: { colorOnScroll: 400 },
-        footer: { backgroundColor: 'black' }
+        footer: { backgroundColor: 'black' },
       },
       meta: {
         title: 'BS Social Swap | Profile',
-        requiresAuth: true
-      }
+        requiresAuth: true,
+      },
     },
     {
       path: '/profile/:id',
@@ -68,11 +68,11 @@ const router = new Router({
       components: { default: Profile, header: MainNavbar, footer: MainFooter },
       props: {
         header: { colorOnScroll: 400 },
-        footer: { backgroundColor: 'black' }
+        footer: { backgroundColor: 'black' },
       },
       meta: {
-        title: 'BS Social Swap | Profile'
-      }
+        title: 'BS Social Swap | Profile',
+      },
     },
     {
       path: '/listing/:id',
@@ -80,15 +80,15 @@ const router = new Router({
       components: {
         default: Listing,
         header: MainNavbar,
-        footer: ListingFooter
+        footer: ListingFooter,
       },
       props: {
         header: { colorOnScroll: 400 },
-        footer: { backgroundColor: 'black' }
+        footer: { backgroundColor: 'black' },
       },
       meta: {
-        title: 'BS Social Swap | Listing'
-      }
+        title: 'BS Social Swap | Listing',
+      },
     },
     {
       path: '/terms-of-service',
@@ -99,15 +99,15 @@ const router = new Router({
             /* webpackChunkName: "settings" */ './views/TermsOfService.vue'
           ),
         header: MainNavbar,
-        footer: MainFooter
+        footer: MainFooter,
       },
       props: {
         header: { colorOnScroll: 400 },
-        footer: { backgroundColor: 'black' }
+        footer: { backgroundColor: 'black' },
       },
       meta: {
-        title: 'BS Social Swap | Terms Of Service'
-      }
+        title: 'BS Social Swap | Terms Of Service',
+      },
     },
     {
       path: '/privacy-policy',
@@ -118,15 +118,15 @@ const router = new Router({
             /* webpackChunkName: "settings" */ './views/PrivacyPolicy.vue'
           ),
         header: MainNavbar,
-        footer: MainFooter
+        footer: MainFooter,
       },
       props: {
         header: { colorOnScroll: 400 },
-        footer: { backgroundColor: 'black' }
+        footer: { backgroundColor: 'black' },
       },
       meta: {
-        title: 'BS Social Swap | Privacy Policy'
-      }
+        title: 'BS Social Swap | Privacy Policy',
+      },
     },
     {
       path: '/listings',
@@ -135,15 +135,15 @@ const router = new Router({
         default: () =>
           import(/* webpackChunkName: "settings" */ './views/Listings.vue'),
         header: MainNavbar,
-        footer: MainFooter
+        footer: MainFooter,
       },
       props: {
         header: { colorOnScroll: 400 },
-        footer: { backgroundColor: 'black' }
+        footer: { backgroundColor: 'black' },
       },
       meta: {
-        title: 'BS Social Swap | Listings'
-      }
+        title: 'BS Social Swap | Listings',
+      },
     },
     {
       path: '/sell',
@@ -152,15 +152,15 @@ const router = new Router({
         default: () =>
           import(/* webpackChunkName: "settings" */ './views/Sell.vue'),
         header: MainNavbar,
-        footer: MainFooter
+        footer: MainFooter,
       },
       props: {
-        header: { colorOnScroll: 400 }
+        header: { colorOnScroll: 400 },
       },
       meta: {
         title: 'BS Social Swap | Sell',
-        requiresAuth: true
-      }
+        requiresAuth: true,
+      },
     },
     {
       path: '/contact',
@@ -169,15 +169,15 @@ const router = new Router({
         default: () =>
           import(/* webpackChunkName: "settings" */ './views/Contact.vue'),
         header: MainNavbar,
-        footer: MainFooter
+        footer: MainFooter,
       },
       props: {
         header: { colorOnScroll: 400 },
-        footer: { backgroundColor: 'black' }
+        footer: { backgroundColor: 'black' },
       },
       meta: {
-        title: 'BS Social Swap | Contact'
-      }
+        title: 'BS Social Swap | Contact',
+      },
     },
     {
       path: '/chat',
@@ -186,18 +186,18 @@ const router = new Router({
         default: () =>
           import(/* webpackChunkName: "settings" */ './views/Chat.vue'),
         header: MainNavbar,
-        footer: MainFooter
+        footer: MainFooter,
       },
       props: {
         header: { colorOnScroll: 400 },
-        footer: { backgroundColor: 'black' }
+        footer: { backgroundColor: 'black' },
       },
       meta: {
         title: 'BS Social Swap | Chat',
         requiresAuth: true,
-        requiresAuthMessage: 'You have to log in to access the chat.'
-      }
-    }
+        requiresAuthMessage: 'You have to log in to access the chat.',
+      },
+    },
   ],
   scrollBehavior: to => {
     if (to.hash) {
@@ -205,7 +205,7 @@ const router = new Router({
     } else {
       return { x: 0, y: 0 };
     }
-  }
+  },
 });
 
 router.beforeEach((to, from, next) => {

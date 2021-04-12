@@ -76,32 +76,32 @@ export default {
   props: {
     headerColor: {
       type: String,
-      default: '2e715e'
+      default: '2e715e',
     },
     avatar: {
       type: String,
-      required: true
+      required: true,
     },
     followers: {
       type: Number,
-      required: true
+      required: true,
     },
     posts: {
       type: Number,
-      required: true
+      required: true,
     },
     price: {
       type: Number,
-      required: true
+      required: true,
     },
     reach: {
       type: Number,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
-      cardHidden: true
+      cardHidden: true,
     };
   },
   beforeMount() {
@@ -116,8 +116,8 @@ export default {
     },
     getNoAvatarPic() {
       return require(`${'../../assets/img/faces/no-avatar.jpg'}`);
-    }
-  }
+    },
+  },
 };
 </script>
 

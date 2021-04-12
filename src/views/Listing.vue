@@ -199,25 +199,25 @@ export default {
         avatar: null,
         description: null,
         sellerName: null,
-        ownerAvatar: null
-      }
+        ownerAvatar: null,
+      },
     };
   },
   props: {
     img: {
       type: String,
-      default: require('@/assets/img/@symbol.png')
-    }
+      default: require('@/assets/img/@symbol.png'),
+    },
   },
   computed: {
     headerStyle() {
       return {
-        background: `radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%)`
+        background: `radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%)`,
       };
     },
     listingID() {
       return this.$route.params.id;
-    }
+    },
   },
   methods: {
     loadListingData() {
@@ -261,12 +261,12 @@ export default {
           .splice(username.length - 4)
           .join('')
       );
-    }
+    },
   },
 
   mounted() {
     this.loadListingData();
-  }
+  },
 };
 </script>
 

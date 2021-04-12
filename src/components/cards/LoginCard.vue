@@ -24,7 +24,7 @@ export default {
   props: {},
   data() {
     return {
-      cardHidden: true
+      cardHidden: true,
     };
   },
   beforeMount() {
@@ -33,8 +33,8 @@ export default {
   methods: {
     showCard: function() {
       this.cardHidden = false;
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -13,8 +13,8 @@ export default {
   props: {
     navMobileSectionStart: {
       type: String,
-      default: 'false'
-    }
-  }
+      default: 'false',
+    },
+  },
 };
 </script>

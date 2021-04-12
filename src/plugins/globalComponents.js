@@ -10,7 +10,7 @@ const GlobalComponents = {
     Vue.component('drop-down', DropDown);
     Vue.component(Parallax.name, Parallax);
     Vue.component('v-popover', VPopover);
-  }
+  },
 };
 
 export default GlobalComponents;

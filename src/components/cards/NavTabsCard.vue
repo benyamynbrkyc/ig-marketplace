@@ -14,7 +14,7 @@ export default {
   name: 'NavTabsCard',
   props: {
     noLabel: Boolean,
-    tabsPlain: Boolean
-  }
+    tabsPlain: Boolean,
+  },
 };
 </script>

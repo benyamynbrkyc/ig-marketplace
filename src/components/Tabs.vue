@@ -4,7 +4,7 @@
     :class="[
       { 'flex-column': flexColumn },
       { 'nav-pills-icons': navPillsIcons },
-      { 'md-card-plain': plain }
+      { 'md-card-plain': plain },
     ]"
   >
     <md-card-header slot="header-title"> </md-card-header>
@@ -17,7 +17,7 @@
           :key="item"
           :class="[
             { active: isActivePanel(tabName[index]) },
-            { [getColorButton(colorButton)]: isActivePanel(tabName[index]) }
+            { [getColorButton(colorButton)]: isActivePanel(tabName[index]) },
           ]"
         >
           {{ tabName[index] }}
@@ -53,12 +53,12 @@ export default {
     tabIcon: Array,
     colorButton: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
   data() {
     return {
-      activePanel: this.tabName[0]
+      activePanel: this.tabName[0],
     };
   },
   methods: {
@@ -73,8 +73,8 @@ export default {
     },
     getTabContent: function(index) {
       return 'tab-pane-' + index + '';
-    }
-  }
+    },
+  },
 };
 </script>
 

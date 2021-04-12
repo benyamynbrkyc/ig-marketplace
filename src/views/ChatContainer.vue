@@ -78,7 +78,7 @@ import {
   roomsRef,
   usersRef,
   filesRef,
-  deleteDbField
+  deleteDbField,
 } from '@/views/firestore';
 import { parseTimestamp, isSameDay } from '@/views/utils/dates';
 // import ChatWindow from './../../src/ChatWindow'
@@ -87,7 +87,7 @@ import 'vue-advanced-chat/dist/vue-advanced-chat.css';
 
 export default {
   components: {
-    ChatWindow
+    ChatWindow,
   },
 
   props: ['currentUserId', 'theme'],
@@ -115,9 +115,9 @@ export default {
       menuActions: [
         { name: 'inviteUser', title: 'Invite User' },
         { name: 'removeUser', title: 'Remove User' },
-        { name: 'deleteRoom', title: 'Delete Room' }
+        { name: 'deleteRoom', title: 'Delete Room' },
       ],
-      styles: { container: { borderRadius: '4px' } }
+      styles: { container: { borderRadius: '4px' } },
     };
   },
 
@@ -158,7 +158,7 @@ export default {
       const query = roomsRef.where(
         'users',
         'array-contains',
-        this.currentUserId
+        this.currentUserId,
       );
 
       const rooms = await query.get();
@@ -182,8 +182,8 @@ export default {
                 ...user.data(),
                 ...{
                   roomId: room.id,
-                  username: user.data().username
-                }
+                  username: user.data().username,
+                },
               };
             });
 
@@ -202,13 +202,13 @@ export default {
         return messages.map(message => {
           return {
             lastMessage: this.formatLastMessage(message),
-            roomId: message.roomId
+            roomId: message.roomId,
           };
         });
       });
 
       roomMessages.map(
-        ms => (roomList[ms.roomId].lastMessage = ms.lastMessage)
+        ms => (roomList[ms.roomId].lastMessage = ms.lastMessage),
       );
 
       const formattedRooms = [];
@@ -217,7 +217,7 @@ export default {
         const room = roomList[key];
 
         const roomContacts = room.users.filter(
-          user => user._id !== this.currentUserId
+          user => user._id !== this.currentUserId,
         );
 
         room.roomName =
@@ -232,8 +232,8 @@ export default {
           ...{
             roomId: key,
             avatar: roomAvatar,
-            ...room
-          }
+            ...room,
+          },
         });
       });
 
@@ -293,8 +293,8 @@ export default {
           seen: message.sender_id === this.currentUserId ? message.seen : null,
           new:
             message.sender_id !== this.currentUserId &&
-            (!message.seen || !message.seen[this.currentUserId])
-        }
+            (!message.seen || !message.seen[this.currentUserId]),
+        },
       };
     },
 
@@ -361,14 +361,14 @@ export default {
         this.messagesRef(room.roomId)
           .doc(message.id)
           .update({
-            [`seen.${this.currentUserId}`]: new Date()
+            [`seen.${this.currentUserId}`]: new Date(),
           });
       }
     },
 
     formatMessage(room, message) {
       const senderUser = room.users.find(
-        user => message.data().sender_id === user._id
+        user => message.data().sender_id === user._id,
       );
 
       const { sender_id, timestamp } = message.data();
@@ -381,8 +381,8 @@ export default {
           seconds: timestamp.seconds,
           timestamp: parseTimestamp(timestamp, 'HH:mm'),
           date: parseTimestamp(timestamp, 'DD MMMM YYYY'),
-          username: senderUser ? senderUser.username : null
-        }
+          username: senderUser ? senderUser.username : null,
+        },
       };
     },
 
@@ -390,7 +390,7 @@ export default {
       const message = {
         sender_id: this.currentUserId,
         content,
-        timestamp: new Date()
+        timestamp: new Date(),
       };
 
       if (file) {
@@ -398,7 +398,7 @@ export default {
           name: file.name,
           size: file.size,
           type: file.type,
-          url: file.localUrl
+          url: file.localUrl,
         };
       }
 
@@ -406,7 +406,7 @@ export default {
         message.replyMessage = {
           _id: replyMessage._id,
           content: replyMessage.content,
-          sender_id: replyMessage.sender_id
+          sender_id: replyMessage.sender_id,
         };
 
         if (replyMessage.file) {
@@ -432,7 +432,7 @@ export default {
           name: file.name,
           size: file.size,
           type: file.type,
-          url: file.url || file.localUrl
+          url: file.url || file.localUrl,
         };
       } else {
         newMessage.file = deleteDbField;
@@ -461,7 +461,7 @@ export default {
       await this.messagesRef(roomId)
         .doc(messageId)
         .update({
-          ['file.url']: url
+          ['file.url']: url,
         });
     },
 
@@ -488,7 +488,7 @@ export default {
       await this.messagesRef(roomId)
         .doc(messageId)
         .update({
-          [`reactions.${reaction.name}`]: dbAction
+          [`reactions.${reaction.name}`]: dbAction,
         });
     },
 
@@ -498,7 +498,7 @@ export default {
         : firebase.firestore.FieldValue.arrayRemove(this.currentUserId);
 
       roomsRef.doc(roomId).update({
-        typingUsers: dbAction
+        typingUsers: dbAction,
       });
     },
 
@@ -518,12 +518,12 @@ export default {
 
       const isOfflineData = {
         state: 'offline',
-        last_changed: firebase.database.ServerValue.TIMESTAMP
+        last_changed: firebase.database.ServerValue.TIMESTAMP,
       };
 
       const isOnlineData = {
         state: 'online',
-        last_changed: firebase.database.ServerValue.TIMESTAMP
+        last_changed: firebase.database.ServerValue.TIMESTAMP,
       };
 
       firebase
@@ -552,14 +552,14 @@ export default {
 
               const timestampFormat = isSameDay(
                 new Date(snapshot.val().last_changed),
-                new Date()
+                new Date(),
               )
                 ? 'HH:mm'
                 : 'DD MMMM, HH:mm';
 
               const timestamp = parseTimestamp(
                 new Date(snapshot.val().last_changed),
-                timestampFormat
+                timestampFormat,
               );
 
               const last_changed =
@@ -568,7 +568,7 @@ export default {
               user.status = { ...snapshot.val(), last_changed };
 
               const roomIndex = this.rooms.findIndex(
-                r => room.roomId === r.roomId
+                r => room.roomId === r.roomId,
               );
 
               this.$set(this.rooms, roomIndex, room);
@@ -624,7 +624,7 @@ export default {
       this.disableForm = true;
 
       await roomsRef.doc(this.removeRoomId).update({
-        users: firebase.firestore.FieldValue.arrayRemove(this.removeUserId)
+        users: firebase.firestore.FieldValue.arrayRemove(this.removeUserId),
       });
 
       this.removeRoomId = null;
@@ -653,8 +653,8 @@ export default {
       this.invitedUsername = '';
       this.removeRoomId = null;
       this.removeUserId = '';
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -108,38 +108,38 @@ export default {
   props: {
     headerColor: {
       type: String,
-      default: '2e715e'
+      default: '2e715e',
     },
     id: { type: String, required: true },
     avatar: {
       type: String,
-      required: true
+      required: true,
     },
     category: {
       type: String,
-      required: true
+      required: true,
     },
     followers: {
       type: Number,
-      required: true
+      required: true,
     },
     posts: {
       type: Number,
-      required: true
+      required: true,
     },
     price: {
       type: Number,
-      required: true
+      required: true,
     },
     author: { type: String, required: true },
     reach: {
       type: Number,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
-      cardHidden: true
+      cardHidden: true,
     };
   },
   beforeMount() {
@@ -157,8 +157,8 @@ export default {
     },
     openListing() {
       this.$router.push(`/listing/${this.id}`);
-    }
-  }
+    },
+  },
 };
 </script>
 

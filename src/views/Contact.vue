@@ -41,22 +41,22 @@ import ContactCard from '../components/cards/ContactCard';
 
 export default {
   components: {
-    ContactCard
+    ContactCard,
   },
   bodyClass: 'profile-page',
   props: {
     header: {
       type: String,
-      default: require('@/assets/img/contact.jpg')
-    }
+      default: require('@/assets/img/contact.jpg'),
+    },
   },
   computed: {
     headerStyle() {
       return {
-        backgroundImage: `url(${this.header})`
+        backgroundImage: `url(${this.header})`,
       };
-    }
-  }
+    },
+  },
 };
 </script>
 

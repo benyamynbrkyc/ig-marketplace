@@ -13,8 +13,8 @@ const sampleListings = [
     reach: 1000,
     username: 'trkvlc',
     avatar:
-      'https://instagram.fsjj2-1.fna.fbcdn.net/v/t51.2885-19/s150x150/116876795_740753583149859_7699774408809685243_n.jpg?_nc_ht=instagram.fsjj2-1.fna.fbcdn.net&_nc_ohc=Ub05rKuamwUAX9fq8U4&oh=c44fde42e713b8694d1ee8021900b7dc&oe=5F99E683',
-    dateCreated: Date.now() - 1
+      'https://instagram.ftzl2-1.fna.fbcdn.net/v/t51.2885-19/s150x150/163643433_4180274821984624_1424350226902148802_n.jpg?tp=1&_nc_ht=instagram.ftzl2-1.fna.fbcdn.net&_nc_ohc=uDf-BhbgXM8AX-65faI&ccb=7-4&oh=4e699e9c5e69a4876a07b164d165b9ab&oe=608C29E7&_nc_sid=276363',
+    dateCreated: Date.now() - 1,
   },
   {
     idUsername: 'harun_cakrama',
@@ -28,8 +28,8 @@ const sampleListings = [
     reach: 400,
     username: 'harun_cakrama',
     avatar:
-      'https://instagram.fsjj2-1.fna.fbcdn.net/v/t51.2885-19/s150x150/119213342_371072463897271_1586205698923004824_n.jpg?_nc_ht=instagram.fsjj2-1.fna.fbcdn.net&_nc_ohc=9ux_-_GISzAAX_G29JO&oh=d9e837882a3dc5befbfff275afb58196&oe=5F9B0FB7',
-    dateCreated: Date.now() - 2
+      'https://instagram.ftzl2-1.fna.fbcdn.net/v/t51.2885-19/s150x150/120313940_806933846709162_3107486086039137085_n.jpg?tp=1&_nc_ht=instagram.ftzl2-1.fna.fbcdn.net&_nc_ohc=FcjtMgpc0TEAX_LK0E-&ccb=7-4&oh=d4bf22dde37da41b39e37aee34ef1825&oe=608E8D8A&_nc_sid=7bff83',
+    dateCreated: Date.now() - 2,
   },
   {
     idUsername: 'danis3.14',
@@ -43,8 +43,8 @@ const sampleListings = [
     reach: 399,
     username: 'danis3.14',
     avatar:
-      'https://instagram.fsjj2-1.fna.fbcdn.net/v/t51.2885-19/s150x150/95441099_525800091447407_538176500453605376_n.jpg?_nc_ht=instagram.fsjj2-1.fna.fbcdn.net&_nc_ohc=4goXXnQ1qV8AX-x-KTs&oh=e86ab3f85dbe866ceaa6582424c7598f&oe=5F9B0B51',
-    dateCreated: Date.now() - 3
+      'https://instagram.ftzl2-1.fna.fbcdn.net/v/t51.2885-19/s150x150/95441099_525800091447407_538176500453605376_n.jpg?tp=1&_nc_ht=instagram.ftzl2-1.fna.fbcdn.net&_nc_ohc=a6RR3oQGCy4AX9LDhh-&ccb=7-4&oh=91197a6cb33895f538a0b3e8bda6a993&oe=608C4DD1&_nc_sid=7bff83',
+    dateCreated: Date.now() - 3,
   },
   {
     idUsername: 'cattaa_0',
@@ -58,8 +58,8 @@ const sampleListings = [
     reach: 500,
     username: 'cattaa_0',
     avatar:
-      'https://instagram.fsjj2-1.fna.fbcdn.net/v/t51.2885-19/s150x150/117809938_2673553326226334_5133065842270859463_n.jpg?_nc_ht=instagram.fsjj2-1.fna.fbcdn.net&_nc_ohc=m6iK7MYShFUAX9ZeyhK&oh=1f8fb295851a78ee6b6b685d88b076cf&oe=5F9917A1',
-    dateCreated: Date.now() - 4
+      'https://instagram.ftzl2-1.fna.fbcdn.net/v/t51.2885-19/s150x150/117809938_2673553326226334_5133065842270859463_n.jpg?tp=1&_nc_ht=instagram.ftzl2-1.fna.fbcdn.net&_nc_ohc=7Khx9UlWP9gAX8_Bwlk&ccb=7-4&oh=d4d3ab42e3c190bee5fa2f0bc3921250&oe=608E4EA1&_nc_sid=7bff83',
+    dateCreated: Date.now() - 4,
   },
   {
     idUsername: 'gracicfaris18',
@@ -73,8 +73,8 @@ const sampleListings = [
     reach: 1000,
     username: 'gracicfaris18',
     avatar:
-      'https://instagram.fsjj2-1.fna.fbcdn.net/v/t51.2885-19/s150x150/39047499_445932895893871_3662294681741426688_n.jpg?_nc_ht=instagram.fsjj2-1.fna.fbcdn.net&_nc_ohc=8nJfJ1bZL68AX8bQnc_&oh=e801b245f028194c3b460c13c6903741&oe=5F98A0DC',
-    dateCreated: Date.now() - 5
+      'https://instagram.ftzl2-1.fna.fbcdn.net/v/t51.2885-19/s150x150/39047499_445932895893871_3662294681741426688_n.jpg?tp=1&_nc_ht=instagram.ftzl2-1.fna.fbcdn.net&_nc_ohc=cgJcegkI93QAX8FaGeH&ccb=7-4&oh=a5c27c0ab58eb70ea4a0c210423c72c1&oe=608DD7DC&_nc_sid=7bff83',
+    dateCreated: Date.now() - 5,
   },
   {
     idUsername: 'osmanh',
@@ -88,8 +88,8 @@ const sampleListings = [
     reach: 900,
     username: 'osmanh',
     avatar:
-      'https://instagram.fsjj2-1.fna.fbcdn.net/v/t51.2885-19/s150x150/117688842_315294949589252_9004850249815748147_n.jpg?_nc_ht=instagram.fsjj2-1.fna.fbcdn.net&_nc_ohc=z6ZGCSwpJbsAX-a7xHq&oh=6f7ae4385d77fd243ead93380eae9438&oe=5F9EAB50',
-    dateCreated: Date.now() - 6
+      'https://instagram.ftzl2-1.fna.fbcdn.net/v/t51.2885-19/s150x150/121673758_353840222730375_172901903553552713_n.jpg?tp=1&_nc_ht=instagram.ftzl2-1.fna.fbcdn.net&_nc_ohc=nht38-9bV2cAX--zMDx&ccb=7-4&oh=940c47f458e0fd28e8052c9fd72fc343&oe=608B4499&_nc_sid=7bff83',
+    dateCreated: Date.now() - 6,
   },
   {
     idUsername: 'benjenzi',
@@ -103,8 +103,8 @@ const sampleListings = [
     reach: 500,
     username: 'benjenzi',
     avatar:
-      'https://instagram.fsjj2-1.fna.fbcdn.net/v/t51.2885-19/s150x150/67247270_775791772839791_3865035039536316416_n.jpg?_nc_ht=instagram.fsjj2-1.fna.fbcdn.net&_nc_ohc=pbe1qX4YmQgAX_g6FBS&oh=e627a3ba616ab8ecd80cc661c9a12437&oe=5F9B838C',
-    dateCreated: Date.now() - 7
+      'https://scontent-otp1-1.cdninstagram.com/v/t51.2885-19/44884218_345707102882519_2446069589734326272_n.jpg?_nc_ht=scontent-otp1-1.cdninstagram.com&_nc_ohc=mhDR9_0DpXIAX8IQwPB&ccb=7-4&oh=41de40d4433df2a05562bf63f325d69f&oe=608B680F&_nc_sid=276363&ig_cache_key=YW5vbnltb3VzX3Byb2ZpbGVfcGlj.2-ccb7-4',
+    dateCreated: Date.now() - 7,
   },
   {
     idUsername: 'tarik_suljakovic',
@@ -119,8 +119,8 @@ const sampleListings = [
     reach: 500,
     username: 'tarik_suljakovic',
     avatar:
-      'https://instagram.fsjj2-1.fna.fbcdn.net/v/t51.2885-19/s150x150/117686786_2780932735562551_711989335433193918_n.jpg?_nc_ht=instagram.fsjj2-1.fna.fbcdn.net&_nc_ohc=Gf0Zr4ZN82AAX_dMiT8&oh=a80c41b55f8add76b97870e4641ebe2a&oe=5F9C5669',
-    dateCreated: Date.now() - 8
+      'https://instagram.ftzl2-1.fna.fbcdn.net/v/t51.2885-19/s150x150/117686786_2780932735562551_711989335433193918_n.jpg?tp=1&_nc_ht=instagram.ftzl2-1.fna.fbcdn.net&_nc_ohc=KpOE-cgnicUAX99oA1n&ccb=7-4&oh=600cd53ff249820d48bb7ba46dac4c37&oe=608D98E9&_nc_sid=7bff83',
+    dateCreated: Date.now() - 8,
   },
   {
     idUsername: 'b.farieed',
@@ -134,8 +134,8 @@ const sampleListings = [
     reach: 800,
     username: 'b.farieed',
     avatar:
-      'https://instagram.fsjj2-1.fna.fbcdn.net/v/t51.2885-19/s150x150/119118087_1041083242982555_5841328823987265800_n.jpg?_nc_ht=instagram.fsjj2-1.fna.fbcdn.net&_nc_ohc=eJDpt6utc-oAX9WTcv_&oh=ba256aa2a410f476029710702bf05f6f&oe=5F9B567E',
-    dateCreated: Date.now() - 9
+      'https://instagram.ftzl2-1.fna.fbcdn.net/v/t51.2885-19/s150x150/156177107_488383579201969_7564139539434302884_n.jpg?tp=1&_nc_ht=instagram.ftzl2-1.fna.fbcdn.net&_nc_ohc=6dZXt3fP87wAX8XS-Ga&ccb=7-4&oh=f1103ea3e4777e4a107154697ab48709&oe=608DA8AC&_nc_sid=7bff83',
+    dateCreated: Date.now() - 9,
   },
   {
     idUsername: 'omardelic4',
@@ -150,9 +150,9 @@ const sampleListings = [
     reach: 800,
     username: 'omardelic4',
     avatar:
-      'https://instagram.fsjj2-1.fna.fbcdn.net/v/t51.2885-19/s150x150/15043861_1830360057205115_4180146275963895808_a.jpg?_nc_ht=instagram.fsjj2-1.fna.fbcdn.net&_nc_ohc=ZusBgb6kXioAX_5vHc5&oh=1de5ee0a67fdbe7c9c2e42be31134add&oe=5F9904ED',
-    dateCreated: Date.now() - 10
-  }
+      'https://instagram.ftzl2-1.fna.fbcdn.net/v/t51.2885-19/s150x150/15043861_1830360057205115_4180146275963895808_a.jpg?tp=1&_nc_ht=instagram.ftzl2-1.fna.fbcdn.net&_nc_ohc=5eE3ynm5HmcAX_KT-Mg&ccb=7-4&oh=096ed1f17a50738f47616d2281f27e70&oe=608E3BED&_nc_sid=7bff83',
+    dateCreated: Date.now() - 10,
+  },
 ];
 
 const firestore = firebase.firestore();
@@ -160,7 +160,7 @@ const firestore = firebase.firestore();
 const loadSampleData = () => {
   sampleListings.forEach(listing => {
     firestore.doc(`/allListings/${listing.idUsername}`).set({
-      ...listing
+      ...listing,
     });
   });
 };

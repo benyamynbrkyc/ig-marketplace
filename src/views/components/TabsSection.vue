@@ -101,8 +101,8 @@ import { NavTabsCard } from '@/components';
 
 export default {
   components: {
-    NavTabsCard
-  }
+    NavTabsCard,
+  },
 };
 </script>
 

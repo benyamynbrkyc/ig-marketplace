@@ -9,7 +9,7 @@ export default {
   props: {
     tag: {
       type: String,
-      default: 'span'
+      default: 'span',
     },
     type: {
       type: String,
@@ -22,12 +22,12 @@ export default {
           'warning',
           'danger',
           'rose',
-          'default'
+          'default',
         ];
         return acceptedValues.indexOf(value) !== -1;
-      }
-    }
-  }
+      },
+    },
+  },
 };
 </script>
 <style></style>

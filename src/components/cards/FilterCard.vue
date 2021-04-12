@@ -147,14 +147,14 @@ export default {
   props: {
     headerColor: {
       type: String,
-      default: '2e715e'
+      default: '2e715e',
     },
     allListings: {
       type: Array,
       default: () => {
         return [];
-      }
-    }
+      },
+    },
   },
   data() {
     return {
@@ -180,7 +180,7 @@ export default {
         'Quotes & Text',
         'Reviews & Tutorials',
         'Tech & Computers',
-        'Travel & Nature'
+        'Travel & Nature',
       ],
       minPrice: 1,
       maxPrice: 1000000,
@@ -190,7 +190,7 @@ export default {
       maxPriceError: null,
       minFollowersError: null,
       maxFollowersError: null,
-      unknownError: false
+      unknownError: false,
     };
   },
   beforeMount() {
@@ -249,7 +249,7 @@ export default {
           maxPrice: Number(this.maxPrice),
           category: this.selectedCategory,
           minFollowers: Number(this.minFollowers),
-          maxFollowers: Number(this.maxFollowers)
+          maxFollowers: Number(this.maxFollowers),
         };
         console.log('filter info', filterInfo);
 
@@ -257,8 +257,8 @@ export default {
       } else {
         this.unknownError = true;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

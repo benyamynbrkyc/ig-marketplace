@@ -79,8 +79,8 @@ import { Tabs } from '@/components';
 
 export default {
   components: {
-    Tabs
-  }
+    Tabs,
+  },
 };
 </script>
 

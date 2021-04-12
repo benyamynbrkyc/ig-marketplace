@@ -251,7 +251,9 @@ export default {
         });
     },
   },
+  mounted() {},
   created() {
+    console.log('running load recents');
     this.loadRecents();
   },
   computed: {

@@ -3,14 +3,10 @@
     <div class="section page-header" :style="headerStyle">
       <div class="container">
         <div class="md-layout">
-          <div
-            class="md-layout-item md-size-33 md-small-size-66 md-xsmall-size-100 md-medium-size-40 mx-auto"
-          >
+          <div class="md-layout-item md-size-33 md-small-size-66 md-xsmall-size-100 md-medium-size-40 mx-auto">
             <login-card>
               <h3 slot="title" class="card-title">Sign Up</h3>
-              <h6 slot="title" class="card-title">
-                or <a id="createAcc" href="/login">Log in</a>
-              </h6>
+              <h6 slot="title" class="card-title">or <a id="createAcc" href="/login">Log in</a></h6>
               <!-- <md-button
                 slot="buttons"
                 href="javascript:void(0)"
@@ -38,11 +34,7 @@
                 <label>Profile Picture - Paste URL</label>
                 <md-input v-model="avatar"></md-input>
               </md-field>
-              <md-button
-                @click="signup()"
-                slot="footer"
-                class="md-simple md-success md-lg"
-              >
+              <md-button @click="signup()" slot="footer" class="md-simple md-success md-lg">
                 Sign Up
               </md-button>
             </login-card>
@@ -58,7 +50,7 @@ import { LoginCard } from '@/components';
 
 export default {
   components: {
-    LoginCard
+    LoginCard,
   },
   bodyClass: 'login-page',
   data() {
@@ -66,21 +58,21 @@ export default {
       username: null,
       email: null,
       password: null,
-      avatar: null
+      avatar: null,
     };
   },
   props: {
     header: {
       type: String,
-      default: require('@/assets/img/profile_city.jpg')
-    }
+      default: require('@/assets/img/profile_city.jpg'),
+    },
   },
   computed: {
     headerStyle() {
       return {
-        backgroundColor: `#3a7571`
+        backgroundColor: `#3a7571`,
       };
-    }
+    },
   },
   methods: {
     signup() {
@@ -88,10 +80,10 @@ export default {
         email: this.email,
         password: this.password,
         username: this.username,
-        avatar: this.avatar
+        avatar: this.avatar,
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

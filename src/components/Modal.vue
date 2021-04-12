@@ -89,8 +89,8 @@ export default {
   methods: {
     closeModal() {
       eventBus.$emit('closeModal', { msg: 'Modal Open -> Close Modal' });
-    }
-  }
+    },
+  },
 };
 </script>
 

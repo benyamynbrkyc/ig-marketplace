@@ -43,12 +43,12 @@ export default {
   props: {
     headerColor: {
       type: String,
-      default: '2e715e'
-    }
+      default: '2e715e',
+    },
   },
   data() {
     return {
-      cardHidden: false
+      cardHidden: false,
     };
   },
   beforeMount() {
@@ -60,8 +60,8 @@ export default {
     },
     getClass: function(headerColor) {
       return 'md-card-header-' + headerColor + '';
-    }
-  }
+    },
+  },
 };
 </script>
 

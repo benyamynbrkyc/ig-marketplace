@@ -161,16 +161,16 @@ export default {
   props: {
     header: {
       type: String,
-      default: require('@/assets/img/kifkuf.jpg')
-    }
+      default: require('@/assets/img/kifkuf.jpg'),
+    },
   },
   computed: {
     headerStyle() {
       return {
-        backgroundImage: `url(${this.header})`
+        backgroundImage: `url(${this.header})`,
       };
-    }
-  }
+    },
+  },
 };
 </script>
 

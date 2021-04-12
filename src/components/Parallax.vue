@@ -22,23 +22,23 @@ export default {
   data() {
     return {
       styles: {},
-      debounceTimeout: 6
+      debounceTimeout: 6,
     };
   },
   methods: {
     handleScroll(scrollVal) {
       let oVal = scrollVal / 3;
       this.styles = {
-        transform: `translate3d(0, ${oVal}px,0)`
+        transform: `translate3d(0, ${oVal}px,0)`,
       };
     },
     checkForParallax(scrollVal) {
       let fn = debounce(
         () => this.handleScroll(scrollVal),
-        this.debounceTimeout
+        this.debounceTimeout,
       );
       fn();
-    }
+    },
   },
   mounted() {
     let self = this;
@@ -48,6 +48,6 @@ export default {
         self.checkForParallax(scrollVal);
       }
     });
-  }
+  },
 };
 </script>

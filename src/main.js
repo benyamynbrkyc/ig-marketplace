@@ -12,22 +12,22 @@ Vue.config.productionTip = false;
 Vue.use(MaterialKit);
 
 const NavbarStore = {
-  showNavbar: false
+  showNavbar: false,
 };
 
 Vue.mixin({
   data() {
     return {
-      NavbarStore
+      NavbarStore,
     };
-  }
+  },
 });
 
 auth.onAuthStateChanged(user => {
   new Vue({
     store,
     router,
-    render: h => h(App)
+    render: h => h(App),
   }).$mount('#app');
 
   if (user) {
@@ -37,7 +37,7 @@ auth.onAuthStateChanged(user => {
         .sendEmailVerification()
         .then(() => {
           alert(
-            'You have been sent a verification email. You must verify your account before you can fully experience BS Social Swap. Check your email for the verification link.'
+            'You have been sent a verification email. You must verify your account before you can fully experience BS Social Swap. Check your email for the verification link.',
           );
           // BUILD CHANGE
           // console.log('Sent verification email');

@@ -71,7 +71,7 @@ export default {
     Modal,
     FeaturedCard,
     ListingCardMain,
-    FilterCard
+    FilterCard,
   },
   bodyClass: 'profile-page',
   data() {
@@ -82,7 +82,7 @@ export default {
       lastVisible: null,
       filterOn: false,
       filter: null,
-      noData: false
+      noData: false,
     };
   },
   methods: {
@@ -109,7 +109,7 @@ export default {
               ) {
                 let listingData = {
                   data: doc.data(),
-                  id: doc.id
+                  id: doc.id,
                 };
                 console.log('listingDataFIlter', listingData);
 
@@ -149,7 +149,7 @@ export default {
                 if (doc.data().category == filterInfoPayload.category) {
                   let listingData = {
                     data: doc.data(),
-                    id: doc.id
+                    id: doc.id,
                   };
                   this.allListings.push(listingData);
                   console.log('listingDataFIlter', listingData);
@@ -190,7 +190,7 @@ export default {
             console.log(doc.data().noOfFollowers);
             let listingData = {
               data: doc.data(),
-              id: doc.id
+              id: doc.id,
             };
             this.allListings.push(listingData);
           });
@@ -226,7 +226,7 @@ export default {
                 querySnapshot.forEach(doc => {
                   let listingData = {
                     data: doc.data(),
-                    id: doc.id
+                    id: doc.id,
                   };
                   this.allListings.push(listingData);
                 });
@@ -260,7 +260,7 @@ export default {
                       ) {
                         let listingData = {
                           data: doc.data(),
-                          id: doc.id
+                          id: doc.id,
                         };
                         this.allListings.push(listingData);
                       }
@@ -295,7 +295,7 @@ export default {
                       ) {
                         let listingData = {
                           data: doc.data(),
-                          id: doc.id
+                          id: doc.id,
                         };
                         this.allListings.push(listingData);
                       }
@@ -326,7 +326,7 @@ export default {
           snapshot.forEach(doc => {
             let listingData = {
               data: doc.data(),
-              id: doc.id
+              id: doc.id,
             };
             recents.push(listingData);
           });
@@ -337,7 +337,7 @@ export default {
     },
     openListing(id) {
       this.$router.push(`/listing/${id}`);
-    }
+    },
   },
   mounted() {
     eventBus.$on('closeModal', msg => {
@@ -349,7 +349,7 @@ export default {
   },
   created() {
     console.log(this.allListings);
-  }
+  },
   // computed: {
   //   headerStyle() {
   //     return {

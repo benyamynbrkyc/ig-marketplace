@@ -83,8 +83,8 @@ export default {
         target = target.parentNode;
       }
       return target.parentNode.removeChild(target);
-    }
-  }
+    },
+  },
 };
 </script>
 

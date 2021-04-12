@@ -49,36 +49,36 @@ import { LoginCard } from '@/components';
 
 export default {
   components: {
-    LoginCard
+    LoginCard,
   },
   bodyClass: 'login-page',
   data() {
     return {
       email: null,
-      password: null
+      password: null,
     };
   },
   props: {
     header: {
       type: String,
-      default: require('@/assets/img/profile_city.jpg')
-    }
+      default: require('@/assets/img/profile_city.jpg'),
+    },
   },
   computed: {
     headerStyle() {
       return {
-        backgroundColor: `#3a7571`
+        backgroundColor: `#3a7571`,
       };
-    }
+    },
   },
   methods: {
     login() {
       this.$store.dispatch('login', {
         email: this.email,
-        password: this.password
+        password: this.password,
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

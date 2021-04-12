@@ -162,7 +162,6 @@ export default {
       );
 
       const rooms = await query.get();
-      console.log(rooms);
 
       const roomList = [];
       const rawRoomUsers = [];

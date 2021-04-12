@@ -342,7 +342,7 @@ export default {
     },
     pathToAvatar() {
       // BUILD CHANGE
-      // console.log(this.$store.getters.getUserProfile.avatar);
+      //
       if (this.$store.getters.getUserProfile.avatar !== null)
         return `${this.$store.getters.getUserProfile.avatar}`;
       else
@@ -405,22 +405,10 @@ export default {
     },
     logout() {
       // BUILD CHANGE
-      // console.log('Logging out', this.$store.getters.getUserProfile.username);
+      //
       this.$store.dispatch('logout');
     },
-    // logCurrentUser() {
-    //   console.log(
-    //     'UserProfile set in state',
-    //     this.$store.getters.getUserProfile
-    //   );
-    //   console.log(
-    //     'Email Verified?',
-    //     this.$store.getters.getCurrentUser.emailVerified
-    //   );
 
-    //   console.log('Full User:\n', fb.auth.currentUser);
-    //   console.log('Email verified:\n', fb.auth.currentUser.emailVerified);
-    // },
     sell() {
       if (fb.auth.currentUser !== null) {
         router.push('/sell');

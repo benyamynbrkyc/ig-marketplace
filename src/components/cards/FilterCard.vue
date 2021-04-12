@@ -251,7 +251,6 @@ export default {
           minFollowers: Number(this.minFollowers),
           maxFollowers: Number(this.maxFollowers),
         };
-        console.log('filter info', filterInfo);
 
         this.$emit('filterData', filterInfo);
       } else {

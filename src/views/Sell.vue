@@ -1,9 +1,15 @@
 <template>
   <div class="wrapper">
-    <div class="section page-header" :style="headerStyle" style="height: unset !important;">
+    <div
+      class="section page-header"
+      :style="headerStyle"
+      style="height: unset !important;"
+    >
       <div class="container">
         <div class="md-layout">
-          <div class="md-layout-item md-size-33 md-small-size-66 md-xsmall-size-100 md-medium-size-40 mx-auto">
+          <div
+            class="md-layout-item md-size-33 md-small-size-66 md-xsmall-size-100 md-medium-size-40 mx-auto"
+          >
             <SellCard>
               <h3 slot="title" class="card-title">Sell - Add a Listing</h3>
               <h6 slot="title" class="card-title">
@@ -12,10 +18,15 @@
               </h6>
 
               <p slot="title" class="description" id="disclaimer">
-                In order to add a listing for an Instagram account, you have to authorize BS Social Swap to read your
-                Instagram account data to be able to verify your identity and display your listing data. We do this by
-                securely communicating with Facebook using their API (<span
-                  ><a id="graphAPILink" href="https://developers.facebook.com/docs/graph-api/" target="_blank"
+                In order to add a listing for an Instagram account, you have to
+                authorize BS Social Swap to read your Instagram account data to
+                be able to verify your identity and display your listing data.
+                We do this by securely communicating with Facebook using their
+                API (<span
+                  ><a
+                    id="graphAPILink"
+                    href="https://developers.facebook.com/docs/graph-api/"
+                    target="_blank"
                     >more info</a
                   ></span
                 >) so your data is
@@ -23,7 +34,8 @@
               </p>
 
               <h6 style="text-transform: none" class="description" slot="title">
-                In order for your Facebook page to show up, you need to be assigned as a Page Owner of that page.
+                In order for your Facebook page to show up, you need to be
+                assigned as a Page Owner of that page.
                 <br />
                 <a
                   style="text-decoration: underline;"
@@ -33,11 +45,20 @@
                 </a>
               </h6>
 
-              <h6 class="description" slot="title" v-if="facebookAuthStatus" style="color:green;">
+              <h6
+                class="description"
+                slot="title"
+                v-if="facebookAuthStatus"
+                style="color:green;"
+              >
                 Account successfully linked to Facebook
               </h6>
 
-              <h6 v-if="facebookAuthStatus && !isPageChosen" class="description" slot="title">
+              <h6
+                v-if="facebookAuthStatus && !isPageChosen"
+                class="description"
+                slot="title"
+              >
                 Choose the Facebook Page your Instagram Account is connected to:
                 <a id="authController">{{ pageNameHeader || 'Choose Page' }}</a>
               </h6>
@@ -54,53 +75,97 @@
                 >{{ pageName }}</md-radio
               >
 
-              <h6 v-if="facebookAuthStatus && foundInstagramAcc" class="description" slot="title">
+              <h6
+                v-if="facebookAuthStatus && foundInstagramAcc"
+                class="description"
+                slot="title"
+              >
                 BS Social Swap is connected to this Instagram Account:
-                <a id="authController">{{ '@' + instagramAccUsername || 'No Account Found' }}</a>
+                <a id="authController">{{
+                  '@' + instagramAccUsername || 'No Account Found'
+                }}</a>
               </h6>
               <h6
-                v-if="facebookAuthStatus && foundInstagramAcc && usernameAlreadyRegistered"
+                v-if="
+                  facebookAuthStatus &&
+                    foundInstagramAcc &&
+                    usernameAlreadyRegistered
+                "
                 class="description"
                 slot="title"
                 style="color: red;"
               >
-                This Instagram Account is already registered. Please choose another one.
+                This Instagram Account is already registered. Please choose
+                another one.
               </h6>
 
-              <h6 v-if="ERROR !== null" class="description" slot="title" style="color: red;">
-                This Facebook Page doesn't have an Instagram Account connected to it:
-                <a @click="logBackIn()" id="authController">{{ 'NO ACCOUNT FOUND' }}</a>
+              <h6
+                v-if="ERROR !== null"
+                class="description"
+                slot="title"
+                style="color: red;"
+              >
+                This Facebook Page doesn't have an Instagram Account connected
+                to it:
+                <a @click="logBackIn()" id="authController">{{
+                  'NO ACCOUNT FOUND'
+                }}</a>
                 <br />
                 <span
-                  ><a id="learnToConnect" target="_blank" href="https://www.facebook.com/business/help/898752960195806"
-                    >To learn how to connect your Instagram Account, visit this link.</a
+                  ><a
+                    id="learnToConnect"
+                    target="_blank"
+                    href="https://www.facebook.com/business/help/898752960195806"
+                    >To learn how to connect your Instagram Account, visit this
+                    link.</a
                   ></span
                 >
               </h6>
 
-              <h6 v-if="facebookAuthStatus && isPageChosen" class="description" slot="title">
+              <h6
+                v-if="facebookAuthStatus && isPageChosen"
+                class="description"
+                slot="title"
+              >
                 Page Chosen:
                 <a id="authController">Page</a>
               </h6>
 
-              <h6 v-if="!facebookAuthStatus" class="description" slot="title" style="color:red;">
+              <h6
+                v-if="!facebookAuthStatus"
+                class="description"
+                slot="title"
+                style="color:red;"
+              >
                 Account isn't linked to Facebook
                 <a id="authController" @click="sendInstaInfo()">Link</a>
               </h6>
 
               <md-field
-                v-if="facebookAuthStatus && foundInstagramAcc && !usernameAlreadyRegistered"
+                v-if="
+                  facebookAuthStatus &&
+                    foundInstagramAcc &&
+                    !usernameAlreadyRegistered
+                "
                 class="md-form-group"
                 slot="inputs"
               >
                 <md-icon style="right:unset !important;">article</md-icon>
 
-                <md-textarea style="padding-left:25px !important;" v-model="description" maxlength="512"></md-textarea>
+                <md-textarea
+                  style="padding-left:25px !important;"
+                  v-model="description"
+                  maxlength="512"
+                ></md-textarea>
                 <br />
               </md-field>
 
               <md-field
-                v-if="facebookAuthStatus && foundInstagramAcc && !usernameAlreadyRegistered"
+                v-if="
+                  facebookAuthStatus &&
+                    foundInstagramAcc &&
+                    !usernameAlreadyRegistered
+                "
                 class="md-form-group"
                 slot="inputs"
               >
@@ -111,49 +176,146 @@
               </md-field>
 
               <md-field
-                v-if="facebookAuthStatus && foundInstagramAcc && !usernameAlreadyRegistered"
+                v-if="
+                  facebookAuthStatus &&
+                    foundInstagramAcc &&
+                    !usernameAlreadyRegistered
+                "
                 class="md-form-group"
                 slot="inputs"
                 id="categoryRadio"
                 style="flex-wrap: wrap;"
                 ><md-icon>category</md-icon>
 
-                <md-radio class="categoryOption" v-model="radio" value="Architecture & Interior"
+                <md-radio
+                  class="categoryOption"
+                  v-model="radio"
+                  value="Architecture & Interior"
                   >Architecture & Interior</md-radio
                 >
-                <md-radio class="categoryOption" v-model="radio" value="Art & Design">Art & Design</md-radio>
-                <md-radio class="categoryOption" v-model="radio" value="Blog & Lifestyle">Blog & Lifestyle</md-radio>
-                <md-radio class="categoryOption" v-model="radio" value="Business & Brand">Business & Brand</md-radio>
-                <md-radio class="categoryOption" v-model="radio" value="Cars & Bikes">Cars & Bikes</md-radio>
-                <md-radio class="categoryOption" v-model="radio" value="City & Country">City & Country</md-radio>
-                <md-radio class="categoryOption" v-model="radio" value="Educational & QA">Educational & QA</md-radio>
-                <md-radio class="categoryOption" v-model="radio" value="Fashion & Style">Fashion & Style</md-radio>
-                <md-radio class="categoryOption" v-model="radio" value="Fitness & Sports">Fitness & Sports</md-radio>
-                <md-radio class="categoryOption" v-model="radio" value="Food & Nutrition">Food & Nutrition</md-radio>
-                <md-radio class="categoryOption" v-model="radio" value="Gaming & Entertainment"
+                <md-radio
+                  class="categoryOption"
+                  v-model="radio"
+                  value="Art & Design"
+                  >Art & Design</md-radio
+                >
+                <md-radio
+                  class="categoryOption"
+                  v-model="radio"
+                  value="Blog & Lifestyle"
+                  >Blog & Lifestyle</md-radio
+                >
+                <md-radio
+                  class="categoryOption"
+                  v-model="radio"
+                  value="Business & Brand"
+                  >Business & Brand</md-radio
+                >
+                <md-radio
+                  class="categoryOption"
+                  v-model="radio"
+                  value="Cars & Bikes"
+                  >Cars & Bikes</md-radio
+                >
+                <md-radio
+                  class="categoryOption"
+                  v-model="radio"
+                  value="City & Country"
+                  >City & Country</md-radio
+                >
+                <md-radio
+                  class="categoryOption"
+                  v-model="radio"
+                  value="Educational & QA"
+                  >Educational & QA</md-radio
+                >
+                <md-radio
+                  class="categoryOption"
+                  v-model="radio"
+                  value="Fashion & Style"
+                  >Fashion & Style</md-radio
+                >
+                <md-radio
+                  class="categoryOption"
+                  v-model="radio"
+                  value="Fitness & Sports"
+                  >Fitness & Sports</md-radio
+                >
+                <md-radio
+                  class="categoryOption"
+                  v-model="radio"
+                  value="Food & Nutrition"
+                  >Food & Nutrition</md-radio
+                >
+                <md-radio
+                  class="categoryOption"
+                  v-model="radio"
+                  value="Gaming & Entertainment"
                   >Gaming & Entertainment</md-radio
                 >
-                <md-radio class="categoryOption" v-model="radio" value="Health & Beauty">Health & Beauty</md-radio>
-                <md-radio class="categoryOption" v-model="radio" value="Humor & Memes">Humor & Memes</md-radio>
-                <md-radio class="categoryOption" v-model="radio" value="Luxury & Motivation"
+                <md-radio
+                  class="categoryOption"
+                  v-model="radio"
+                  value="Health & Beauty"
+                  >Health & Beauty</md-radio
+                >
+                <md-radio
+                  class="categoryOption"
+                  v-model="radio"
+                  value="Humor & Memes"
+                  >Humor & Memes</md-radio
+                >
+                <md-radio
+                  class="categoryOption"
+                  v-model="radio"
+                  value="Luxury & Motivation"
                   >Luxury & Motivation</md-radio
                 >
-                <md-radio class="categoryOption" v-model="radio" value="Movies, TV & Fan Pages"
+                <md-radio
+                  class="categoryOption"
+                  v-model="radio"
+                  value="Movies, TV & Fan Pages"
                   >Movies, TV & Fan Pages</md-radio
                 >
-                <md-radio class="categoryOption" v-model="radio" value="Pets & Animals" style="color: black !important;"
+                <md-radio
+                  class="categoryOption"
+                  v-model="radio"
+                  value="Pets & Animals"
+                  style="color: black !important;"
                   >Pets & Animals</md-radio
                 >
-                <md-radio class="categoryOption" v-model="radio" value="Quotes & Text">Quotes & Text</md-radio>
-                <md-radio class="categoryOption" v-model="radio" value="Reviews & Tutorials"
+                <md-radio
+                  class="categoryOption"
+                  v-model="radio"
+                  value="Quotes & Text"
+                  >Quotes & Text</md-radio
+                >
+                <md-radio
+                  class="categoryOption"
+                  v-model="radio"
+                  value="Reviews & Tutorials"
                   >Reviews & Tutorials</md-radio
                 >
-                <md-radio class="categoryOption" v-model="radio" value="Tech & Computers">Tech & Computers</md-radio>
-                <md-radio class="categoryOption" v-model="radio" value="Travel & Nature">Travel & Nature</md-radio>
+                <md-radio
+                  class="categoryOption"
+                  v-model="radio"
+                  value="Tech & Computers"
+                  >Tech & Computers</md-radio
+                >
+                <md-radio
+                  class="categoryOption"
+                  v-model="radio"
+                  value="Travel & Nature"
+                  >Travel & Nature</md-radio
+                >
               </md-field>
 
               <md-button
-                v-if="facebookAuthStatus && foundInstagramAcc && !usernameAlreadyRegistered"
+                v-if="
+                  facebookAuthStatus &&
+                    foundInstagramAcc &&
+                    !usernameAlreadyRegistered
+                "
                 @click="addListing()"
                 slot="footer"
                 class="md-simple md-success md-lg"
@@ -161,21 +323,30 @@
                 Add Listing
               </md-button>
               <h3 class="description" slot="inputs" v-if="!facebookAuthStatus">
-                You must authorize BS Social Swap to access your Instagram data via Facebook before you can submit an
-                account.
+                You must authorize BS Social Swap to access your Instagram data
+                via Facebook before you can submit an account.
               </h3>
               <h6 class="description" slot="inputs" style="text-align: center">
-                <a href="https://help.instagram.com/790156881117411?helpref=uf_permalink">Why do we do this?</a>
+                <a
+                  href="https://help.instagram.com/790156881117411?helpref=uf_permalink"
+                  >Why do we do this?</a
+                >
               </h6>
 
               <h4
-                v-if="facebookAuthStatus && foundInstagramAcc && missingValues !== null"
+                v-if="
+                  facebookAuthStatus &&
+                    foundInstagramAcc &&
+                    missingValues !== null
+                "
                 class="description"
                 slot="inputs"
                 style="color: red; font-weight: bold;"
               >
                 Missing Values:
-                <span v-for="val in missingValues" :key="val"> <br />{{ val }} </span>
+                <span v-for="val in missingValues" :key="val">
+                  <br />{{ val }}
+                </span>
               </h4>
             </SellCard>
           </div>
@@ -240,8 +411,6 @@ export default {
   },
   methods: {
     async sendInstaInfo() {
-      console.log('Logging in user using firebase facebook auth');
-      console.log('Current user from firebase.currentUser', auth().currentUser);
       let facebookProvider = new firebase.auth.FacebookAuthProvider();
       facebookProvider.addScope('pages_show_list');
       facebookProvider.addScope('instagram_basic');
@@ -271,13 +440,13 @@ export default {
       this.facebookAuthUser = result;
 
       this.FB_ACCESS_TOKEN = result.credential.accessToken;
-      console.log('result.credential.accessToken\n', result.credential.accessToken);
 
-      if (result.credential.accessToken !== null && result.credential.accessToken !== undefined) {
+      if (
+        result.credential.accessToken !== null &&
+        result.credential.accessToken !== undefined
+      ) {
         this.facebookAuthStatus = true;
       }
-
-      console.log('this facebook auth user\n', this.facebookAuthUser);
 
       let pagesOfUser = await axios.get(
         `https://graph.facebook.com/v8.0/me/accounts?access_token=${this.FB_ACCESS_TOKEN}`,
@@ -286,22 +455,21 @@ export default {
       this.pages = pagesOfUser.data.data;
 
       pages.forEach(page => {
-        console.log('page', page);
         this.pageNames.push(page.name);
       });
     },
     setPageID(name) {
-      if (this.pageNameHeader !== 'Choose page' && this.pageNameHeader !== null) {
+      if (
+        this.pageNameHeader !== 'Choose page' &&
+        this.pageNameHeader !== null
+      ) {
         this.pages.some(page => {
           if (page.name === name) {
             this.chosenPage = page;
-            console.log('chosen page', this.chosenPage);
           }
         });
       } else {
-        console.error('No value in pageNameHeader');
       }
-      console.log(this.facebookAuthStatus, this.foundInstagramAcc);
     },
     addListing() {
       this.instagramAccountData.description = this.description;
@@ -314,42 +482,42 @@ export default {
       let emptyVals = [];
       for (let elem in this.instagramAccountData) {
         if (elem == 'price' && this.instagramAccountData[elem] == 0) {
-          emptyVals.push(elem.charAt(0).toUpperCase() + elem.slice(1) + ': cannot be 0.');
+          emptyVals.push(
+            elem.charAt(0).toUpperCase() + elem.slice(1) + ': cannot be 0.',
+          );
         }
-        if (this.instagramAccountData[elem] == null) emptyVals.push(elem.charAt(0).toUpperCase() + elem.slice(1));
+        if (this.instagramAccountData[elem] == null)
+          emptyVals.push(elem.charAt(0).toUpperCase() + elem.slice(1));
       }
       if (emptyVals.length > 0) {
         this.missingValues = emptyVals;
       } else {
         this.missingValues = null;
 
-        this.$store.dispatch('addListingToUserAccount', this.instagramAccountData);
+        this.$store.dispatch(
+          'addListingToUserAccount',
+          this.instagramAccountData,
+        );
 
         router.push('/listings');
       }
-
-      console.log(this.instagramAccountData);
-      console.log(emptyVals);
     },
     async findInstagramAcc(page) {
-      console.log('page with ID', page);
-
       this.IG_USER = await axios.get(
         `https://graph.facebook.com/v8.0/${page.id}?fields=instagram_business_account&access_token=${page.access_token}`,
       );
 
-      console.log(this.IG_USER);
-
       try {
-        const instaBusinessAccountID = this.IG_USER.data.instagram_business_account.id;
-
-        console.log(instaBusinessAccountID);
+        const instaBusinessAccountID = this.IG_USER.data
+          .instagram_business_account.id;
 
         const username = await axios.get(
           `https://graph.facebook.com/v8.0/${instaBusinessAccountID}?fields=username&access_token=${page.access_token}`,
         );
 
-        const allListingsDataSearchID = firestore.collection('allListings').doc(`${username.data.username}`);
+        const allListingsDataSearchID = firestore
+          .collection('allListings')
+          .doc(`${username.data.username}`);
         allListingsDataSearchID.get().then(async docSnapshot => {
           if (docSnapshot.exists) {
             this.usernameAlreadyRegistered = true;
@@ -386,7 +554,6 @@ export default {
             }
 
             let avgReach = reachValsSum / reachVals.length;
-            console.log('average reach', avgReach);
 
             // get followers
             let businessDiscoveryInsights = await axios.get(
@@ -398,22 +565,21 @@ export default {
               `https://graph.facebook.com/v8.0/${instaBusinessAccountID}/?fields=profile_picture_url&access_token=${page.access_token}`,
             );
 
-            console.log(profilePictureResponseObject.data.profile_picture_url);
-
-            let followers = businessDiscoveryInsights.data.business_discovery.followers_count;
-            let mediaCount = businessDiscoveryInsights.data.business_discovery.media_count;
+            let followers =
+              businessDiscoveryInsights.data.business_discovery.followers_count;
+            let mediaCount =
+              businessDiscoveryInsights.data.business_discovery.media_count;
 
             this.instagramAccountData.username = username.data.username;
-            this.instagramAccountData.avatar = profilePictureResponseObject.data.profile_picture_url;
+            this.instagramAccountData.avatar =
+              profilePictureResponseObject.data.profile_picture_url;
             this.instagramAccountData.noOfFollowers = followers;
             this.instagramAccountData.noOfPosts = mediaCount;
             this.instagramAccountData.reach = avgReach;
-            console.log(this.instagramAccountData);
           }
         });
       } catch (error) {
         this.ERROR = 'No Instagram account is connected to this Facebook Page.';
-        console.log('error', this.ERROR);
       }
     },
     logBackIn() {
@@ -422,29 +588,22 @@ export default {
         email: tempCred.email,
         password: tempCred.password,
       });
-      console.log(tempCred);
     },
   },
   created() {
-    console.log('created hook, current fb.auth user', fb.auth.currentUser);
     fb.auth
       .getRedirectResult()
       .then(result => {
-        console.log('REDIRECT RESULT:\n', result);
-
         this.setFBAuthStatus(result);
       })
       .catch(err => {
         if (err.code == 'auth/account-exists-with-different-credential') {
-          console.log(err.code);
           this.setFBAuthStatus(err);
         }
       });
   },
   watch: {
-    radio(val) {
-      console.log(this.radio);
-    },
+    radio(val) {},
     pageNameHeader(val) {
       this.setPageID(val);
     },

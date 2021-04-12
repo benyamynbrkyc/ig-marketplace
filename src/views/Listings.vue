@@ -88,7 +88,7 @@ export default {
   methods: {
     filterData(filterInfoPayload) {
       this.filterOn = true;
-      console.log('got event');
+
       this.allListings = [];
 
       if (filterInfoPayload.category == 'All Categories') {
@@ -111,11 +111,9 @@ export default {
                   data: doc.data(),
                   id: doc.id,
                 };
-                console.log('listingDataFIlter', listingData);
 
                 this.allListings.push(listingData);
               } else {
-                console.log('error', doc.data());
               }
             });
             if (this.allListings.length == 0) {
@@ -141,7 +139,6 @@ export default {
             this.allListings = [];
 
             snapshot.forEach(doc => {
-              console.log(doc.data().category == filterInfoPayload.category);
               if (
                 doc.data().noOfFollowers <= filterInfoPayload.maxFollowers &&
                 doc.data().noOfFollowers >= filterInfoPayload.minFollowers
@@ -152,10 +149,8 @@ export default {
                     id: doc.id,
                   };
                   this.allListings.push(listingData);
-                  console.log('listingDataFIlter', listingData);
                 }
               } else {
-                console.log('error', doc.data());
               }
             });
             if (this.allListings.length == 0) {
@@ -176,7 +171,6 @@ export default {
     },
     loadSampleData() {
       loadSampleData();
-      console.log('Loaded sample data');
     },
     async loadAllListings() {
       this.allListings = [];
@@ -187,7 +181,7 @@ export default {
         .then(querySnapshot => {
           querySnapshot.forEach(doc => {
             // doc.data all data from document
-            console.log(doc.data().noOfFollowers);
+
             let listingData = {
               data: doc.data(),
               id: doc.id,
@@ -203,11 +197,7 @@ export default {
           }
           this.lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
         })
-        .catch(err => {
-          console.log("Couldn't get data", err);
-        });
-
-      console.log('all listings\n', this.allListings);
+        .catch(err => {});
     },
     async loadMore() {
       window.onscroll = () => {
@@ -242,7 +232,6 @@ export default {
                   querySnapshot.docs[querySnapshot.docs.length - 1];
               });
           } else if (this.filterOn) {
-            console.log('this is te filter', this.filter);
             if (this.filter.category == 'All Categories') {
               try {
                 firestore
@@ -274,9 +263,7 @@ export default {
 
                     this.lastVisible = snapshot.docs[snapshot.docs.length - 1];
                   });
-              } catch (error) {
-                console.log('No more data', error);
-              }
+              } catch (error) {}
             } else if (this.filter.category !== 'All Categories') {
               try {
                 firestore
@@ -308,9 +295,7 @@ export default {
                     }
                     this.lastVisible = snapshot.docs[snapshot.docs.length - 1];
                   });
-              } catch (error) {
-                console.log('No more data', error);
-              }
+              } catch (error) {}
             }
           }
         }
@@ -347,9 +332,7 @@ export default {
     this.loadRecents();
     this.loadMore();
   },
-  created() {
-    console.log(this.allListings);
-  },
+  created() {},
   // computed: {
   //   headerStyle() {
   //     return {

@@ -238,9 +238,7 @@ export default {
 
           this.getOwnerAvatar(docData.ownerID);
         })
-        .catch(err => {
-          console.log(err);
-        });
+        .catch(err => {});
     },
     getOwnerAvatar(id) {
       firebase.db
@@ -249,9 +247,7 @@ export default {
         .then(userDoc => {
           this.listingData.ownerAvatar = userDoc.data().avatar;
         })
-        .catch(err => {
-          console.log(err);
-        });
+        .catch(err => {});
     },
     generateUsername(username) {
       return (

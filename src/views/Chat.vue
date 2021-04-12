@@ -64,10 +64,6 @@ export default {
           snapshot.forEach(user => {
             users.push({ username: user.data().username, id: user.id });
             // users.push(user.id);
-            console.log('user IDs pushed to [users]', {
-              username: user.data().username,
-              id: user.id,
-            });
           });
 
           let pairs = getPairs(users);
@@ -75,7 +71,6 @@ export default {
           pairs.forEach(async pair => {
             // get room name
             let roomName = pair[0].username + '_' + pair[1].username;
-            console.log(roomName);
 
             // form id pairs - to be used as an array to push to individual room
             let pairOfIDs = [];
@@ -85,7 +80,7 @@ export default {
 
             // get document to check if it exists
             let docExists = await roomsRef.doc(roomName).get();
-            // console.log(docExists.data());
+            //
 
             // if it doesn't exist
             if (docExists.data() == undefined) {
@@ -95,13 +90,10 @@ export default {
 
               roomsRef.doc(roomName).set({ users: pairOfIDs });
             } else {
-              console.log('Did not set document, document exists.');
             }
           });
         })
-        .catch(err => {
-          console.log(err);
-        });
+        .catch(err => {});
     },
   },
   created() {

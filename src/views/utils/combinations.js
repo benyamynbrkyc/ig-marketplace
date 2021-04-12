@@ -23,7 +23,7 @@ export default function getPairs(users) {
       if (users[i].username !== 'Admin' && users[j].username !== 'Admin')
         // results.push([users[i].id, users[j].id]);
         results.push([users[i], users[j]]);
-      // console.log('results', [users[i], users[j]]);
+      //
     }
   }
   return results;

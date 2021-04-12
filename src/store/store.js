@@ -13,15 +13,10 @@ const store = new Vuex.Store({
   mutations: {
     SET_USER_PROFILE(state, val) {
       state.userProfile = { ...val };
-      // console.log('user prof from store.js', state.userProfile);
+      //
     },
     ADD_NEW_LISTING_TO_STATE(state, listingData) {
       state.userProfile.listings.push(listingData);
-      console.log(
-        'added new listing to listings array and set in state',
-        listingData,
-      );
-      console.log(state.userProfile);
     },
     //   setPosts maybe it can help with posting listings
   },
@@ -47,7 +42,7 @@ const store = new Vuex.Store({
         dispatch('fetchUserProfile', user);
       } catch (error) {
         // BUILD CHANGE
-        // console.log(error);
+        //
 
         if (error.code == 'auth/argument-error')
           alert('All fields must be populated.');
@@ -67,7 +62,7 @@ const store = new Vuex.Store({
         dispatch('fetchUserProfile', user);
       } catch (error) {
         // BUILD CHANGE
-        // console.log(error);
+        //
 
         // TODO: emit these as events
         if (error.code == 'auth/argument-error')
@@ -116,7 +111,6 @@ const store = new Vuex.Store({
         router.push('/');
     },
     async addListingToUserAccount({ commit }, listingData) {
-      console.log(listingData);
       let user = await fb.usersRef.doc(fb.auth.currentUser.uid).get();
 
       const firestore = firebase.firestore();

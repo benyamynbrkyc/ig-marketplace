@@ -1,13 +1,14 @@
-// Docs on event and context https://www.netlify.com/docs/functions/#the-handler-method
+const Insta = require('scraper-instagram');
+const InstaClient = new Insta();
+
 const handler = async (event, context) => {
   try {
-    const subject = event.queryStringParameters.name || 'World';
+    const result = await InstaClient.getProfile('benyamynbrkyc');
+
     return {
-      statusCode: 200,
+      status: 200,
       body: JSON.stringify({
-        message: `Hello ${subject}`,
-        event,
-        context,
+        result,
       }),
     };
   } catch (error) {

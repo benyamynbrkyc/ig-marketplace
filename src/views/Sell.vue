@@ -334,6 +334,7 @@ export default {
       }
     },
 
+    // trigger
     async verifyAccount(instaUsername) {
       axios.defaults.headers.post['Content-Type'] =
         'application/json;charset=utf-8';

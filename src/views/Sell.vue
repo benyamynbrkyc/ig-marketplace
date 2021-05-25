@@ -10,7 +10,7 @@
           <div
             class="md-layout-item md-size-33 md-small-size-66 md-xsmall-size-100 md-medium-size-40 mx-auto"
           >
-            <SellCard>
+            <SellCard style="text-align: left;">
               <h3 slot="title" class="card-title">Sell - Add a Listing</h3>
               <h6 slot="title" class="card-title">
                 <i class="fab fa-instagram" style="padding-right:3px"></i>
@@ -19,14 +19,45 @@
 
               <!-- todo: add description here -->
               <p slot="title" class="description" id="disclaimer">
-                some text p
+                In order to add a listing, you have to prove you own the account
+                you are trying to sell. In order to be eligible, your account
+                must:
+                <span>
+                  <ul>
+                    <li>Have at least 2000 followers</li>
+                    <li>Be public</li>
+                    <li>
+                      Have BSSSVERIFICATION in bio (only needed when adding a
+                      new listing, you can delete it after, the code is used for
+                      verifying your account and ensuring you are not a bot)
+                    </li>
+                  </ul>
+                </span>
               </p>
 
-              <h6 style="text-transform: none" class="description" slot="title">
-                some text h6
+              <h6
+                style="text-transform: none; text-align: left; font-size: 16px; padding-bottom: 10px;"
+                class="description"
+                slot="title"
+              >
+                <span style="padding-right: 5px;"
+                  >Please enter your account name (without the '@' sign): <br />
+                </span>
+                <input
+                  id="usernameInput"
+                  style="border: none; background: none; color: white;"
+                  type="text"
+                  placeholder="Your username here"
+                  v-model="instaUsername"
+                />
+                <md-button
+                  id="verifyButton"
+                  @click="verifyAccount(instaUsername)"
+                  >Verify my account</md-button
+                >
               </h6>
 
-              <h6 class="description" slot="title">
+              <h6 class="description" style="text-align: left;" slot="title">
                 BS Social Swap is connected to this Instagram Account:
                 <a id="authController">{{
                   '@' + instagramAccUsername || 'No Account Found'
@@ -258,6 +289,8 @@ export default {
       },
       missingValues: null,
       usernameAlreadyRegistered: false,
+      // new
+      instaUsername: '',
     };
   },
   computed: {
@@ -268,67 +301,7 @@ export default {
     },
   },
   methods: {
-    async sendInstaInfo() {
-      let facebookProvider = new firebase.auth.FacebookAuthProvider();
-      facebookProvider.addScope('pages_show_list');
-      facebookProvider.addScope('instagram_basic');
-      facebookProvider.addScope('business_management');
-      facebookProvider.addScope('instagram_manage_insights');
-      facebookProvider.addScope('read_insights');
-      facebookProvider.setCustomParameters({
-        auth_type: 'rerequest',
-      });
-
-      // this could work better for mobile
-      // provider.setCustomParameters({
-      //   display: 'popup'
-      // });
-
-      localStorage.setItem(
-        'tempCred',
-        JSON.stringify({
-          email: this.$store.getters.getUserProfile.email,
-          password: this.$store.getters.getUserProfile.password,
-        }),
-      );
-
-      fb.auth.signInWithRedirect(facebookProvider);
-    },
-    async setFBAuthStatus(result) {
-      this.facebookAuthUser = result;
-
-      this.FB_ACCESS_TOKEN = result.credential.accessToken;
-
-      if (
-        result.credential.accessToken !== null &&
-        result.credential.accessToken !== undefined
-      ) {
-        this.facebookAuthStatus = true;
-      }
-
-      let pagesOfUser = await axios.get(
-        `https://graph.facebook.com/v8.0/me/accounts?access_token=${this.FB_ACCESS_TOKEN}`,
-      );
-      let pages = pagesOfUser.data.data;
-      this.pages = pagesOfUser.data.data;
-
-      pages.forEach(page => {
-        this.pageNames.push(page.name);
-      });
-    },
-    setPageID(name) {
-      if (
-        this.pageNameHeader !== 'Choose page' &&
-        this.pageNameHeader !== null
-      ) {
-        this.pages.some(page => {
-          if (page.name === name) {
-            this.chosenPage = page;
-          }
-        });
-      } else {
-      }
-    },
+    //  see what you can use from this
     addListing() {
       this.instagramAccountData.description = this.description;
       this.instagramAccountData.price = Number(this.price);
@@ -360,92 +333,16 @@ export default {
         router.push('/listings');
       }
     },
-    async findInstagramAcc(page) {
-      this.IG_USER = await axios.get(
-        `https://graph.facebook.com/v8.0/${page.id}?fields=instagram_business_account&access_token=${page.access_token}`,
+
+    async verifyAccount(instaUsername) {
+      axios.defaults.headers.post['Content-Type'] =
+        'application/json;charset=utf-8';
+      axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+      const response = await axios.get(
+        'https://instagram.com/' + 'benyamynbrkyc' + '/?__a=1',
       );
 
-      try {
-        const instaBusinessAccountID = this.IG_USER.data
-          .instagram_business_account.id;
-
-        const username = await axios.get(
-          `https://graph.facebook.com/v8.0/${instaBusinessAccountID}?fields=username&access_token=${page.access_token}`,
-        );
-
-        const allListingsDataSearchID = firestore
-          .collection('allListings')
-          .doc(`${username.data.username}`);
-        allListingsDataSearchID.get().then(async docSnapshot => {
-          if (docSnapshot.exists) {
-            this.usernameAlreadyRegistered = true;
-            this.instagramAccUsername = username.data.username;
-            this.foundInstagramAcc = true;
-          } else {
-            this.usernameAlreadyRegistered = false;
-
-            this.instagramAccUsername = username.data.username;
-            this.foundInstagramAcc = true;
-
-            // get # of posts
-            let mediaObjIDs = [];
-            const posts = await axios.get(
-              `https://graph.facebook.com/v8.0/${instaBusinessAccountID}/media?access_token=${page.access_token}`,
-            );
-            this.instagramAccountData.noOfPosts = posts.data.data.length;
-            const postIDs = posts.data.data;
-            const numOfPosts = posts.data.data.length;
-
-            for (let i = 0; i < numOfPosts; i++) {
-              mediaObjIDs.push(postIDs[i].id);
-            }
-
-            // average reach
-            let reachData = await axios.get(
-              `https://graph.facebook.com/v8.0/${instaBusinessAccountID}/insights?metric=reach&period=days_28&access_token=${page.access_token}`,
-            );
-            let reachVals = reachData.data.data[0].values;
-            let reachValsSum = 0;
-
-            for (let i = 0; i < reachVals.length; i++) {
-              reachValsSum += reachVals[i].value;
-            }
-
-            let avgReach = reachValsSum / reachVals.length;
-
-            // get followers
-            let businessDiscoveryInsights = await axios.get(
-              `https://graph.facebook.com/v8.0/${instaBusinessAccountID}?fields=business_discovery.username(${username.data.username}){followers_count,media_count}&access_token=${page.access_token}`,
-            );
-
-            // get profile picture url from insta api
-            let profilePictureResponseObject = await axios.get(
-              `https://graph.facebook.com/v8.0/${instaBusinessAccountID}/?fields=profile_picture_url&access_token=${page.access_token}`,
-            );
-
-            let followers =
-              businessDiscoveryInsights.data.business_discovery.followers_count;
-            let mediaCount =
-              businessDiscoveryInsights.data.business_discovery.media_count;
-
-            this.instagramAccountData.username = username.data.username;
-            this.instagramAccountData.avatar =
-              profilePictureResponseObject.data.profile_picture_url;
-            this.instagramAccountData.noOfFollowers = followers;
-            this.instagramAccountData.noOfPosts = mediaCount;
-            this.instagramAccountData.reach = avgReach;
-          }
-        });
-      } catch (error) {
-        this.ERROR = 'No Instagram account is connected to this Facebook Page.';
-      }
-    },
-    logBackIn() {
-      const tempCred = JSON.parse(localStorage.getItem('tempCred'));
-      this.$store.dispatch('login', {
-        email: tempCred.email,
-        password: tempCred.password,
-      });
+      console.log(response);
     },
   },
   created() {
@@ -593,5 +490,13 @@ md-radio {
   .categoryOption {
     width: 100%;
   }
+}
+#usernameInput::placeholder {
+  color: rgba(255, 255, 255, 0.897);
+  text-decoration: underline;
+}
+#verifyButton {
+  background-color: whitesmoke !important;
+  color: black !important;
 }
 </style>

@@ -343,7 +343,7 @@ export default {
         'https://instagram.com/' + 'benyamynbrkyc' + '/?__a=1',
       );
 
-      console.log(response);
+      window.alert(response);
     },
   },
   created() {

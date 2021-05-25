@@ -13,143 +13,27 @@
             <SellCard>
               <h3 slot="title" class="card-title">Sell - Add a Listing</h3>
               <h6 slot="title" class="card-title">
-                <i class="fab fa-facebook-square" style="padding-right:3px"></i>
-                &nbsp; Facebook Authorization
+                <i class="fab fa-instagram" style="padding-right:3px"></i>
+                &nbsp; Account Verification process
               </h6>
 
+              <!-- todo: add description here -->
               <p slot="title" class="description" id="disclaimer">
-                In order to add a listing for an Instagram account, you have to
-                authorize BS Social Swap to read your Instagram account data to
-                be able to verify your identity and display your listing data.
-                We do this by securely communicating with Facebook using their
-                API (<span
-                  ><a
-                    id="graphAPILink"
-                    href="https://developers.facebook.com/docs/graph-api/"
-                    target="_blank"
-                    >more info</a
-                  ></span
-                >) so your data is
-                <span style="font-style: italic;">safe and encrypted.</span>
+                some text p
               </p>
 
               <h6 style="text-transform: none" class="description" slot="title">
-                In order for your Facebook page to show up, you need to be
-                assigned as a Page Owner of that page.
-                <br />
-                <a
-                  style="text-decoration: underline;"
-                  target="_blank"
-                  href="https://www.facebook.com/help/1843115515813561/?ref=share"
-                  >How do I assign or change a Page Owner for my Facebook Page?
-                </a>
+                some text h6
               </h6>
 
-              <h6
-                class="description"
-                slot="title"
-                v-if="facebookAuthStatus"
-                style="color:green;"
-              >
-                Account successfully linked to Facebook
-              </h6>
-
-              <h6
-                v-if="facebookAuthStatus && !isPageChosen"
-                class="description"
-                slot="title"
-              >
-                Choose the Facebook Page your Instagram Account is connected to:
-                <a id="authController">{{ pageNameHeader || 'Choose Page' }}</a>
-              </h6>
-
-              <md-radio
-                v-if="facebookAuthStatus && !isPageChosen"
-                v-for="pageName in pageNames"
-                :key="pageName"
-                class="categoryOption"
-                v-model="pageNameHeader"
-                slot="title"
-                :value="pageName"
-                style="color: white !important;"
-                >{{ pageName }}</md-radio
-              >
-
-              <h6
-                v-if="facebookAuthStatus && foundInstagramAcc"
-                class="description"
-                slot="title"
-              >
+              <h6 class="description" slot="title">
                 BS Social Swap is connected to this Instagram Account:
                 <a id="authController">{{
                   '@' + instagramAccUsername || 'No Account Found'
                 }}</a>
               </h6>
-              <h6
-                v-if="
-                  facebookAuthStatus &&
-                    foundInstagramAcc &&
-                    usernameAlreadyRegistered
-                "
-                class="description"
-                slot="title"
-                style="color: red;"
-              >
-                This Instagram Account is already registered. Please choose
-                another one.
-              </h6>
 
-              <h6
-                v-if="ERROR !== null"
-                class="description"
-                slot="title"
-                style="color: red;"
-              >
-                This Facebook Page doesn't have an Instagram Account connected
-                to it:
-                <a @click="logBackIn()" id="authController">{{
-                  'NO ACCOUNT FOUND'
-                }}</a>
-                <br />
-                <span
-                  ><a
-                    id="learnToConnect"
-                    target="_blank"
-                    href="https://www.facebook.com/business/help/898752960195806"
-                    >To learn how to connect your Instagram Account, visit this
-                    link.</a
-                  ></span
-                >
-              </h6>
-
-              <h6
-                v-if="facebookAuthStatus && isPageChosen"
-                class="description"
-                slot="title"
-              >
-                Page Chosen:
-                <a id="authController">Page</a>
-              </h6>
-
-              <h6
-                v-if="!facebookAuthStatus"
-                class="description"
-                slot="title"
-                style="color:red;"
-              >
-                Account isn't linked to Facebook
-                <a id="authController" @click="sendInstaInfo()">Link</a>
-              </h6>
-
-              <md-field
-                v-if="
-                  facebookAuthStatus &&
-                    foundInstagramAcc &&
-                    !usernameAlreadyRegistered
-                "
-                class="md-form-group"
-                slot="inputs"
-              >
+              <md-field class="md-form-group" slot="inputs">
                 <md-icon style="right:unset !important;">article</md-icon>
 
                 <md-textarea
@@ -160,15 +44,7 @@
                 <br />
               </md-field>
 
-              <md-field
-                v-if="
-                  facebookAuthStatus &&
-                    foundInstagramAcc &&
-                    !usernameAlreadyRegistered
-                "
-                class="md-form-group"
-                slot="inputs"
-              >
+              <md-field class="md-form-group" slot="inputs">
                 <md-icon>attach_money</md-icon>
                 <!-- <label id="usernameLabel">Price</label> -->
                 <md-input v-model="price" type="number" min="1"></md-input>
@@ -176,11 +52,6 @@
               </md-field>
 
               <md-field
-                v-if="
-                  facebookAuthStatus &&
-                    foundInstagramAcc &&
-                    !usernameAlreadyRegistered
-                "
                 class="md-form-group"
                 slot="inputs"
                 id="categoryRadio"
@@ -311,21 +182,13 @@
               </md-field>
 
               <md-button
-                v-if="
-                  facebookAuthStatus &&
-                    foundInstagramAcc &&
-                    !usernameAlreadyRegistered
-                "
                 @click="addListing()"
                 slot="footer"
                 class="md-simple md-success md-lg"
               >
                 Add Listing
               </md-button>
-              <h3 class="description" slot="inputs" v-if="!facebookAuthStatus">
-                You must authorize BS Social Swap to access your Instagram data
-                via Facebook before you can submit an account.
-              </h3>
+
               <h6 class="description" slot="inputs" style="text-align: center">
                 <a
                   href="https://help.instagram.com/790156881117411?helpref=uf_permalink"
@@ -334,11 +197,6 @@
               </h6>
 
               <h4
-                v-if="
-                  facebookAuthStatus &&
-                    foundInstagramAcc &&
-                    missingValues !== null
-                "
                 class="description"
                 slot="inputs"
                 style="color: red; font-weight: bold;"

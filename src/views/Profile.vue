@@ -1,174 +1,65 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper" id="outerWrapper">
     <md-card id="mainCard" class="md-card-login">
       <div class="section" id="intro">
         <div class="container-fluid" id="flexContainer">
           <div class="row" id="introRow">
-            <div class="col-6" id="backG2">
-              <div
-                class="row"
-                id="featureRow"
-                style="margin-bottom: 10px; margin-top: 30px;"
-              >
-                <div class="info itemInfo">
-                  <div class="row innerListingItem">
-                    <div class="icon">
-                      <img src="" id="userAccountImage" />
-                    </div>
-                    <h4 class="info" style="line-height: 2rem !important;">
-                      <span class="listingSubTextTitle">Username</span>
-                      <br />
-                      listingData.username
-                    </h4>
-                  </div>
-                </div>
-                <div class="info itemInfo">
-                  <div class="row innerListingItem">
-                    <div class="icon">
-                      <img
-                        src="@/assets/img/listingSubIcons/followers.png"
-                        alt=""
-                      />
-                    </div>
-                    <h4 class="info" style="line-height: 2rem !important;">
-                      <span class="listingSubTextTitle">Followers</span> <br />
-                      {{ listingData.followers }}
-                    </h4>
-                  </div>
-                </div>
-                <div class="info itemInfo" id="categoryTag">
-                  <div class="row innerListingItem lastFeatureItem">
-                    <div class="icon">
-                      <img
-                        src="@/assets/img/listingSubIcons/price.png"
-                        alt=""
-                      />
-                    </div>
-                    <h4 class="info" style="line-height: 2rem !important;">
-                      <span class="listingSubTextTitle">Price</span> <br />
-                      {{ listingData.price }}
-                    </h4>
-                  </div>
-                </div>
-              </div>
-              <!-- SECOND ROW -->
-              <div
-                class="row secondRow"
-                id="featureRow"
-                style="margin-top: 30px"
-              >
-                <div class="info itemInfo">
-                  <div class="row innerListingItem">
-                    <div class="icon">
-                      <img
-                        src="@/assets/img/listingSubIcons/category.png"
-                        alt=""
-                      />
-                    </div>
-                    <h4
-                      class="info"
-                      style="line-height: 1.6rem !important; font-size: 1.4rem;"
-                    >
-                      <span class="listingSubTextTitle">Category</span> <br />
-                      {{ listingData.category }}
-                    </h4>
-                  </div>
-                </div>
-                <div class="info itemInfo">
-                  <div class="row innerListingItem">
-                    <div class="icon">
-                      <img
-                        src="@/assets/img/listingSubIcons/posts.png"
-                        alt=""
-                      />
-                    </div>
-                    <h4 class="info" style="line-height: 2rem !important;">
-                      <span class="listingSubTextTitle">Posts</span> <br />
-                      {{ listingData.posts }}
-                    </h4>
-                  </div>
-                </div>
-                <div class="info itemInfo" id="categoryTag">
-                  <div class="row innerListingItem lastFeatureItem">
-                    <div class="icon">
-                      <img
-                        src="@/assets/img/listingSubIcons/likeperpost.png"
-                        alt=""
-                      />
-                    </div>
-                    <h4 class="info" style="line-height: 2rem !important; ">
-                      <span class="listingSubTextTitle">Reach</span><br />
-                      {{ listingData.reach }}
-                    </h4>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-6" id="backG1" style="text-align: left;">
-              <img :src="`${listingData.ownerAvatar}`" alt="" />
+            <div
+              class="col-6"
+              id="backG1"
+              style="text-align: left; max-height: 250px;"
+            >
+              <img :src="profile.avatar" alt="" />
               <h3 style="font-size: 0.85rem; color: green; margin-bottom: 0px;">
-                Seller
+                Welcome
               </h3>
               <h3
                 class="listingSubTextTitle"
                 style="font-size: 1.1rem; margin-top: 0px !important; margin-right: 10px;"
               >
-                {{ listingData.sellerName }}
+                {{ profile.username }}
                 <img
                   src="../assets/img/verified.jpg"
                   style="max-width:20px; margin: 0;"
                 />
               </h3>
               <!-- TODO: get these links -->
-              <p class="description sellerActions">
-                <md-icon style="margin-right: 7px;">mail</md-icon> Contact
-                Seller
-              </p>
-              <p
+              <router-link
+                to="/chat"
+                id="messagesLink"
                 class="description sellerActions"
-                style="background-color: #e3fed6; display:inline; padding: 5px 3px  5px 0px"
               >
-                <md-icon style="margin-right: 7px; color: green;">lock</md-icon>
-                Buy account with Escrow
-              </p>
-              <p class="description sellerActions">
-                <md-icon style="margin-right: 7px; color: red;"
-                  >report_problem</md-icon
-                >
-                Report listing
-              </p>
+                Messages
+              </router-link>
             </div>
-          </div>
-          <div
-            data-v-9d51a18c=""
-            id="featureRow"
-            class="row"
-            style="margin-bottom: 10px; margin-top: 30px;"
-          >
-            <div data-v-9d51a18c="" id="description" class="info itemInfo">
+            <div class="col-6" id="backG2">
               <div
-                data-v-9d51a18c=""
-                class="row innerListingItem lastFeatureItem"
+                class="row"
+                id="featureRow"
+                style="margin-bottom: 10px; margin-top: 30px; background-color: white !important;"
               >
-                <div data-v-9d51a18c="" class="icon">
-                  <img
-                    data-v-9d51a18c=""
-                    src="@/assets/img/listingSubIcons/description.png"
-                    alt=""
-                  />
-                </div>
-                <h4
-                  data-v-9d51a18c=""
-                  class="info"
-                  style="line-height: 2rem !important;"
-                >
-                  <span class="listingSubTextTitle">Description</span>
-                  <br />
-
-                  <span id="descriptionText">{{
-                    listingData.description
-                  }}</span>
-                </h4>
+                <table>
+                  <tr style="border-bottom: 3px solid #dddddd">
+                    <th>Username</th>
+                    <th>Followers</th>
+                    <th>Price</th>
+                    <th>Category</th>
+                    <th>Listed</th>
+                  </tr>
+                  <tr v-for="listing in listings" :key="listing.idUsername">
+                    <td id="usernameLink">@{{ listing.username }}</td>
+                    <td>{{ listing.noOfFollowers }}</td>
+                    <td>{{ listing.price }}</td>
+                    <td>{{ listing.category }}</td>
+                    <td>
+                      {{
+                        new Date(listing.dateCreated).toLocaleDateString(
+                          'en-GB',
+                        )
+                      }}
+                    </td>
+                  </tr>
+                </table>
               </div>
             </div>
           </div>
@@ -180,30 +71,50 @@
 
 <script>
 import * as firebase from './firestore/index';
+import { sampleListings } from './utils/Profile/index';
+import store from './../store/store.js';
 
 export default {
   components: {},
   bodyClass: 'profile-page',
   data() {
-    return {};
+    return {
+      // todo: enable real listings
+      listings: [],
+      // your profile
+    };
   },
-
+  props: {
+    img: {
+      type: String,
+      default: require('@/assets/img/@symbol.png'),
+    },
+  },
   computed: {
     headerStyle() {
       return {
         background: `radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%)`,
       };
     },
+    profile() {
+      const profile = store.getters.getUserProfile;
+      return profile;
+    },
+  },
+  async created() {
+    // todo: await a call to firebase for listings
+    const userListings = sampleListings;
+
+    this.listings = userListings;
+
+    console.log(this.listings);
   },
 };
 </script>
 
 <style scoped>
 #outerWrapper {
-  width: 100%;
-  padding-left: 0px !important;
-  padding-right: 0px !important;
-  display: block;
+  margin-bottom: 500px;
 }
 #backG1 {
   max-width: 220px;
@@ -331,6 +242,10 @@ h4 {
   display: flex;
   width: 100%;
   text-align: center;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 #featureRow .info {
   font-weight: bold;
@@ -468,9 +383,6 @@ h4 {
   }
 }
 @media only screen and (max-width: 850px) {
-  #featureRow {
-    display: unset !important;
-  }
   .itemInfo {
     margin-top: 10px;
     margin-bottom: 10px;
@@ -505,5 +417,40 @@ footer {
   height: 68px !important;
   max-height: unset !important;
   border-radius: 50%;
+}
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td,
+th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 12px;
+  color: #243e59;
+  font-size: 14px;
+}
+
+#messagesLink {
+  color: #243e59;
+  font-weight: bold;
+  padding: 10px 20px 10px 20px;
+}
+#messagesLink:hover {
+  background: rgb(236, 236, 236) !important;
+  color: #243e59 !important;
+  cursor: pointer;
+}
+#usernameLink {
+  color: #17a2b8;
+}
+#usernameLink:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+#headerRow {
+  border-bottom: 2px !important;
 }
 </style>

@@ -9,6 +9,7 @@ import MainNavbar from './layout/MainNavbar.vue';
 import MainFooter from './layout/MainFooter.vue';
 import ListingFooter from './layout/ListingFooter.vue';
 import { auth } from './views/firestore/index';
+import store from './store/store';
 
 Vue.use(Router);
 
@@ -210,6 +211,8 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
+
+  if (auth.currentUser) store.dispatch('fetchUserProfile', auth.currentUser);
 
   // the email verification for specific routes can be handled here
   if (requiresAuth && !auth.currentUser) next('/login');

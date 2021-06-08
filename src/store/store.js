@@ -103,6 +103,8 @@ const store = new Vuex.Store({
       // set profile in state
       commit('SET_USER_PROFILE', userProfileData);
 
+      console.log('user in store:', userProfileData);
+
       // change route to dashboard
       if (
         router.currentRoute.fullPath == '/login' ||

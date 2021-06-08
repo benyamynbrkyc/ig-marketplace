@@ -49,36 +49,47 @@
                   type="text"
                   placeholder="Your username here"
                   v-model="instaUsername"
+                  @keydown="usernameKeydown($event)"
+                  :disabled="showCheckAvailability === false"
                 />
                 <md-button
                   id="verifyButton"
+                  v-if="showCheckAvailability === true"
                   @click="verifyAccount(instaUsername)"
-                  >Verify my account</md-button
+                  >Verify</md-button
                 >
               </h6>
 
-              <h6 class="description" style="text-align: left;" slot="title">
-                BS Social Swap is connected to this Instagram Account:
-                <a id="authController">{{
-                  '@' + instagramAccUsername || 'No Account Found'
-                }}</a>
+              <h6
+                v-if="showFoundUser"
+                class="description"
+                style="text-align: left;"
+                slot="title"
+              >
+                Account
+                <span style="font-weight:bold;">{{ instaUsername }}</span> is
+                verified.
               </h6>
 
-              <md-field class="md-form-group" slot="inputs">
+              <md-field v-if="showForm" class="md-form-group" slot="inputs">
                 <md-icon style="right:unset !important;">article</md-icon>
 
                 <md-textarea
                   style="padding-left:25px !important;"
-                  v-model="description"
+                  v-model="formValues.description"
                   maxlength="512"
                 ></md-textarea>
                 <br />
               </md-field>
 
-              <md-field class="md-form-group" slot="inputs">
+              <md-field v-if="showForm" class="md-form-group" slot="inputs">
                 <md-icon>attach_money</md-icon>
                 <!-- <label id="usernameLabel">Price</label> -->
-                <md-input v-model="price" type="number" min="1"></md-input>
+                <md-input
+                  v-model="formValues.price"
+                  type="number"
+                  min="1"
+                ></md-input>
                 <br />
               </md-field>
 
@@ -87,126 +98,127 @@
                 slot="inputs"
                 id="categoryRadio"
                 style="flex-wrap: wrap;"
+                v-if="showForm"
                 ><md-icon>category</md-icon>
 
                 <md-radio
                   class="categoryOption"
-                  v-model="radio"
+                  v-model="formValues.radio"
                   value="Architecture & Interior"
                   >Architecture & Interior</md-radio
                 >
                 <md-radio
                   class="categoryOption"
-                  v-model="radio"
+                  v-model="formValues.radio"
                   value="Art & Design"
                   >Art & Design</md-radio
                 >
                 <md-radio
                   class="categoryOption"
-                  v-model="radio"
+                  v-model="formValues.radio"
                   value="Blog & Lifestyle"
                   >Blog & Lifestyle</md-radio
                 >
                 <md-radio
                   class="categoryOption"
-                  v-model="radio"
+                  v-model="formValues.radio"
                   value="Business & Brand"
                   >Business & Brand</md-radio
                 >
                 <md-radio
                   class="categoryOption"
-                  v-model="radio"
+                  v-model="formValues.radio"
                   value="Cars & Bikes"
                   >Cars & Bikes</md-radio
                 >
                 <md-radio
                   class="categoryOption"
-                  v-model="radio"
+                  v-model="formValues.radio"
                   value="City & Country"
                   >City & Country</md-radio
                 >
                 <md-radio
                   class="categoryOption"
-                  v-model="radio"
+                  v-model="formValues.radio"
                   value="Educational & QA"
                   >Educational & QA</md-radio
                 >
                 <md-radio
                   class="categoryOption"
-                  v-model="radio"
+                  v-model="formValues.radio"
                   value="Fashion & Style"
                   >Fashion & Style</md-radio
                 >
                 <md-radio
                   class="categoryOption"
-                  v-model="radio"
+                  v-model="formValues.radio"
                   value="Fitness & Sports"
                   >Fitness & Sports</md-radio
                 >
                 <md-radio
                   class="categoryOption"
-                  v-model="radio"
+                  v-model="formValues.radio"
                   value="Food & Nutrition"
                   >Food & Nutrition</md-radio
                 >
                 <md-radio
                   class="categoryOption"
-                  v-model="radio"
+                  v-model="formValues.radio"
                   value="Gaming & Entertainment"
                   >Gaming & Entertainment</md-radio
                 >
                 <md-radio
                   class="categoryOption"
-                  v-model="radio"
+                  v-model="formValues.radio"
                   value="Health & Beauty"
                   >Health & Beauty</md-radio
                 >
                 <md-radio
                   class="categoryOption"
-                  v-model="radio"
+                  v-model="formValues.radio"
                   value="Humor & Memes"
                   >Humor & Memes</md-radio
                 >
                 <md-radio
                   class="categoryOption"
-                  v-model="radio"
+                  v-model="formValues.radio"
                   value="Luxury & Motivation"
                   >Luxury & Motivation</md-radio
                 >
                 <md-radio
                   class="categoryOption"
-                  v-model="radio"
+                  v-model="formValues.radio"
                   value="Movies, TV & Fan Pages"
                   >Movies, TV & Fan Pages</md-radio
                 >
                 <md-radio
                   class="categoryOption"
-                  v-model="radio"
+                  v-model="formValues.radio"
                   value="Pets & Animals"
                   style="color: black !important;"
                   >Pets & Animals</md-radio
                 >
                 <md-radio
                   class="categoryOption"
-                  v-model="radio"
+                  v-model="formValues.radio"
                   value="Quotes & Text"
                   >Quotes & Text</md-radio
                 >
                 <md-radio
                   class="categoryOption"
-                  v-model="radio"
+                  v-model="formValues.radio"
                   value="Reviews & Tutorials"
                   >Reviews & Tutorials</md-radio
                 >
                 <md-radio
                   class="categoryOption"
-                  v-model="radio"
+                  v-model="formValues.radio"
                   value="Tech & Computers"
                   >Tech & Computers</md-radio
                 >
                 <md-radio
                   class="categoryOption"
-                  v-model="radio"
+                  v-model="formValues.radio"
                   value="Travel & Nature"
                   >Travel & Nature</md-radio
                 >
@@ -216,27 +228,10 @@
                 @click="addListing()"
                 slot="footer"
                 class="md-simple md-success md-lg"
+                v-if="showForm"
               >
                 Add Listing
               </md-button>
-
-              <h6 class="description" slot="inputs" style="text-align: center">
-                <a
-                  href="https://help.instagram.com/790156881117411?helpref=uf_permalink"
-                  >Why do we do this?</a
-                >
-              </h6>
-
-              <h4
-                class="description"
-                slot="inputs"
-                style="color: red; font-weight: bold;"
-              >
-                Missing Values:
-                <span v-for="val in missingValues" :key="val">
-                  <br />{{ val }}
-                </span>
-              </h4>
             </SellCard>
           </div>
         </div>
@@ -252,6 +247,8 @@ import * as fb from '../views/firestore/index';
 import firebase from 'firebase';
 import axios from 'axios';
 import router from '../router';
+import './utils/Sell';
+import { calculateMissingValues } from './utils/Sell';
 
 const firestore = firebase.firestore();
 
@@ -262,35 +259,38 @@ export default {
   bodyClass: 'login-page',
   data() {
     return {
-      price: 0,
-      radio: null,
-      description: null,
-      facebookAuthUser: null,
-      facebookAuthStatus: false,
-      isPageChosen: false,
-      chosenPage: '',
-      pageNameHeader: null,
-      pageNames: [],
-      pages: [],
-      FB_ACCESS_TOKEN: '',
-      FB_PAGE_ID: null,
-      IG_USER: null,
-      foundInstagramAcc: false,
-      instagramAccUsername: null,
-      ERROR: null,
-      instagramAccountData: {
+      instaUsername: '',
+      // form values
+      formValues: {
+        description: null,
+        price: null,
+        radio: null,
+      },
+      // todo: fix username already registered
+      usernameAlreadyRegistered: false,
+
+      showCheckAvailability: true,
+      showFoundUser: false,
+      showForm: false,
+      // fetched user from api
+      listing: {
+        avg_likes: null,
+        bio_description: null,
+        followers: null,
+        full_name: null,
+        is_private: null,
+        is_verified: null,
+        posts_count: null,
+        profile_pic_url: null,
+        reach: null,
         username: null,
-        noOfFollowers: null,
+        description: null,
         price: null,
         category: null,
-        noOfPosts: null,
-        reach: null,
-        description: null,
+        ownerEmail: null,
+        ownerUsername: null,
+        dateCreated: null,
       },
-      missingValues: null,
-      usernameAlreadyRegistered: false,
-      // new
-      instaUsername: '',
     };
   },
   computed: {
@@ -303,47 +303,63 @@ export default {
   methods: {
     //  see what you can use from this
     addListing() {
-      this.instagramAccountData.description = this.description;
-      this.instagramAccountData.price = Number(this.price);
-      this.instagramAccountData.category = this.radio;
-      this.instagramAccountData.ownerEmail = this.$store.getters.getUserProfile.email;
-      this.instagramAccountData.ownerUsername = this.$store.getters.getUserProfile.username;
-      this.instagramAccountData.dateCreated = new Date();
+      const { description, price, radio } = this.formValues;
 
-      let emptyVals = [];
-      for (let elem in this.instagramAccountData) {
-        if (elem == 'price' && this.instagramAccountData[elem] == 0) {
-          emptyVals.push(
-            elem.charAt(0).toUpperCase() + elem.slice(1) + ': cannot be 0.',
-          );
-        }
-        if (this.instagramAccountData[elem] == null)
-          emptyVals.push(elem.charAt(0).toUpperCase() + elem.slice(1));
-      }
-      if (emptyVals.length > 0) {
-        this.missingValues = emptyVals;
+      let missingValues = [];
+
+      calculateMissingValues(missingValues, description, price, radio);
+      console.log(missingValues, typeof missingValues);
+
+      if (missingValues.length == 0) {
+        // this.$store.dispatch(
+        //   'addListingToUserAccount',
+        //   this.instagramAccountData,
+        // );
+
+        this.listing.description = this.formValues.description;
+        this.listing.price = this.formValues.price;
+        this.listing.category = this.formValues.radio;
+        this.listing.ownerEmail = this.$store.getters.getUserProfile.email;
+        this.listing.ownerUsername = this.$store.getters.getUserProfile.username;
+        this.listing.dateCreated = new Date();
+
+        console.log(this.listing);
+
+        router.push('/profile');
       } else {
-        this.missingValues = null;
-
-        this.$store.dispatch(
-          'addListingToUserAccount',
-          this.instagramAccountData,
-        );
-
-        router.push('/listings');
+        alert(`Missing values: ${missingValues.join(', ')}`);
       }
     },
 
     // trigger
     async verifyAccount(instaUsername) {
-      axios.defaults.headers.post['Content-Type'] =
-        'application/json;charset=utf-8';
-      axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
-      const response = await axios.get(
-        'https://instagram.com/' + 'benyamynbrkyc' + '/?__a=1',
-      );
+      try {
+        const response = await axios.get(
+          'http://localhost:3000/user/checkInsta/' + instaUsername,
+        );
 
-      window.alert(response);
+        if (response.data.status === 406) {
+          return window.alert(response.data.message);
+        }
+
+        this.listing = response.data.user.body;
+
+        this.showCheckAvailability = false;
+        this.showFoundUser = true;
+        this.showForm = true;
+      } catch (err) {
+        window.alert('This instagram user does not exist.');
+        console.log(err);
+      }
+    },
+    usernameKeydown(e) {
+      if (
+        !/^([A-Za-z0-9._](?:(?:[A-Za-z0-9._]|(?:\.(?!\.))){2,28}(?:[A-Za-z0-9._]))?)$/gim.test(
+          e.key,
+        )
+      ) {
+        e.preventDefault();
+      }
     },
   },
   created() {

@@ -16,6 +16,7 @@ const store = new Vuex.Store({
       //
     },
     ADD_NEW_LISTING_TO_STATE(state, listingData) {
+      console.log(state.userProfile);
       state.userProfile.listings.push(listingData);
     },
     //   setPosts maybe it can help with posting listings
@@ -26,7 +27,7 @@ const store = new Vuex.Store({
       try {
         const { user } = await fb.auth.createUserWithEmailAndPassword(
           form.email,
-          form.password,
+          form.password
         );
 
         // create user profile object in users collection
@@ -55,7 +56,7 @@ const store = new Vuex.Store({
       try {
         const { user } = await fb.auth.signInWithEmailAndPassword(
           form.email,
-          form.password,
+          form.password
         );
 
         // fetch user profile and set in state
@@ -74,7 +75,7 @@ const store = new Vuex.Store({
 
         if (error.code == 'auth/user-not-found') {
           let question = confirm(
-            'The user has not been found.\nDo you want to sign up?',
+            'The user has not been found.\nDo you want to sign up?'
           );
           if (question) router.push('/signup');
         }
@@ -103,8 +104,6 @@ const store = new Vuex.Store({
       // set profile in state
       commit('SET_USER_PROFILE', userProfileData);
 
-      console.log('user in store:', userProfileData);
-
       // change route to dashboard
       if (
         router.currentRoute.fullPath == '/login' ||
@@ -123,8 +122,8 @@ const store = new Vuex.Store({
         listings: arrayUnion({
           category: listingData.category,
           description: listingData.description,
-          noOfFollowers: listingData.noOfFollowers,
-          noOfPosts: listingData.noOfPosts,
+          noOfFollowers: listingData.followers,
+          noOfPosts: listingData.posts_count,
           price: listingData.price,
           reach: listingData.reach,
           username: listingData.username,
@@ -132,18 +131,16 @@ const store = new Vuex.Store({
           ownerUsername: listingData.ownerUsername,
           ownerID: fb.auth.currentUser.uid,
           dateCreated: listingData.dateCreated,
-          avatar: listingData.avatar,
+          avatar: listingData.profile_pic_url,
         }),
       });
-
-      commit('ADD_NEW_LISTING_TO_STATE', listingData);
 
       // add to collection - all listings
       firestore.collection(`/allListings`).add({
         category: listingData.category,
         description: listingData.description,
-        noOfFollowers: listingData.noOfFollowers,
-        noOfPosts: listingData.noOfPosts,
+        noOfFollowers: listingData.followers,
+        noOfPosts: listingData.posts_count,
         price: listingData.price,
         reach: listingData.reach,
         username: listingData.username,
@@ -151,8 +148,9 @@ const store = new Vuex.Store({
         ownerUsername: listingData.ownerUsername,
         ownerID: fb.auth.currentUser.uid,
         dateCreated: listingData.dateCreated,
-        avatar: listingData.avatar,
+        avatar: listingData.profile_pic_url,
       });
+      commit('ADD_NEW_LISTING_TO_STATE', listingData);
     },
     // MAIN DRIVER
   },

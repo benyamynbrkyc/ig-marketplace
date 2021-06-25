@@ -4,6 +4,7 @@ import Landing from './views/Landing.vue';
 import Login from './views/Login.vue';
 import Signup from './views/Signup.vue';
 import Profile from './views/Profile.vue';
+import ProfileUser from './views/ProfileUser.vue';
 import Listing from './views/Listing.vue';
 import MainNavbar from './layout/MainNavbar.vue';
 import MainFooter from './layout/MainFooter.vue';
@@ -64,9 +65,13 @@ const router = new Router({
       },
     },
     {
-      path: '/profile/:id',
+      path: '/profile/:username',
       name: 'profile-page',
-      components: { default: Profile, header: MainNavbar, footer: MainFooter },
+      components: {
+        default: ProfileUser,
+        header: MainNavbar,
+        footer: MainFooter,
+      },
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: 'black' },
@@ -200,7 +205,7 @@ const router = new Router({
       },
     },
   ],
-  scrollBehavior: to => {
+  scrollBehavior: (to) => {
     if (to.hash) {
       return { selector: to.hash };
     } else {
@@ -210,7 +215,7 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-  const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
+  const requiresAuth = to.matched.some((x) => x.meta.requiresAuth);
 
   if (auth.currentUser) store.dispatch('fetchUserProfile', auth.currentUser);
 

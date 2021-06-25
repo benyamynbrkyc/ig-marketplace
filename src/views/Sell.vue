@@ -249,7 +249,6 @@ import axios from 'axios';
 import router from '../router';
 import './utils/Sell';
 import { calculateMissingValues } from './utils/Sell';
-
 const firestore = firebase.firestore();
 
 export default {
@@ -308,20 +307,16 @@ export default {
       let missingValues = [];
 
       calculateMissingValues(missingValues, description, price, radio);
-      console.log(missingValues, typeof missingValues);
 
       if (missingValues.length == 0) {
-        // this.$store.dispatch(
-        //   'addListingToUserAccount',
-        //   this.instagramAccountData,
-        // );
-
         this.listing.description = this.formValues.description;
-        this.listing.price = this.formValues.price;
+        this.listing.price = Number(this.formValues.price);
         this.listing.category = this.formValues.radio;
         this.listing.ownerEmail = this.$store.getters.getUserProfile.email;
         this.listing.ownerUsername = this.$store.getters.getUserProfile.username;
         this.listing.dateCreated = new Date();
+
+        this.$store.dispatch('addListingToUserAccount', this.listing);
 
         console.log(this.listing);
 
@@ -334,9 +329,9 @@ export default {
     // trigger
     async verifyAccount(instaUsername) {
       try {
-        const response = await axios.get(
-          'http://localhost:3000/user/checkInsta/' + instaUsername,
-        );
+        const url = `${process.env.VUE_APP_API_DOMAIN_LOCALHOST}/user/checkInsta/${instaUsername}`;
+
+        const response = await axios.get(url);
 
         if (response.data.status === 406) {
           return window.alert(response.data.message);
@@ -355,7 +350,7 @@ export default {
     usernameKeydown(e) {
       if (
         !/^([A-Za-z0-9._](?:(?:[A-Za-z0-9._]|(?:\.(?!\.))){2,28}(?:[A-Za-z0-9._]))?)$/gim.test(
-          e.key,
+          e.key
         )
       ) {
         e.preventDefault();
@@ -365,10 +360,10 @@ export default {
   created() {
     fb.auth
       .getRedirectResult()
-      .then(result => {
+      .then((result) => {
         this.setFBAuthStatus(result);
       })
-      .catch(err => {
+      .catch((err) => {
         if (err.code == 'auth/account-exists-with-different-credential') {
           this.setFBAuthStatus(err);
         }

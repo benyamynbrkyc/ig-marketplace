@@ -1,4 +1,5 @@
-const fs = require('fs');
+const fs = require("fs");
+const Dotenv = require("dotenv-webpack");
 
 module.exports = {
   devServer: {
@@ -12,11 +13,12 @@ module.exports = {
   css: {
     loaderOptions: {
       css: {
-        sourceMap: process.env.NODE_ENV !== 'production' ? true : false,
+        sourceMap: process.env.NODE_ENV !== "production" ? true : false,
       },
     },
   },
   configureWebpack: {
-    devtool: 'source-map',
+    devtool: "source-map",
+    plugins: [new Dotenv()],
   },
 };

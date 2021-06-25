@@ -46,17 +46,16 @@
                     <th>Category</th>
                     <th>Listed</th>
                   </tr>
-                  <tr
-                    v-for="listing in profile.listings"
-                    :key="listing.idUsername"
-                  >
+                  <tr v-for="listing in listings" :key="listing.idUsername">
                     <td id="usernameLink">@{{ listing.username }}</td>
                     <td>{{ listing.noOfFollowers }}</td>
                     <td>{{ listing.price }}</td>
                     <td>{{ listing.category }}</td>
                     <td>
                       {{
-                        listing.dateCreated.toDate().toLocaleDateString('en-GB')
+                        new Date(listing.dateCreated).toLocaleDateString(
+                          'en-GB'
+                        )
                       }}
                     </td>
                   </tr>
@@ -81,6 +80,7 @@ export default {
   data() {
     return {
       // todo: enable real listings
+      listings: [],
       // your profile
     };
   },
@@ -100,21 +100,13 @@ export default {
       const profile = store.getters.getUserProfile;
       return profile;
     },
-    // listings() {
-    //   const profile = store.getters.getUserProfile;
-
-    //   return profile.listings;
-    // },
   },
   async created() {
     // todo: await a call to firebase for listings
-    // const myListings = this.profile.listings;
-    // console.log(myListings);
+    // const userListings = sampleListings;
 
-    // const myListings = (this.listings = userListings);
+    const myListings = (this.listings = userListings);
 
-    // console.log(this.listings);
-    this.listings = this.profile.listings;
     console.log(this.listings);
   },
 };

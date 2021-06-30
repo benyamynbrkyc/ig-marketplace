@@ -223,12 +223,26 @@
                   >Travel & Nature</md-radio
                 >
               </md-field>
+              <!-- profile pic -->
+              <md-field v-if="showForm" class="md-form-group" slot="inputs">
+                <md-icon>image</md-icon>
+                <p id="profilePicLabel">Profile Picture</p>
+                <input
+                  type="file"
+                  ref="file"
+                  id="profilePic"
+                  @change="setFile()"
+                  name="profilePic"
+                  accept="image/*"
+                />
+              </md-field>
 
               <md-button
                 @click="addListing()"
                 slot="footer"
                 class="md-simple md-success md-lg"
                 v-if="showForm"
+                :disabled="!showAddListing"
               >
                 Add Listing
               </md-button>
@@ -249,7 +263,6 @@ import axios from 'axios';
 import router from '../router';
 import './utils/Sell';
 import { calculateMissingValues } from './utils/Sell';
-const firestore = firebase.firestore();
 
 export default {
   components: {
@@ -270,7 +283,12 @@ export default {
 
       showCheckAvailability: true,
       showFoundUser: false,
+      // todo: revert this to false
       showForm: false,
+      // showForm: true,
+      showAddListing: false,
+      tempFile: null,
+      //
       // fetched user from api
       listing: {
         avg_likes: null,
@@ -316,6 +334,27 @@ export default {
         this.listing.ownerUsername = this.$store.getters.getUserProfile.username;
         this.listing.dateCreated = new Date();
 
+        console.log(this.listing);
+        // upload file to firebase
+        if (this.tempFile !== null) {
+          fb.storageRef
+            .child(
+              `listings/${this.listing.ownerUsername}___${
+                this.listing.username
+              }--${this.listing.dateCreated.toString().replaceAll(' ', '_')}`
+            )
+            .put(this.tempFile)
+            .then(async (snapshot) => {
+              const downloadUrl = await snapshot.ref.getDownloadURL();
+              this.listing.profile_pic_url = downloadUrl;
+            });
+          this.tempFile = null;
+          this.showAddListing = false;
+        } else {
+          alert('Please upload a file.');
+          this.showAddListing = false;
+          this.$refs.file.value = '';
+        }
         this.$store.dispatch('addListingToUserAccount', this.listing);
 
         console.log(this.listing);
@@ -328,24 +367,44 @@ export default {
 
     // trigger
     async verifyAccount(instaUsername) {
-      try {
-        const url = `${process.env.VUE_APP_API_DOMAIN_LOCALHOST}/user/checkInsta/${instaUsername}`;
+      // check firebase for account
 
-        const response = await axios.get(url);
+      fb.allListingsRef
+        .where('username', '==', instaUsername)
+        .get()
+        .then(async (snapshot) => {
+          const listings = [];
+          snapshot.forEach((doc) => {
+            listings.push(doc.data());
+          });
 
-        if (response.data.status === 406) {
-          return window.alert(response.data.message);
-        }
+          // check instagram for account
+          if (listings.length == 0) {
+            try {
+              const url = `${process.env.VUE_APP_API_DOMAIN_LOCALHOST}/user/checkInsta/${instaUsername}`;
 
-        this.listing = response.data.user.body;
+              const response = await axios.get(url);
 
-        this.showCheckAvailability = false;
-        this.showFoundUser = true;
-        this.showForm = true;
-      } catch (err) {
-        window.alert('This instagram user does not exist.');
-        console.log(err);
-      }
+              if (response.data.status === 406) {
+                return window.alert(response.data.message);
+              }
+
+              this.listing = response.data.user.body;
+
+              this.showCheckAvailability = false;
+              this.showFoundUser = true;
+              this.showForm = true;
+            } catch (err) {
+              window.alert('This instagram user does not exist.');
+              console.log(err);
+            }
+          } else {
+            alert('There is already a listing with that username.');
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     usernameKeydown(e) {
       if (
@@ -355,6 +414,29 @@ export default {
       ) {
         e.preventDefault();
       }
+    },
+    setFile() {
+      //
+      //
+      //
+      const file = this.$refs.file.files[0];
+
+      if (file.type.includes('image/')) {
+        if (file.size <= 1000000) {
+          this.tempFile = file;
+          this.showAddListing = true;
+        } else {
+          alert('File must be smaller than 1MB.');
+          this.$refs.file.value = '';
+          this.showAddListing = false;
+        }
+      } else {
+        alert('File must be an image file.');
+        this.$refs.file.value = '';
+        this.showAddListing = false;
+      }
+
+      return;
     },
   },
   created() {
@@ -510,5 +592,13 @@ md-radio {
 #verifyButton {
   background-color: whitesmoke !important;
   color: black !important;
+}
+#profilePicLabel {
+  padding-top: 5px;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+#profilePic {
+  padding-top: 10px;
 }
 </style>

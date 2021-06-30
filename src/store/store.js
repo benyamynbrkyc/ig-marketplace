@@ -35,7 +35,6 @@ const store = new Vuex.Store({
           _id: user.uid,
           username: form.username,
           email: form.email,
-          avatar: form.avatar,
           dateCreated: new Date(),
           password: form.password,
         });

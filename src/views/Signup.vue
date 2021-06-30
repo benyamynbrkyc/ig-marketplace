@@ -34,9 +34,15 @@
                 <md-input v-model="password" type="password"></md-input>
               </md-field>
               <md-field class="md-form-group" slot="inputs">
-                <md-icon>image</md-icon>
-                <md-input v-model="avatar" type="file"></md-input>
+                <md-icon>description</md-icon>
+                <textarea
+                  placeholder="Description..."
+                  id="desc"
+                  style="padding-left:15px !important;"
+                  maxlength="512"
+                ></textarea>
               </md-field>
+
               <md-button
                 @click="signup()"
                 slot="footer"
@@ -54,6 +60,8 @@
 
 <script>
 import { LoginCard } from '@/components';
+import * as fb from '../views/firestore/index';
+import firebase from 'firebase';
 
 export default {
   components: {
@@ -65,7 +73,6 @@ export default {
       username: null,
       email: null,
       password: null,
-      avatar: null,
     };
   },
   props: {
@@ -82,12 +89,11 @@ export default {
     },
   },
   methods: {
-    signup() {
+    async signup() {
       this.$store.dispatch('signup', {
         email: this.email,
         password: this.password,
         username: this.username,
-        avatar: this.avatar,
       });
     },
   },
@@ -128,5 +134,12 @@ h6.card-title {
 #createAcc {
   text-transform: none;
   text-decoration: underline;
+}
+#desc {
+  width: 100%;
+  border: none;
+  font-family: 'Roboto';
+  font-size: 0.6875rem;
+  min-height: 200px;
 }
 </style>

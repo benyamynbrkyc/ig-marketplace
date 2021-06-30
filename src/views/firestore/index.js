@@ -25,7 +25,5 @@ export const usersRef = db.collection('users');
 export const allListingsRef = db.collection('allListings');
 export const roomsRef = db.collection('chatRooms');
 
-export const filesRef = storageRef.child('files');
-
 export const dbTimestamp = firebase.firestore.FieldValue.serverTimestamp();
 export const deleteDbField = firebase.firestore.FieldValue.delete();
